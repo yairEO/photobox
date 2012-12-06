@@ -4,6 +4,8 @@ photobox
 A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
 [Demo Page](http://dropthebit.com/demos/photobox/)
+[blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
+
 
 
 ## benefits
