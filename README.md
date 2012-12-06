@@ -30,23 +30,30 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
 ## settings
 
-###loop (Default: 'true')
+**loop** (Default: 'true')
+
     Loop back to last image before the first one and to the first image after last one.
     
-###thumbs (Default: 'true')
+**thumbs** (Default: 'true') 
+
     Show thumbs of all the images in the gallery at the bottom.
    
-###counter (Default: 'true')
+**counter** (Default: 'true')
+
     Show the current image index position relative to the whole. Example (3,11). 
    
-###hideFlash (Default: 'true')
+**hideFlash** (Default: 'true')
+
     Hide flash instances when viewing an image in the gallery.
 
-###keys.close (Default "27, 88, 67")
+**keys.close** (Default "27, 88, 67")
+
     Key codes which close the gallery.
 
-###keys.prev (Default "37, 80")
+**keys.prev** (Default "37, 80")
+
     Key codes which change to the previous image.
 
-###keys.next (Default "39, 78")
+**keys.next** (Default "39, 78")
+
     Key codes which change to the next image.
