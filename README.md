@@ -46,14 +46,14 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
     Hide flash instances when viewing an image in the gallery.
 
-**keys.close** (Default "27, 88, 67")
+**keys.close** (Default: "27, 88, 67")
 
     Key codes which close the gallery.
 
-**keys.prev** (Default "37, 80")
+**keys.prev** (Default: "37, 80")
 
     Key codes which change to the previous image.
 
-**keys.next** (Default "39, 78")
+**keys.next** (Default: "39, 78")
 
     Key codes which change to the next image.
