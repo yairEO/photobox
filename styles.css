@@ -1,0 +1,10 @@
+html, body{ height:100%; }
+#pbOverlay.show ~ #wrap{ -webkit-filter:blur(2px) grayscale(.4); }
+header{ padding:0 30px; }
+	header p{ color:#777; }
+#gallery{ padding:30px; }
+	#gallery > a{ margin:1px; display:inline-block; xbackground:#F1F1F1; width:75px; height:75px; position:relative; vertical-align:bottom; 
+				  transition:.1s; -webkit-transition:0.1s; perspective:100px; -webkit-perspective:100px; }
+	#gallery > a img{ -webkit-transform:rotateX(90deg); transform:rotateX(90deg); transition:.4s ease-out; -webkit-transition:0.4s ease-out; }
+	#gallery > a.loaded img{ -webkit-transform:rotateX(0deg); transform:rotateX(0deg); }
+		#gallery > a.loaded:hover{ transform:scale(1.5); -webkit-transform:scale(1.5); box-shadow:0 0 0 3px #FFF, 0 0 6px 3px #333; z-index:2; }
