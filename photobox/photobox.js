@@ -1,5 +1,5 @@
 /*!
-	photobox v1
+	photobox v1.0.1
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -77,9 +77,15 @@
 	$.fn.photobox = function(_options, linkMapper){
 		imageLinks = this; // all links
 		
-		imageLinks.each(function(i){
+		imageLinks = imageLinks.filter(function(i){
 			var link = this;
-			images[i] = [link.href, link.firstChild.getAttribute('alt') || link.firstChild.getAttribute('title')];
+			if( !link.firstChild || !link.firstChild.tagName || link.firstChild.tagName.toLowerCase() != 'img' ){
+				// console.warn('photobox: no image found in: ', this );
+				return false; // remove from array
+			}
+			else
+				images.push( [link.href, link.firstChild.getAttribute('alt') || link.firstChild.getAttribute('title')] );
+			return true;
 		});
 		
 		// generate gallery thumbnails
@@ -88,15 +94,14 @@
 		
 		// removed in favor of event delegation
 		//$(imageLinks).off('click').on('click', onClick );
-
-		$(doc).on('click', this.selector, onClick);
+		$(this.context).on('click', this.selector, onClick);
 		
 		function onClick(e){
 			e.preventDefault();
 
 			// check if next and prev arrows should be activated
 			if( images.length < 2 )
-				$([prevBtn, nextBtn]).remove();
+				prevBtn.add(nextBtn).remove();
 			
 			// need this for later:
 			docElm = doc.documentElement;
@@ -139,7 +144,7 @@
 	
 	function setup(open){
 		// a hack to change the image src to nothing, because you can't do that in CHROME
-		image.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+		if( open ) image.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 		$(image).css({'transition':'0s'}).removeAttr('style'); // reset any transition that might be on the element
 
 		$(overlay).show().addClass('show');
