@@ -1,5 +1,5 @@
 /*!
-	photobox v1.0.1
+	photobox v1.0.2
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -16,7 +16,7 @@
 
 (function($, doc){
 	var win = $(window), options, images=[], thumbs, imageLinks, activeImage = -1, activeURL, prevImage, nextImage, middleX, middleY, docElm, imageTitle='',
-		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
+		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", isOldIE = jQuery.browser.msie && $.browser.version < 10,
 		transformOrigin, thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
 
 	// Preload images
@@ -61,7 +61,7 @@
 	$.photobox = function(startImage, _options){
 		options = $.extend(defaults, _options || {});
 
-		jQuery.browser.msie && $(overlay).addClass('msie');
+		isOldIE && $(overlay).addClass('msie');
 		
 		setup(1);
 		
@@ -160,7 +160,7 @@
 			$(overlay).off(transitionend).addClass('on');
 		});
 		
-		if( jQuery.browser.msie )
+		if( isOldIE )
 			$(overlay).trigger('MSTransitionEnd');
 
  		if( options.hideFlash ){
@@ -266,7 +266,7 @@
 		if( !firstTime ){
 			$(image).on(transitionend, show);
 			$(overlay).addClass('hide');
-			jQuery.browser.msie && show();
+			isOldIE && show();
 		}
 		else
 			show();
@@ -331,12 +331,14 @@
 			
 			$(overlay).addClass('hide');
 
-			$(image).bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", hide);
-			jQuery.browser.msie && hide();
+			$(image).on(transitionend, hide);
+			isOldIE && hide();
 
 			function hide(){
 				$(overlay).removeClass('show hide on');
 				$(image).removeAttr('class').removeAttr('src').removeAttr('style').off().data('zoom',1);
+				if( jQuery.browser.msie ) 
+					setTimeout(function(){ $(overlay).hide(); }, 200);
 			}
 			
 			// fallback if the 'transitionend' method didn't catch

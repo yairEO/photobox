@@ -1,10 +1,24 @@
 html, body{ height:100%; }
-#pbOverlay.show ~ #wrap{ -webkit-filter:blur(2px) grayscale(.4); }
-header{ padding:0 30px; }
-	header p{ color:#777; }
-#gallery{ padding:30px; }
+body{ background:url('bg.jpg') fixed; }
+
+@font-face {
+  font-family: 'Cuprum';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cuprum'), local('Cuprum-Regular'), url(http://themes.googleusercontent.com/static/fonts/cuprum/v4/sp1_LTSOMWWV0K5VTuZzvQ.woff) format('woff');
+}
+
+#wrap{ overflow:hidden; min-height:100%; padding:3%; box-shadow:0 0 0 10px rgba(255,255,255,0.1) inset; }
+#pbOverlay.show ~ #wrap{ -webkit-filter:blur(2px) grayscale(.4);}
+header{ float:left; font-size:1.1em; width:36%; color:#FFF; text-shadow:2px 3px 4px rgba(0,0,0,.5); font-family:'Cuprum'; }
+	header h1{ line-height:1; font-size:3em; }
+		header small{ color:inherit; }
+	header h2{ opacity:0.5; font-size:1.8em; line-height:1; }
+	header p{ margin:10% 0; }
+	header .btn{ box-shadow:0 0 4px rgba(0,0,0,0.4); }
+#gallery{ float:right; width:60%; }
 	#gallery > a{ margin:1px; display:inline-block; xbackground:#F1F1F1; width:75px; height:75px; position:relative; vertical-align:bottom; 
 				  transition:.1s; -webkit-transition:0.1s; perspective:100px; -webkit-perspective:100px; }
 	#gallery > a img{ -webkit-transform:rotateX(90deg); transform:rotateX(90deg); transition:.4s ease-out; -webkit-transition:0.4s ease-out; }
 	#gallery > a.loaded img{ -webkit-transform:rotateX(0deg); transform:rotateX(0deg); }
-		#gallery > a.loaded:hover{ transform:scale(1.5); -webkit-transform:scale(1.5); box-shadow:0 0 0 3px #FFF, 0 0 6px 3px #333; z-index:2; }
+		#gallery > a.loaded:hover{ transform:scale(1.5); -webkit-transform:scale(1.5); box-shadow:0 0 0 3px #FFF, 0 0 20px 5px #000; z-index:2; }

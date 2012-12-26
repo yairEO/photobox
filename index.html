@@ -24,21 +24,33 @@
 	<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script src='photobox/photobox.js'></script>
+	<script src='photobox/photobox.min.js'></script>
 </head>
 <body>
 	<div id='wrap'>
 		<header>
-			<h1>Photobox v1 - CSS3 image gallery jQuery plugin</h1>
-			<p>A lightweight image gallery modal window script which uses CSS3 heavily for silky-smooth animations and transitions. 
+			<h1>Photobox <small>v1.02</small></h1>
+			<h2>CSS3 image gallery jQuery plugin</h2>
+			<p>A lightweight image gallery modal window script which uses only CSS3 for silky-smooth animations and transitions. 
 			The goal was to great an image gallery script that utilizes GPU rending instead is the 90% scripts out there which are 
 			using javascript to move things around the old fashioned way.</p>
-			<p>Supports: Firefox, Chrome and IE9+ (works in an ugly way which the users deserve)</p>
-			<a href='photobox.v1.zip' class='btn btn-primary'>Download zip</a>
+			<p>Supports: Firefox, Chrome and IE9+</p>
+			<a href='https://github.com/yairEO/photobox' class='btn btn-primary btn-large'>Github project page</a>
 		</header>
 		<div id='gallery'>	
 		</div>
 	</div>
 	<script src='main.js'></script>
+	<script type="text/rocketscript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-26520680-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 </body> 
 </html>
