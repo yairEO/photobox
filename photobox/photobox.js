@@ -335,7 +335,7 @@
 			isOldIE && hide();
 
 			function hide(){
-				$(overlay).removeClass('show hide on');
+				$(overlay).hide().removeClass('show hide on');
 				$(image).removeAttr('class').removeAttr('src').removeAttr('style').off().data('zoom',1);
 				if( jQuery.browser.msie ) 
 					setTimeout(function(){ $(overlay).hide(); }, 200);
