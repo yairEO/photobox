@@ -335,7 +335,7 @@
 			jQuery.browser.msie && hide();
 
 			function hide(){
-				$(overlay).removeClass('show hide on');
+				$(overlay).hide().removeClass('show hide on');
 				$(image).removeAttr('class').removeAttr('src').removeAttr('style').off().data('zoom',1);
 			}
 			
