@@ -25,7 +25,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 *    Supports looping after first and last images
 *    Supports keyboard keys for navigation and closing the gallery view
 
-## Basic use-case:
+## Basic use-case example:
     <div id='gallery'>
         <a href="http://www.somedomain.com/images/image1_large.jpg">
     		<img src="http://www.somedomain.com/images/image1_small.jpg" alt="photo1 title">
