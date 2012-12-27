@@ -6,7 +6,6 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 
-
 ## benefits
 * Both the script & CSS are only 7k each (minified script, not gziped)
 *    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
@@ -25,6 +24,28 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
 *    Supports looping after first and last images
 *    Supports keyboard keys for navigation and closing the gallery view
+
+## Basic use-case:
+    <div id='gallery'>
+        <a href="http://www.somedomain.com/images/image1_large.jpg">
+    		<img src="http://www.somedomain.com/images/image1_small.jpg" alt="photo1 title">
+    	</a>
+    	<a href="http://www.somedomain.com/images/image2_large.jpg">
+    		<img src="http://www.somedomain.com/images/image2_small.jpg" alt="photo2 title">
+    	</a>
+    	<a href="http://www.somedomain.com/images/image3_large.jpg">
+    		<img src="http://www.somedomain.com/images/image3_small.jpg" alt="photo3 title">
+    	</a>
+    	<a href="http://www.somedomain.com/images/image4_large.jpg">
+    		<img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title">
+    	</a>
+    </div>
+    ...
+    ...
+    ...
+    <script>
+    	$('#gallery a').photobox();
+    </script>
 
 ## settings
 
