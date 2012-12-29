@@ -1,5 +1,5 @@
 /*!
-	photobox v1.0.2
+	photobox v1.0.3
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -23,7 +23,7 @@
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
 	// DOM elements
 	overlay, closeBtn, image, prevBtn, nextBtn, caption,
-	
+
 	defaults = {
 		loop: true,						// Allows to navigate between first and last images
 		thumbs: true,					// Show gallery thumbnails below the presented photo
@@ -310,9 +310,9 @@
 	}
 	
 	function imageReposition(e){
-		var y = (e.pageY / docElm.clientHeight) * (docElm.clientHeight + 200) - 100, // extend the range of the Y axis by 100 each side
+		var y = (e.clientY / docElm.clientHeight) * (docElm.clientHeight + 200) - 100, // extend the range of the Y axis by 100 each side
 			yDelta = y / docElm.clientHeight * 100,
-			xDelta = e.pageX / docElm.clientWidth * 100,
+			xDelta = e.clientX / docElm.clientWidth * 100,
 			origin = xDelta+'% ' + yDelta +'%';
 
 		image.style[transformOrigin] = origin;
