@@ -16,7 +16,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
 
 
-## What can this baby do
+## Funcionality
 
 *    Images can be zoomed in and out with mousewheel and navigated using mousemove to move around
 *    Bottom row of thumbnails, navigated by mouse movment
@@ -24,6 +24,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
 *    Supports looping after first and last images
 *    Supports keyboard keys for navigation and closing the gallery view
+*    In case of image onerror, a message is showed, which can be configured via CSS
 
 ## Basic use-case example:
     <div id='gallery'>
