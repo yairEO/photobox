@@ -17,8 +17,8 @@ body{ min-height:100%; background:url('bg.jpg') fixed; box-shadow:0 0 0 10px rgb
 	.main p{ margin:10% 0; }
 	.main .btn{ box-shadow:0 0 4px rgba(0,0,0,0.4); }
 		.main  footer{ margin-top:50px; text-shadow:none; font-size:0.9em; }
-		.main a{ color:#D8FF16; -webkit-transition:0.2s; -ms-transition:0.2s; transition:0.2s; }
-		.main a:hover:not(.btn){ text-decoration:none; color:#FF1668; }
+		.main a:not(.btn){ color:#D8FF16; -webkit-transition:0.2s; -ms-transition:0.2s; transition:0.2s; }
+		.main a:not(.btn):hover{ text-decoration:none; color:#FF1668; }
 #gallery{ float:right; width:60%; }
 	#gallery > a{ margin:1px; display:inline-block; xbackground:#F1F1F1; width:75px; height:75px; position:relative; vertical-align:bottom; 
 				  transition:.1s; -webkit-transition:0.1s; perspective:100px; -webkit-perspective:100px; }

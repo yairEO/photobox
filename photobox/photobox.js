@@ -1,5 +1,5 @@
 /*!
-	photobox v1.0.3
+	photobox v1.1
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -18,24 +18,25 @@
 	var win = $(window), options, images=[], thumbs, imageLinks, activeImage = -1, activeURL, prevImage, nextImage, middleX, middleY, docElm, imageTitle='',
 		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", isOldIE = jQuery.browser.msie && $.browser.version < 10,
 		transformOrigin, thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
+		blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
 
-	// Preload images
-	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
-	// DOM elements
-	overlay, closeBtn, image, prevBtn, nextBtn, caption,
+		// Preload images
+		preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
+		// DOM elements
+		overlay, closeBtn, image, prevBtn, nextBtn, caption, pbLoader, 
 
-	defaults = {
-		loop: true,						// Allows to navigate between first and last images
-		thumbs: true,					// Show gallery thumbnails below the presented photo
-		counter: true,					// Counter text. Use {x} for current image and {y} for total e.g. Image {x} of {y}
-		title: true,					// show the original alt or title attribute of the image's thumbnail
-		hideFlash: true,				// Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
-		keys: {
-            close: '27, 88, 67',		// keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
-            prev:  '37, 80',            // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
-            next:  '39, 78'             // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
+		defaults = {
+			loop: true,						// Allows to navigate between first and last images
+			thumbs: true,					// Show gallery thumbnails below the presented photo
+			counter: true,					// Counter text. Use {x} for current image and {y} for total e.g. Image {x} of {y}
+			title: true,					// show the original alt or title attribute of the image's thumbnail
+			hideFlash: true,				// Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
+			keys: {
+				close: '27, 88, 67',		// keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
+				prev:  '37, 80',            // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+				next:  '39, 78'             // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
+			}
 		}
-	}
 	/*
 		Initialization
 	*/
@@ -43,7 +44,7 @@
 		$(doc.body).prepend(
 			$([
 				overlay = $('<div id="pbOverlay">').hide().on('click', close).append(
-					imageWrap = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
+					pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
 					prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
 					nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
 					imageWrap = $('<div class="imageWrap">').append(
@@ -51,7 +52,7 @@
 					)[0],
 					closeBtn = $('<div id="pbCloseBtn">').append('<b>×</b>').on('click', close)[0],
 					caption = $('<div id="pbCaption">').append('<div class="title">').append('<div class="counter">')
-				)[0],
+				)[0]
 			])
 		);
 		
@@ -144,7 +145,7 @@
 	
 	function setup(open){
 		// a hack to change the image src to nothing, because you can't do that in CHROME
-		if( open ) image.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+		if( open ) image.src = blankImg;
 		$(image).css({'transition':'0s'}).removeAttr('style'); // reset any transition that might be on the element
 
 		$(overlay).show().addClass('show');
@@ -223,7 +224,7 @@
 
 			stop();
 			
-			$(overlay).addClass("pbLoading");
+			$(overlay).addClass('pbLoading').removeClass('error');
 
 			//$(number).html( (((images.length > 1) && options.counterText) || "").replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) );
 			
@@ -241,14 +242,18 @@
 			options.counter && caption.find('.counter').text('( ' + (activeImage + 1) + ' / ' + images.length + ' )');
 			options.title && caption.find('.title').text( images[imageIndex][1] );
 			
+			$(image).siblings().hide();
+
 			preload = new Image();
 			preload.onload = function(){ showImage(firstTime) };  // vsync
+			preload.onerror = function(){ imageError() };  // vsync
 			preload.src = activeURL;
 		}
 
 		return false;
 	}
 	
+	// Highlights the thumb which represents the photo and centers the thumbs viewer on it
 	function changeActiveThumb(index, delay, thumbClick){
 		activeThumb.removeClass('active');
 		activeThumb = thumbs.find('li').eq(index).addClass('active');
@@ -260,6 +265,13 @@
 		!delay && thumbs.stop();
 		thumbs.animate({scrollLeft: pos},500, 'swing');
 		//thumbs[0].scrollLeft = pos;
+	}
+	
+	// handles all image loading error (if image is dead)
+	function imageError(){
+		$(overlay).removeClass("pbLoading").addClass('error');
+		image.src = blankImg; // set the source to a blank image
+		preload.onerror = null;
 	}
 	
 	function showImage(firstTime){
@@ -275,7 +287,7 @@
 			$(image).css({'transition':'0s'}).attr('class','prepare').hide().off(transitionend);
 			
 			$(overlay).removeClass('hide');
-			$(image).attr("src", activeURL);
+			image.src = activeURL;
 			
 			// filthy hack but cannot work without it:
 			setTimeout(function(){ 
