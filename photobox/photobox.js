@@ -1,5 +1,5 @@
 /*!
-	photobox v1.1
+	photobox v1.2
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -79,13 +79,13 @@
 		imageLinks = this; // all links
 		
 		imageLinks = imageLinks.filter(function(i){
-			var link = this;
-			if( !link.firstChild || !link.firstChild.tagName || link.firstChild.tagName.toLowerCase() != 'img' ){
+			var link = this, firstChild = link.firstElementChild;
+			if( !firstChild || !firstChild.tagName || firstChild.tagName.toLowerCase() != 'img' ){
 				// console.warn('photobox: no image found in: ', this );
 				return false; // remove from array
 			}
 			else
-				images.push( [link.href, link.firstChild.getAttribute('alt') || link.firstChild.getAttribute('title')] );
+				images.push( [link.href, firstChild.getAttribute('alt') || firstChild.getAttribute('title')] );
 			return true;
 		});
 		
