@@ -12,16 +12,18 @@
         jsonp: 'jsoncallback'
     }).done(function (data){
         var gallery = $('#gallery'), url;
-        $.each(data.photos.photo, function (index, photo) {
+        $.each( data.photos.photo, function(index, photo){
             url = 'http://farm' + photo.farm + '.static.flickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret;
 			var img = $('<img>').prop({'src': url + '_s.jpg', 'title': photo.title});
-            var link = $('<a rel="gallery">')
-						.append( img )
-						.prop('href', url + '_b.jpg')
-						.appendTo(gallery);
+			
+			var link = document.createElement('a');
+			link.href = url + '_b.jpg';
+			link.appendChild(img[0]);
+			gallery[0].appendChild(link);
+
 			// lazy show the photos one by one
 			img.on('load', function(e){
-				setTimeout( function(){ link.addClass('loaded'); }, 20*index);
+				setTimeout( function(){ link.className = 'loaded'; }, 20*index);
 			});
         });
 		

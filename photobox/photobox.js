@@ -1,5 +1,5 @@
 /*!
-	photobox v1.2
+	photobox v1.3
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -79,13 +79,11 @@
 		imageLinks = this; // all links
 		
 		imageLinks = imageLinks.filter(function(i){
-			var link = this, firstChild = link.firstElementChild;
-			if( !firstChild || !firstChild.tagName || firstChild.tagName.toLowerCase() != 'img' ){
-				// console.warn('photobox: no image found in: ', this );
+			var link = this, firstChild = link.firstElementChild || this.children[0];
+			// if no img child found in the link
+			if( !firstChild || !firstChild.tagName || firstChild.tagName.toLowerCase() != 'img' )
 				return false; // remove from array
-			}
-			else
-				images.push( [link.href, firstChild.getAttribute('alt') || firstChild.getAttribute('title')] );
+			images.push( [link.href, firstChild.getAttribute('alt') || firstChild.getAttribute('title')] );
 			return true;
 		});
 		
@@ -114,12 +112,17 @@
 	
 	function generateThumbs(imageLinks){
 		thumbs = $('<div>').addClass('pbThumbs');
-		var thumbsList = $('<ul>').appendTo(thumbs);
-		thumbs.appendTo(caption);
+		var thumbsList = $('<ul>').appendTo(thumbs), link;
+		
 		imageLinks.each(function(){
-			$('<li>').append( $(this).clone() ).appendTo(thumbsList);
+			link = doc.createElement('a');
+			link.href = this.href;
+			link.appendChild( $(this.children[0]).clone()[0] );
+			$('<li>').append(link).appendTo(thumbsList);
 		});
 		
+		thumbs.appendTo(caption);
+
 		$(overlay).addClass('thumbs');
 		thumbs.on('click', 'a', onClick_thumbs).data('a', thumbs.find('a'));
 	}
