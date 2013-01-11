@@ -39,7 +39,8 @@
 
 /* fixes image flickering when resizing with transform */
 #pbOverlay .imageWrap{ box-sizing:border-box; -moz-box-sizing:border-box; vertical-align:middle; height:100%; perspective:700px; -webkit-perspective:700px; }
-	#pbOverlay.error .imageWrap, #pbOverlay.pbLoading .imageWrap{ display:inline-block; }
+	#pbOverlay.error .imageWrap{ display:inline-block; }
+	#pbOverlay.pbLoading .imageWrap{ display:inline-block\9; } /* ie8+9 hack */
 	#pbOverlay .imageWrap:before{ content:'Could not be loaded'; position:absolute; top:-999px; opacity:0; background:rgba(0,0,0,.6); border-radius:50px; color:#FFF; display:inline-block; font-size:1.4em; font-weight:bold; line-height:1.2; padding:20px; text-transform:uppercase; vertical-align:middle; white-space:pre; transition:.6s; -webkit-transition:.6s; }
 	#pbOverlay.error .imageWrap:before{ position:static; opacity:1; transform:scale(1.2); -webkit-transform:scale(1.2); }
 	#pbOverlay.thumbs .imageWrap{ padding-bottom:100px; }
