@@ -10,8 +10,9 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 * Both the script & CSS are only 7k each (minified script, not gziped)
 *    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
 *   Pretty UI and easy UX
-*   CSS3 preloader, tailored-made. The only image you need is the arrow.png (soon even not that)
-*   Works also on IE9 and above, but clearly not as nice as in normal browsers
+*   CSS3 preloader, tailored-made
+*   The only image is for old IE. For the rest, no images at all!
+*   Works also on IE8 and above, but clearly not as nice as in normal browsers
 *   Uses event-delegation on all thumbnails events
 
 
