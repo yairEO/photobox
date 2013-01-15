@@ -1,5 +1,5 @@
 /*!
-	photobox v1.3
+	photobox v1.4
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	based (~15%) on Picbox v2.2 from:
@@ -16,7 +16,7 @@
 
 (function($, doc){
 	var win = $(window), options, images=[], thumbs, imageLinks, activeImage = -1, activeURL, prevImage, nextImage, middleX, middleY, docElm, imageTitle='',
-		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", isOldIE = jQuery.browser.msie && $.browser.version < 10,
+		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", isOldIE = !('placeholder' in document.createElement('input')), isIe = !!window.ActiveXObject,
 		transformOrigin, thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
 		blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
 
@@ -279,9 +279,11 @@
 	
 	function showImage(firstTime){
 		if( !firstTime ){
-			$(image).on(transitionend, show);
 			$(overlay).addClass('hide');
-			isOldIE && show();
+			$(image).on(transitionend, show);
+			// Detect if the transitionend didn't occur (for some bug or in IE < 10) 
+			if( $(image).css('opacity') == '0' )
+				show();
 		}
 		else
 			show();
@@ -328,7 +330,7 @@
 		var y = (e.clientY / docElm.clientHeight) * (docElm.clientHeight + 200) - 100, // extend the range of the Y axis by 100 each side
 			yDelta = y / docElm.clientHeight * 100,
 			xDelta = e.clientX / docElm.clientWidth * 100,
-			origin = xDelta+'% ' + yDelta +'%';
+			origin = xDelta.toFixed(2)+'% ' + yDelta.toFixed(2) +'%';
 
 		image.style[transformOrigin] = origin;
 	}
@@ -352,7 +354,7 @@
 			function hide(){
 				$(overlay).removeClass('show hide on');
 				$(image).removeAttr('class').removeAttr('src').removeAttr('style').off().data('zoom',1);
-				if( jQuery.browser.msie ) 
+				if(isIe ) 
 					setTimeout(function(){ $(overlay).hide(); }, 200);
 			}
 			

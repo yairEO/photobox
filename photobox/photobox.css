@@ -47,9 +47,9 @@
 	#pbOverlay.error .imageWrap img{ width:0; }
 
 #pbOverlay.show .imageWrap img{ 
-	transition:1s .5s cubic-bezier(0.095, 0.870, 0.485, 0.985);
-	-ms-transition:.6s .5s ease-out; 
-	-webkit-transition:.6s .5s cubic-bezier(0.095, 0.870, 0.485, 0.985); 
+	transition:.8s .5s cubic-bezier(0.095, 0.870, 0.485, 0.985);
+	-ms-transition:.3s .5s ease-out; 
+	-webkit-transition:.5s .5s cubic-bezier(0.095, 0.870, 0.485, 0.985); 
 	transform:scale(1) rotateX(0); 
 	-webkit-transform:scale(1); 
 	-ms-transform:scale(1); 
