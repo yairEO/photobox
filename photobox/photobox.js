@@ -1,8 +1,8 @@
 /*!
-	photobox v1.4
+	photobox v1.4.5
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
-	based (~15%) on Picbox v2.2 from:
+	based (~12%) on Picbox v2.2 from:
 	(c) 2010 Ben Kay <http://bunnyfire.co.uk>
 
 	which is by itself based on code from Slimbox v1.7 - The ultimate lightweight Lightbox clone
@@ -16,7 +16,10 @@
 
 (function($, doc){
 	var win = $(window), options, images=[], thumbs, imageLinks, activeImage = -1, activeURL, prevImage, nextImage, middleX, middleY, docElm, imageTitle='',
-		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", isOldIE = !('placeholder' in document.createElement('input')), isIe = !!window.ActiveXObject,
+		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
+		isOldIE = !('placeholder' in document.createElement('input')),
+		isIe = !!window.ActiveXObject,
+		isMobile = 'ontouchend' in document,
 		transformOrigin, thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
 		blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
 
@@ -109,9 +112,10 @@
 
 		return this;
 	}
-	
+
 	function generateThumbs(imageLinks){
 		thumbs = $('<div>').addClass('pbThumbs');
+		isMobile && thumbs.css('overflow', 'auto'); // enable scrolling gesture on mobile
 		var thumbsList = $('<ul>').appendTo(thumbs), link;
 		
 		imageLinks.each(function(){
@@ -126,7 +130,7 @@
 		$(overlay).addClass('thumbs');
 		thumbs.on('click', 'a', onClick_thumbs).data('a', thumbs.find('a'));
 	}
-	
+
 	function onClick_thumbs(e){
 		e.preventDefault();
 		
@@ -192,7 +196,7 @@
 		thumbsTotalWidth = thumbs[0].firstChild.clientWidth;
 
 		var state = thumbsTotalWidth > thumbsContainerWidth ? 'on' : 'off';
-		thumbs[state]('mousemove', thumbsMove);
+		!isMobile && thumbs[state]('mousemove', thumbsMove);
 	}
 	
 	function thumbsMove(e){

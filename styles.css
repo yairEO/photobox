@@ -1,5 +1,5 @@
 html{ height:100%; }
-body{ min-height:100%; background:url('bg.jpg') fixed; box-shadow:0 0 0 10px rgba(255,255,255,0.1) inset; }
+body{ min-height:100%; background:url('bg.jpg') repeat-x fixed; box-shadow:0 0 0 10px rgba(255,255,255,0.1) inset; }
 
 @font-face {
   font-family: 'Cuprum';
@@ -25,3 +25,8 @@ body{ min-height:100%; background:url('bg.jpg') fixed; box-shadow:0 0 0 10px rgb
 	#gallery > a img{ -webkit-transform:rotateX(90deg); transform:rotateX(90deg); transition:.4s ease-out; -webkit-transition:0.4s ease-out; }
 	#gallery > a.loaded img{ -webkit-transform:rotateX(0deg); transform:rotateX(0deg); }
 		#gallery > a.loaded:hover{ transform:scale(1.5); -webkit-transform:scale(1.5); box-shadow:0 0 0 3px #FFF, 0 0 20px 5px #000; z-index:2; }
+		
+/*------- media queries -----------*/
+@media all and (max-width:700px){
+	#gallery > a{ width:45px; height:45px; }
+} 

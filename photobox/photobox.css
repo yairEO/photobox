@@ -35,6 +35,7 @@
 
 #pbOverlay .imageWrap:after,
 #pbCaption .pbThumbs ul:after,
+#pbOverlay .prevNext:after,
 #pbOverlay .pbLoader:before{ content:""; display:inline-block; height:100%; margin-right:-0.25em; vertical-align:middle; }
 
 /* fixes image flickering when resizing with transform */
@@ -54,7 +55,7 @@
 	-webkit-transform:scale(1); 
 	-ms-transform:scale(1); 
 	-webkit-backface-visibility:hidden; }
-#pbOverlay .imageWrap img, #pbOverlay .imageWrap img.prepare{ display:inline-block; vertical-align:middle; transform:scale(0) rotateX(90deg); -webkit-transform:scale(0) rotateX(90deg); border-radius:6px; border:none; box-shadow:0 0 30px #000; max-height:95%; }
+#pbOverlay .imageWrap img, #pbOverlay .imageWrap img.prepare{ display:inline-block; vertical-align:middle; transform:scale(0) rotateX(90deg); -webkit-transform:scale(0) rotateX(90deg); border-radius:6px; border:none; box-shadow:0 0 20px #000; max-height:95%; }
 #pbOverlay.on .imageWrap img{ transition-delay:0s; -webkit-transition-delay:0s; -ms-transition-delay:0s; }
 #pbOverlay .imageWrap img.zoomable{ transition:50ms; -webkit-transition:50ms; -ms-transition:50ms; position:relative; z-index:99; }
 #pbOverlay.hide .imageWrap img{ transform:scale(1.2); -webkit-transform:scale(1.2); opacity:0; transition:.4s ease-in; -webkit-transition:.4s ease-in; -ms-transition:.4s ease-in; }
@@ -93,22 +94,22 @@
 				#pbCaption .pbThumbs li.active a img{ opacity:1; height:75px; }
 				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; }
 
-#pbOverlay .prevNext{ position:absolute; z-index:2; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; cursor:pointer; }
+#pbOverlay .prevNext{ position:absolute; z-index:2; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; text-shadow:0 0 12px #000, 0 0 10px #FFF; cursor:pointer; }
 #pbOverlay.on .prevNext:hover{ opacity:.5; }
-#pbOverlay.on .prevNext:active{ opacity:1; }
-	.prevNext b{ position:absolute; top:50%; margin-top:-10%; transition:.2s ease-in; -webkit-transition:.2s ease-in; }
+#pbOverlay.on .prevNext:active{ opacity:1; text-shadow:0 0 16px #FFF, 0 0 10px #000; }
+	.prevNext b{ display:inline-block; vertical-align:middle; transition:.2s ease-in; -webkit-transition:.2s ease-in; }
 	.prevNext:hover b{ transition:.2s cubic-bezier(0.095, 0.870, 0.485, 0.985); -webkit-transition:.2s cubic-bezier(0.095, 0.870, 0.485, 0.985); } 
-	#pbPrevBtn b{ left:2%; transform:scale(.6) translate3d(160px,0,0); -webkit-transform:scale(.6) translate3d(160px,0,0); }
-	#pbNextBtn b{ right:2%; transform:scale(.6) translate3d(-160px,0,0); -webkit-transform:scale(.6) translate3d(-160px,0,0); }
+	#pbPrevBtn b{ transform:scale(.4) translateX(350px); -webkit-transform:scale(.4) translateX(350px); }
+	#pbNextBtn b{ transform:scale(.4) translateX(-350px); -webkit-transform:scale(.4) translateX(-350px); }
 	/* */
-	#pbPrevBtn b:before, #pbNextBtn b:after{ display:inline; line-height:.3; font-size:16em; font-weight:normal; color:#FFF; font-family:Arial; text-shadow:0 0 10px #000; }
+	#pbPrevBtn b:before, #pbNextBtn b:after{ display:inline; line-height:.3; font-size:20em; font-weight:normal; color:#FFF; font-family:Arial; }
 	
 	#pbPrevBtn b:before{ content:'‹'; }
 	#pbNextBtn b:after{ content:'›'; }
 	/* */
-	#pbOverlay.on #pbPrevBtn:hover b{ transform:scale(1) translate3d(0,0,0); -webkit-transform:scale(1) translate3d(0,0,0); }
-	#pbOverlay.on #pbNextBtn:hover b{ transform:scale(1) translate3d(0,0,0); -webkit-transform:scale(1) translate3d(0,0,0); }
+	#pbOverlay.on #pbPrevBtn:hover b{ transform:scale(1) translateX(20px); -webkit-transform:scale(1) translateX(20px); }
+	#pbOverlay.on #pbNextBtn:hover b{ transform:scale(1) translateX(-20px); -webkit-transform:scale(1) translateX(-20px); }
 	
 #pbOverlay.show #pbPrevBtn, #pbOverlay.show #pbNextBtn{  }
-#pbOverlay.show #pbPrevBtn{ left:0; }
-#pbOverlay.show #pbNextBtn{ right:0; }
+#pbOverlay.show #pbPrevBtn{ left:0; text-align:left; }
+#pbOverlay.show #pbNextBtn{ right:0; text-align:right; }
