@@ -5,7 +5,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
-## benefits
+## Benefits
 * Both the script & CSS are ~9k each (minified script) and can get much less using gzip compression.
 *    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
 *   Pretty UI and easy UX
@@ -60,7 +60,7 @@ Advanced CSS users would know this, but for rest, you can just copy the below ex
 
 Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
-## settings
+## Settings
 **time** (default: 3000) minimum 1000ms allowed
 
     The time in miliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.
