@@ -48,7 +48,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
     ...
     ...
     <script>
-        // applying photobox on a `gallery` element which has lots of links which thumbnails in them, and passing an options object as well:
+        // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
     	$('#gallery').photobox('a',{ time:0 });
     </script>
 
