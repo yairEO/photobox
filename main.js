@@ -26,7 +26,7 @@
 				setTimeout( function(){ link.className = 'loaded'; }, 20*index);
 			});
         });
-		
+
 		// finally, initialize photobox on all retrieved images
 		$('#gallery').find('a').photobox({ thumbs:true });
     });
