@@ -53,12 +53,12 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
     </script>
 
 ## Changing effects is easy!
-advanced CSS users would know how, but for the folks who don't quite know how, you can just put the below example code at the end of the photobox.css file:
+Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
     
     #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
     #pbOverlay.hide .imageWrap img{ transform:rotateX(-90deg); -webkit-transform:rotateX(-90deg); transform:none\9; opacity:.6; }
 
-Basicly, I'm just playing with the image's style state; before it's appearance and during hiding the visible, so you can do whatever here really.
+Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
 ## settings
 **time** (default: 3000) minimum 1000ms allowed
