@@ -5,17 +5,16 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
-## BETA 1.5
-Please switch to branch "1.5" and try out the new beta. I've re-wrote a LOT of the code, fixing bugs and adding support for autoplay.
-
 ## benefits
-* Both the script & CSS are only 7k each (minified script, not gziped)
+* Both the script & CSS are ~9k each (minified script) and can get much less using gzip compression.
 *    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
 *   Pretty UI and easy UX
+*   Built so everything could be changed directly from the CSS 
 *   CSS3 pre-loader, tailored-made
-*   The only image isa pre-loader animation for old IE. For the rest, no images at all!
-*   Works also on IE8 and above, but clearly not as nice as in normal browsers
-*   Uses event-delegation on all thumbnails events
+*   The only image is a pre-loader animation for old IE. For the rest, no images at all!
+*   Works also on IE8 and above, but clearly not as nice as on modern browsers
+*   Uses event-delegation on all thumbnails clicks
+*   Observes DOM changes (if images were added or removed) and adapt accordingly
 
 
 
@@ -26,6 +25,7 @@ Please switch to branch "1.5" and try out the new beta. I've re-wrote a LOT of t
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
 *    Supports looping after first and last images
+*    Auto-playing of images at a set interval (see "time" in Settings)
 *    Supports keyboard keys for navigation and closing the gallery view
 *    In case there was an error loading an image, a message is showen, which can be configured via CSS
 
@@ -48,10 +48,18 @@ Please switch to branch "1.5" and try out the new beta. I've re-wrote a LOT of t
     ...
     ...
     <script>
-    	$('#gallery a').photobox();
+        // applying photobox on a `gallery` element which has lots of links which thumbnails in them, and passing an options object as well:
+    	$('#gallery').photobox('a',{ time:0 });
     </script>
 
 ## settings
+**time** (default: 3000) minimum 1000ms allowed
+
+    The time in miliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.
+
+**autoplay** (default: false)
+
+    should the gallery autoplay on start or not.
 
 **loop** (Default: 'true')
 
