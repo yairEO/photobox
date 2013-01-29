@@ -3,7 +3,7 @@
 	"title": "jQuery Photobox",
 	"description": "A lightweight CSS3 image gallery plugin for jQuery that is pretty to look and and easy to use.",
 	"keywords": [ "image gallery", "gallery", "css3", "animation", "lightbox"],
-	"version": "1.5",
+	"version": "1.5.1",
 	"author": {
 		"name": "Yair Even Or",
 		"url": "http://dropthebit.com"
