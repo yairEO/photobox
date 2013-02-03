@@ -6,7 +6,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 ## Benefits
-* Both the script & CSS are ~9k each (minified script) and can get much less using gzip compression.
+* Both the script & CSS are no more than 10k each (minified script) and can get much less using gzip compression.
 *    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
 *   Pretty UI and easy UX
 *   Built so everything could be changed directly from the CSS 
