@@ -1,5 +1,5 @@
 /*!
-	photobox v1.6.0
+	photobox v1.6.1
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	Uses jQuery-mousewheel Version: 3.0.6
@@ -448,7 +448,7 @@
 						}
 		},
 		clear : function(){
-			if( 'pushState' in window.history )
+			if( options.history && 'pushState' in window.history )
 				window.history.pushState('photobox', doc.title, window.location.pathname + window.location.search);
 		}
 	};
