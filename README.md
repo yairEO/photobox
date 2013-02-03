@@ -15,6 +15,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 *   Works also on IE8 and above, but clearly not as nice as on modern browsers
 *   Uses event-delegation on all thumbnails clicks
 *   Observes DOM changes (if images were added or removed) and adapt accordingly
+*   Uses HTML5 History so you can copy and send a link with the currently viewable image
 
 
 
@@ -50,6 +51,11 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
     <script>
         // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
     	$('#gallery').photobox('a',{ time:0 });
+        // using a callback and a fancier selector
+        $('#gallery').photobox('li > a.family',{ time:0 }), callback);
+        function callback(){
+           console.log('image has been loaded');
+        }
     </script>
 
 ## Changing effects is easy!
@@ -61,6 +67,10 @@ Advanced CSS users would know this, but for rest, you can just copy the below ex
 Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
 ## Settings
+**history** (default: true)
+
+    Enable/disable HTML5 history using hash urls
+
 **time** (default: 3000) minimum 1000ms allowed
 
     The time in miliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.
