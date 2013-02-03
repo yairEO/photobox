@@ -48,8 +48,8 @@
 	#pbOverlay.error .imageWrap img{ width:0; }
 
 #pbOverlay.show .imageWrap img{ 
-	transition:.8s .5s cubic-bezier(0.1, 0.87, 0.48, 0.98);
-	-webkit-transition:.8s .5s cubic-bezier(0.1, 0.87, 0.48, 0.98); 
+	transition:.8s .5s cubic-bezier(0.1, 0.87, 0.48, 1);
+	-webkit-transition:.8s .5s cubic-bezier(0.1, 0.87, 0.48, 1); 
 	-ms-transition:.3s .5s ease-out; 
 
 	transform:scale(1) rotateX(0); 
@@ -96,12 +96,12 @@
 	#pbAutoplayBtn.playing .pbProgress{ -webkit-transform:rotateZ(90deg); -ms-transform:rotateZ(90deg); transform:rotateZ(90deg); }
 	#pbAutoplayBtn .pbProgress:before{ content:''; position:absolute; right:0; bottom:0; width:200%; height:200%; border-radius:100%; box-shadow:0 0 0 8px #FFF inset; }
 	
-#pbCaption, .hide #pbCaption{ position:absolute; z-index:999; bottom:-110px; width:100%; text-align:center; transition:0.4s; -webkit-transition:0.4s; }
+#pbCaption, .hide #pbCaption{ position:absolute; z-index:999; bottom:-110px; width:100%; -webkit-transition:0.4s;  transition:0.4s; }
 .show.on #pbCaption{ bottom:5px; transition-delay:.5s; -webkit-transition-delay:.5s; }
 	#pbCaption > .title, .hasCounter #pbCaption > .counter{ display:inline-block; opacity:0.9; color:#FFF; font-weight:bold; font-size:.9em; margin:0 6px; text-shadow:1px 1px 1px rgba(0,0,0,.5); }
 
 #pbOverlay .pbThumbs{ display:none; }
-#pbOverlay.thumbs .pbThumbs{ display:block; width:100%; overflow:hidden; }
+#pbOverlay.thumbs .pbThumbs{ display:block; width:100%; padding:5px 0 2px; overflow:hidden; }
 #pbCaption .pbThumbs:hover{ clear:both;  }
 	#pbCaption .pbThumbs ul{ display:inline-block; position:relative; list-style:none; height:80px; padding:0 5px; margin:0; white-space:pre; transition:0.2s; -webkit-transition:0.2s; }
 	#pbCaption .pbThumbs ul:after{ vertical-align:bottom; }
@@ -111,7 +111,7 @@
 				#pbCaption .pbThumbs li.fast a img{ transition:none; -webkit-transition:none; }
 				#pbCaption .pbThumbs a:hover img,
 				#pbCaption .pbThumbs li.active a img{ opacity:1; height:75px; }
-				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; }
+				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; box-shadow:0 0 5px #D8FF16; }
 
 #pbOverlay .prevNext{ display:none; background:rgba(0,0,0,0); position:absolute; z-index:5; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; text-shadow:0 0 12px #000, 0 0 10px #FFF; cursor:pointer; }
 #pbOverlay.hasArrows .prevNext{ display:block; }
