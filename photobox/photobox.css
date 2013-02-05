@@ -31,20 +31,10 @@
 }
 
 .icon-pause:before { content: '\2389'; } /* '?' */
-.icon-caret-up:before { content: '\25b4'; } /* '?' */
 .icon-play:before { content: '\25b6'; } /* '?' */
-.icon-caret-down:before { content: '\25be'; } /* '?' */
-.icon-envelope:before { content: '\2709'; } /* '?' */
 .icon-remove-sign:before { content: '\2716'; } /* '?' */
-.icon-info-sign:before { content: '\e705'; } /* '?' */
-.icon-tag:before { content: '\e70c'; } /* '?' */
-.icon-tags:before { content: '\e70d'; } /* '?' */
 .icon-chevron-left:before { content: '\e75d'; } /* '?' */
 .icon-chevron-right:before { content: '\e75e'; } /* '?' */
-.icon-circle-left:before { content: '\f0a8'; } /* '?' */
-.icon-circle-right:before { content: '\f0a9'; } /* '?' */
-.icon-camera:before { content: '?'; } /* '\1f4f7' */
-.icon-search:before { content: '?'; } /* '\1f50d' */
 
 /* PICBOX */
 #pbOverlay.show{ opacity:1; pointer-events:auto; }
