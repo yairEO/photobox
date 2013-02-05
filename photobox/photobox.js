@@ -43,12 +43,12 @@
 		// DOM structure
 		overlay = $('<div id="pbOverlay">').hide().append(
 					pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
-					prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
-					nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
+					prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b class="icon-chevron-left icon-large"></b></div>').on('click', next_prev),
+					nextBtn = $('<div id="pbNextBtn" class="prevNext"><b class="icon-chevron-right icon-large"></b></div>').on('click', next_prev),
 					imageWrap = $('<div class="imageWrap">').append(
 						image = $('<img>')
 					)[0],
-					closeBtn = $('<div id="pbCloseBtn">').append('<b>×</b>').on('click', close)[0],
+					closeBtn = $('<div id="pbCloseBtn">').append('<b class="icon-remove-sign icon-large"></b>').on('click', close)[0],
 					autoplayBtn = $('<div id="pbAutoplayBtn">').append(
 						$('<div class="pbProgress">')
 					),
@@ -324,14 +324,14 @@
 		play : function(){
 			APControl.autoPlayTimer = setTimeout(function(){ changeImage(nextImage) }, options.time);
 			APControl.progress.start();
-			autoplayBtn.removeClass('play');
+			autoplayBtn.removeClass('icon-play icon-large').addClass('icon-pause icon-large');
 			APControl.setTitle('Click to stop autoplay');
 			options.autoplay = true;
 		},
 		pause : function(){
 			clearTimeout(APControl.autoPlayTimer);
 			APControl.progress.reset();
-			autoplayBtn.addClass('play');
+			autoplayBtn.addClass('icon-play icon-large').removeClass('icon-pause icon-large');
 			APControl.setTitle('Click to resume autoplay');
 			options.autoplay = false;
 		},
