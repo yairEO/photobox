@@ -122,10 +122,10 @@
 	#pbPrevBtn b{ transform:scale(.4) translateX(350px); -webkit-transform:scale(.4) translateX(350px); }
 	#pbNextBtn b{ transform:scale(.4) translateX(-350px); -webkit-transform:scale(.4) translateX(-350px); }
 	/* */
-	#pbPrevBtn b:before, #pbNextBtn b:after{ display:inline; line-height:.3; font-size:20em; font-weight:normal; color:#FFF; font-family:Arial; }
+	#pbPrevBtn b:before, #pbNextBtn b:before{ display:inline; line-height:.3; font-size:7em; font-weight:normal; color:#FFF; }
 	
-	#pbPrevBtn b:before{ content:'‹'; }
-	#pbNextBtn b:after{ content:'›'; }
+	#pbPrevBtn b:before{ }
+	#pbNextBtn b:after{ }
 	/* */
 	#pbOverlay.on #pbPrevBtn:hover b{ transform:scale(1) translateX(20px); -webkit-transform:scale(1) translateX(20px); }
 	#pbOverlay.on #pbNextBtn:hover b{ transform:scale(1) translateX(-20px); -webkit-transform:scale(1) translateX(-20px); }
