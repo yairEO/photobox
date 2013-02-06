@@ -22,7 +22,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 ## Funcionality
 
 *    Images can be zoomed in and out with mousewheel and navigated using mousemove to move around
-*    Bottom row of thumbnails, navigated by mouse movment
+*    Bottom row of thumbnails, navigated by mouse movment, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
 *    Supports looping after first and last images

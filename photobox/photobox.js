@@ -1,5 +1,5 @@
 /*!
-	photobox v1.6.1
+	photobox v1.6.5
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	Uses jQuery-mousewheel Version: 3.0.6
@@ -9,6 +9,7 @@
 */
 
 (function($){
+	"use strict";
 	var doc = document, win = window, Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, prevImage, nextImage, thumbsStripe, docElm, APControl,
 		transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
 		isOldIE = !('placeholder' in doc.createElement('input')),
@@ -22,7 +23,7 @@
 		// Preload images
 		preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
 		// DOM elements
-		closeBtn, image, prevBtn, nextBtn, caption, pbLoader, autoplayBtn, thumbs, 
+		closeBtn, image, prevBtn, nextBtn, caption, pbLoader, autoplayBtn, thumbs, imageWrap, 
 
 		defaults = {
 			loop:			true,				// Allows to navigate between first and last images
@@ -34,20 +35,20 @@
 			history:		true,				// should use history hashing if possible (HTML5 API)
 			hideFlash:		true,				// Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
 			keys: {
-				close: '27, 88, 67',		// keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
-				prev:  '37, 80',            // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
-				next:  '39, 78'             // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
+				close: '27, 88, 67',			// keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
+				prev:  '37, 80',          	 	// keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+				next:  '39, 78'           		// keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
 			}
 		},
 
 		// DOM structure
 		overlay = $('<div id="pbOverlay">').hide().append(
 					pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
-					prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
-					nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
 					imageWrap = $('<div class="imageWrap">').append(
-						image = $('<img>')
-					)[0],
+						image = $('<img>'),
+						prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
+						nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev)
+					),
 					closeBtn = $('<div id="pbCloseBtn">').append('<b>×</b>').on('click', close)[0],
 					autoplayBtn = $('<div id="pbAutoplayBtn">').append(
 						$('<div class="pbProgress">')
@@ -252,7 +253,9 @@
 				});
 			}
 			
-			$(doc)[fn]({ "keydown.photobox": keyDown, "mousewheel.photobox": scrollZoom });
+			$(doc)[fn]({ "keydown.photobox": keyDown });
+			imageWrap[fn]({"mousewheel.photobox": scrollZoom });
+			thumbs[fn]({"mousewheel.photobox": thumbsResize });
 		}
 	}
 	
@@ -291,15 +294,13 @@
 			if( thumbClick ) return;
 			// set the scrollLeft position of the thumbs list to show the active thumb
 			clearTimeout(this.changeActiveTimeout);
-			this.changeActiveTimeout = setTimeout(function(){
-				var pos = activeThumb[0].offsetLeft + activeThumb[0].clientWidth/2 - docElm.clientWidth/2;
-				
-				// Animations stuff
-				delay && thumbs.delay(800);
-				!delay && thumbs.stop();
-				thumbs.animate({scrollLeft: pos}, 500, 'swing');
-				//thumbs[0].scrollLeft = pos;
-			}, 200);
+			// give the images time to to settle on their new sizes (because of css transition) and then calculate the center...
+			this.changeActiveTimeout = setTimeout( 
+				function(){
+					var pos = activeThumb[0].offsetLeft + activeThumb[0].clientWidth/2 - docElm.clientWidth/2;
+					delay ? thumbs.delay(800) : thumbs.stop();
+					thumbs.animate({scrollLeft: pos}, 500, 'swing');
+				}, 200);
 		},
 
 		// claculate the thumbs container width is the window has been resized
@@ -309,6 +310,7 @@
 
 			var state = thumbsTotalWidth > thumbsContainerWidth ? 'on' : 'off';
 			!isMobile && thumbs[state]('mousemove', thumbsStripe.move);
+			return this;
 		},
 
 		// move the stipe left or right acording to mouse position
@@ -371,19 +373,20 @@
 		var code = event.keyCode, ok = options.keys, result;
 		// Prevent default keyboard action (like navigating inside the page)
 		return ok.close.indexOf(code) >= 0 && close() ||
-               ok.next.indexOf(code) >= 0 && next_prev('next') ||
-               ok.prev.indexOf(code) >= 0 && next_prev('prev') || true;
+               ok.next.indexOf(code) >= 0 && changeImage(nextImage) ||
+               ok.prev.indexOf(code) >= 0 && changeImage(prevImage) || true;
 	}
 	
 	// serves as a callback for pbPrevBtn / pbNextBtn buttons but also is called on keypress events
-	function next_prev(direction){
+	function next_prev(){
 		// don't get crazy when user clicks next or prev buttons rapidly
-		if( overlay.hasClass('hide') )
-			return false;
-		var img = (this.id == 'pbPrevBtn' || direction == 'prev') ? prevImage : nextImage,
-			mouseOverThumbs = thumbs.css('clear') == 'both';
-		
-		changeImage(img, 0, mouseOverThumbs);
+		//if( !image.hasClass('zoomable') )
+		//	return false;
+			
+		var img = (this.id == 'pbPrevBtn') ? prevImage : nextImage;
+		//	mouseOverThumbs = thumbs.css('clear') == 'both';
+
+		changeImage(img);
 		return false;
 	}
 	
@@ -471,8 +474,8 @@
 	}
 	
 	function showImage(firstTime){
-		overlay.removeClass("pbLoading").addClass('hide'); // while transitioning an image, do not apply the 'zoomable' class
-		image.removeClass('zoomable');
+		overlay.removeClass("pbLoading").addClass('hide');
+		image.removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 		
 		if( !firstTime ){
 			image.on(transitionend, show);
@@ -516,7 +519,7 @@
 		var zoomLevel = image.data('zoom') || 1,
 			getSize = image[0].getBoundingClientRect();
 		
-		zoomLevel = zoomLevel + (delta / 10);
+		zoomLevel += (delta / 10);
 
 		if( zoomLevel < 0.1 )
 			zoomLevel = 0.1;
@@ -534,6 +537,17 @@
 		
 		return false;
 	}
+	
+	function thumbsResize(e, delta){
+		e.preventDefault();
+		var thumbList = photobox.thumbsList;
+		thumbList.css('height', thumbList[0].clientHeight + (delta * 10) );
+		var h = caption[0].clientHeight / 2;
+		imageWrap[0].style.cssText = "margin-top: -"+ h +"px; padding: "+ h +"px 0;";
+		thumbs.hide().show(0);
+		thumbsStripe.calc();
+	}
+	
 	// moves the image around during zoom mode on mousemove event
 	function imageReposition(e){
 		var y = (e.clientY / docElm.clientHeight) * (docElm.clientHeight + 200) - 100, // extend the range of the Y axis by 100 each side
