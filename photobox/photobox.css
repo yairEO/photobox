@@ -56,9 +56,10 @@
 	-ms-transition:opacity 400ms ease;
 	text-align:center;
 	pointer-events:none;
+	behavior: url(res/PIE/PIE.htc);
 }
 #pbOverlay.msie{ background-color:rgba(0,0,0,.6); }
-#pbOverlay.msie.pbLoading .imageWrap{ background:url('../images/loading.gif') no-repeat center; width:80px; }
+#pbOverlay.msie.pbLoading .imageWrap{ background:url('loading.gif') no-repeat center; width:80px; }
 
 @keyframes pbLoaderFrames{ 50%{ height:5px; } }
 @-webkit-keyframes pbLoaderFrames{ 50%{ height:5px; } }
@@ -66,7 +67,7 @@
 #pbOverlay .pbLoader{ visibility:hidden; opacity:0; pointer-events:none; -webkit-transform:scale(.2); transform:scale(.2); position:absolute; z-index:999; top:50%; left:50%; margin:-50px 0 0 -50px; text-align:center; border-radius:100%; box-shadow:15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px; width:100px; height:100px; transition:0.3s; -webkit-transition:0.2s; }
 #pbOverlay.thumbs .pbLoader{ margin-top:-100px; }
 #pbOverlay.pbLoading:not(.msie) .pbLoader{ visibility:visible; opacity:1; -webkit-transform:scale(1); transform:scale(1); }
-	#pbOverlay .pbLoader b{ display:inline-block; vertical-align:middle; margin:0 2px; width:8px; height:60px; border-radius:5px; background:rgba(255,255,255,0.8); box-shadow:0 0 10px rgba(0,0,0,0.5); -webkit-animation:.9s pbLoaderFrames infinite linear; animation:.9s pbLoaderFrames infinite linear; }
+	#pbOverlay .pbLoader b{ display:inline-block; vertical-align:middle; margin:0 2px; width:8px; height:60px; border-radius:5px; background:rgba(255,255,255,0.8); box-shadow:0 0 10px rgba(0,0,0,0.5); -webkit-animation:.9s pbLoaderFrames infinite linear; animation:.9s pbLoaderFrames infinite linear; behavior: url(res/PIE/PIE.htc); }
 	#pbOverlay .pbLoader b:nth-child(1){  }
 	#pbOverlay .pbLoader b:nth-child(2){ -webkit-animation-delay:.3s; animation-delay:.3s; }
 	#pbOverlay .pbLoader b:nth-child(3){ -webkit-animation-delay:.6s; animation-delay:.6s; }
@@ -96,7 +97,7 @@
 
 	-webkit-backface-visibility:hidden; 
 }
-#pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ display:inline-block; opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; box-shadow:0 0 20px #000; max-height:95%; }
+#pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ display:inline-block; opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; box-shadow:0 0 20px #000; max-height:95%; behavior: url(res/PIE/PIE.htc); }
 #pbOverlay.on .imageWrap img{ transition-delay:0s; -webkit-transition-delay:0s; -ms-transition-delay:0s; }
 #pbOverlay .imageWrap img.zoomable{ transition:.1s; -webkit-transition:.1s; -ms-transition:.1ms; position:relative; z-index:99; }
 #pbOverlay.hide .imageWrap img{ transform:scale(1.2); -webkit-transform:scale(1.2); transform:none\9; opacity:0; transition:.4s ease-in; -webkit-transition:.4s ease-in; -ms-transition:.4s ease-in; }
@@ -125,9 +126,9 @@
 .hasAutoplay #pbAutoplayBtn{ display:block; }
 #pbAutoplayBtn:hover{ width:60px; height:60px; font-size:1.1em; }
 .on #pbAutoplayBtn{ top:0px; left:0px;  transition:.1s ease-out; -webkit-transition:.1s ease-out; }
-	#pbAutoplayBtn:before{ content:'‖'; width:100%; height:100%; border-radius:0 0 70px 0; font-weight:bold; padding:0; text-indent:-6px; line-height:1.8; }
+	#pbAutoplayBtn:before{width:100%; height:100%; border-radius:0 0 70px 0; font-weight:bold; padding:0; text-indent:-6px; line-height:1.8; }
 	#pbAutoplayBtn:active:before{ text-shadow:0 0 3px #FFF, 0 0 6px #FFF; }
-	#pbAutoplayBtn.play:before{ content:'►'; }
+	#pbAutoplayBtn.play:before{ }
 	x#pbAutoplayBtn:hover:before{ padding:10px 24px 24px 10px; font-size:2.2em; }
 
 	#pbAutoplayBtn .pbProgress{ display:none\9; width:100%; height:100%; overflow:hidden; position:absolute; padding:6px; top:0; left:0; opacity:0.2; transform:rotateZ(0deg); -webkit-transform:rotateZ(0deg); -ms-transform:rotateZ(0deg); -webkit-transform-origin:0 0; -ms-transform-origin:0 0; transform-origin:0 0; -webkit-transition:0.4s; -ms-transition:0.4s; transition:0.4s; }
@@ -149,9 +150,9 @@
 				#pbCaption .pbThumbs li.fast a img{ transition:none; -webkit-transition:none; }
 				#pbCaption .pbThumbs a:hover img,
 				#pbCaption .pbThumbs li.active a img{ opacity:1; height:75px; }
-				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; box-shadow:0 0 5px #D8FF16; }
+				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; box-shadow:0 0 5px #D8FF16; behavior: url(res/PIE/PIE.htc); }
 
-#pbOverlay .prevNext{ display:none; background:rgba(0,0,0,0); position:absolute; z-index:5; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; text-shadow:0 0 12px #000, 0 0 10px #FFF; cursor:pointer; }
+#pbOverlay .prevNext{ display:none; background:rgba(0,0,0,0); position:absolute; z-index:5; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; text-shadow:0 0 12px #000, 0 0 10px #FFF; cursor:pointer; behavior: url(res/PIE/PIE.htc); }
 #pbOverlay.hasArrows .prevNext{ display:block; }
 #pbOverlay.on .prevNext:hover{ opacity:.5; }
 #pbOverlay.on .prevNext:active{ opacity:1; text-shadow:0 0 16px #FFF, 0 0 10px #000; }
@@ -171,4 +172,3 @@
 #pbOverlay.show #pbPrevBtn, #pbOverlay.show #pbNextBtn{  }
 #pbOverlay.show #pbPrevBtn{ left:0; text-align:left; }
 #pbOverlay.show #pbNextBtn{ right:0; text-align:right; }
-
