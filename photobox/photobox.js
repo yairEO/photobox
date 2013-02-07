@@ -1,5 +1,5 @@
 /*!
-	photobox v1.6.5
+	photobox v1.6.6
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	Uses jQuery-mousewheel Version: 3.0.6
@@ -23,7 +23,7 @@
 		// Preload images
 		preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
 		// DOM elements
-		closeBtn, image, prevBtn, nextBtn, caption, pbLoader, autoplayBtn, thumbs, imageWrap, 
+		closeBtn, image, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, imageWrap, 
 
 		defaults = {
 			loop:			true,				// Allows to navigate between first and last images
@@ -53,7 +53,8 @@
 					autoplayBtn = $('<div id="pbAutoplayBtn">').append(
 						$('<div class="pbProgress">')
 					),
-					caption = $('<div id="pbCaption">').append('<div class="title"></div><div class="counter">',
+					caption = $('<div id="pbCaption">').append(
+						captionText = $('<div class="pbCaptionText">').append('<div class="title"></div><div class="counter">'),
 						thumbs = $('<div>').addClass('pbThumbs')
 					)
 				);
@@ -134,10 +135,10 @@
 			this.observerTimeout = null;
 			
 			if( this.selector[0].nodeType == 1 ) // observe normal nodes
-				this.observeDOM( this.selector[0] ,function(){
+				that.observeDOM( that.selector[0] ,function(){
 					// use a timeout to prevent more than one DOM change event fireing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
-					clearTimeout(this.observerTimeout);
-					this.observerTimeout = setTimeout( function(){
+					clearTimeout(that.observerTimeout);
+					that.observerTimeout = setTimeout( function(){
 						var filtered = that.imageLinksFilter( that.selector.find(that.target) );
 						that.imageLinks = filtered[0];
 						that.images = filtered[1];
@@ -158,7 +159,16 @@
 			photobox = this;
 			
 			this.setup(1);
-			return changeImage(startImage, true);
+
+			overlay.on(transitionend, function(){
+				overlay.off(transitionend).addClass('on'); // class 'on' is set when the initial fade-in of the overlay is done
+				changeImage(startImage, true);
+			}).addClass('show');
+				
+			if( isOldIE )
+				overlay.trigger('MSTransitionEnd');
+			
+			return false;
 		},
 
 		imageLinksFilter : function(obj){
@@ -199,9 +209,9 @@
 		setup : function (open){
 			var fn = open ? "on" : "off";
 
+			// a hack to change the image src to nothing, because you can't do that in CHROME
+			image[0].src = blankImg;
 			if( open ){
-				// a hack to change the image src to nothing, because you can't do that in CHROME
-				image[0].src = blankImg;
 				image.css({'transition':'0s'}).removeAttr('style'); // reset any transition that might be on the element (yes it's ugly)
 				overlay.show();
 				// Clean up if another gallery was veiwed before, which had a thumbsList
@@ -232,14 +242,6 @@
 					else 
 						overlay.removeClass('hasAutoplay');
 				}
-
-				overlay.on(transitionend, function(){
-					overlay.off(transitionend).addClass('on'); // class 'on' is set when the initial fade-in of the overlay is done
-				}).addClass('show');
-				
-				if( isOldIE )
-					overlay.trigger('MSTransitionEnd');
-
 			} else {
 				$(win).off('resize.photobox');
 			}
@@ -255,7 +257,7 @@
 			
 			$(doc)[fn]({ "keydown.photobox": keyDown });
 			imageWrap[fn]({"mousewheel.photobox": scrollZoom });
-			thumbs[fn]({"mousewheel.photobox": thumbsResize });
+			if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
 		}
 	}
 	
@@ -393,6 +395,8 @@
 	function changeImage(imageIndex, firstTime, thumbClick){
 		if( !imageIndex || imageIndex < 0 ) 
 			imageIndex = 0;
+			
+		overlay.addClass( imageIndex > activeImage ? 'next' : 'prev' );
 		
 		activeImage = imageIndex;
 		activeURL = images[imageIndex][0];
@@ -406,15 +410,20 @@
 		!options.loop && imageIndex == images.length-1 ? nextBtn.addClass('hide') : nextBtn.removeClass('hide');
 		!options.loop && imageIndex == 0 ? prevBtn.addClass('hide') : prevBtn.removeClass('hide');
 		
+		captionText.on(transitionend, captionTextChange).addClass('change');
+		function captionTextChange(){
+			captionText.off(transitionend).removeClass('change');
+			// change caption's text
+			options.counter && caption.find('.counter').text('(' + (activeImage + 1) + ' / ' + images.length + ')');
+			options.title && caption.find('.title').text( images[activeImage][1] );
+		}
+		if( firstTime || isOldIE ) captionTextChange();
+		
 		if( options.thumbs )
 			thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
 		
 		if( prevImage >= 0 ) preloadPrev.src = images[prevImage][0]; 
 		if( nextImage >= 0 ) preloadNext.src = images[nextImage][0]; 
-
-
-		options.counter && caption.find('.counter').text('( ' + (activeImage + 1) + ' / ' + images.length + ' )');
-		options.title && caption.find('.title').text( images[imageIndex][1] );
 
 		if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old ie display the preloader
 		//image.siblings().hide();
@@ -477,31 +486,27 @@
 		overlay.removeClass("pbLoading").addClass('hide');
 		image.removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 		
-		if( !firstTime ){
-			image.on(transitionend, show);
-			// manually trigger for browser lacking transitions support
-			if( isOldIE )
-				show();
-		}
-		else
+		if( firstTime || isOldIE )
 			show();
+		else
+			image.on(transitionend, show);
 
 		// after hiding the last seen image, show the new one
 		function show(){
-			image.off(transitionend).css({'transition':'0s'});
-			image[0].src = activeURL;
-			image[0].className = 'prepare';
-				
-			// filthy hack for the transitionend event, but cannot work without it:
-			setTimeout(function(){ 
-					overlay.removeClass('hide');
-					image.removeAttr('style').prop('class','');
-					setTimeout(function(){ 
+				image.off(transitionend).css({'transition':'none'});
+				image[0].src = activeURL;
+				image[0].className = 'prepare';
+
+				// filthy hack for the transitionend event, but cannot work without it:
+				setTimeout(function(){
+					image.removeAttr('style')[0].className = '';
+					overlay.removeClass('hide next prev');
+					setTimeout(function(){
 						image[0].className = '';
 						image.on(transitionend, showImageEnd);
 						if(isOldIE) showImageEnd(); // IE9 and below don't support transitionEnd...
 					}, 0);
-			},50);
+				},50);
 		}
 	}
 	

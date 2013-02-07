@@ -28,7 +28,6 @@
 
 			// lazy show the photos one by one
 			img.on('load', function(e){
-				
 				setTimeout( function(){ 
 					li.className = 'loaded'; 
 				}, 20*index);
