@@ -133,17 +133,19 @@
 			// if any node was added or removed from the Selector of the gallery
 			this.observerTimeout = null;
 			
-			if( this.selector[0].nodeType == 1 ) // observe normal nodes
+			if( this.selector[0].nodeType == 1 ) { // observe normal nodes
+				var self = this;
 				this.observeDOM( this.selector[0] ,function(){
 					// use a timeout to prevent more than one DOM change event fireing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
-					clearTimeout(this.observerTimeout);
-					this.observerTimeout = setTimeout( function(){
+					clearTimeout(self.observerTimeout);
+					self.observerTimeout = setTimeout( function(){
 						var filtered = that.imageLinksFilter( that.selector.find(that.target) );
 						that.imageLinks = filtered[0];
 						that.images = filtered[1];
 						that.thumbsList = thumbsStripe.generate(that.imageLinks);
 					}, 50);
 				});
+			}
 		},
 
 		open : function(link){
