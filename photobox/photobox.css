@@ -182,7 +182,7 @@ a [class*=" icon-"] {
 	#pbPrevBtn b{ transform:scale(.4) translateX(350px); -webkit-transform:scale(.4) translateX(350px); }
 	#pbNextBtn b{ transform:scale(.4) translateX(-350px); -webkit-transform:scale(.4) translateX(-350px); }
 	/* */
-	#pbPrevBtn b:before, #pbNextBtn b:before{ display:inline; line-height:.3; font-size:7em; font-weight:normal; color:#FFF; }
+	#pbPrevBtn b:before, #pbNextBtn b:before{ display:inline; line-height:.3; font-size:10em; font-weight:normal; color:#FFF; }
 	
 	#pbPrevBtn b:before{ }
 	#pbNextBtn b:after{ }
