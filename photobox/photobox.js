@@ -34,6 +34,7 @@
 			time:			3000,				// autoplay interna, in miliseconds (less than 1000 will hide the autoplay button)
 			history:		true,				// should use history hashing if possible (HTML5 API)
 			hideFlash:		true,				// Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
+			zoomableImage: true,		// Disable to remove zooming functionality
 			keys: {
 				close: '27, 88, 67',			// keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
 				prev:  '37, 80',          	 	// keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
@@ -256,7 +257,9 @@
 			}
 			
 			$(doc)[fn]({ "keydown.photobox": keyDown });
-			imageWrap[fn]({"mousewheel.photobox": scrollZoom });
+
+			// Hook for zooming functionality
+			imageWrap[fn]("mousewheel.photobox", null, {zoomableImage: options.zoomableImage}, scrollZoom);
 			if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
 		}
 	}
@@ -523,6 +526,10 @@
 	function scrollZoom(e, delta){
 		var zoomLevel = image.data('zoom') || 1,
 			getSize = image[0].getBoundingClientRect();
+
+		// Block zooming functionality if option set
+		if ( !e.data.zoomableImage )
+			return false;
 		
 		zoomLevel += (delta / 10);
 
@@ -632,7 +639,7 @@
 	});
 
 
-	function handler(event){
+	function handler(event){		
 		var orgEvent = event || win.event, args = [].slice.call( arguments, 1 ), delta = 0, returnValue = true, deltaX = 0, deltaY = 0;
 		event = $.event.fix(orgEvent);
 		event.type = "mousewheel";
