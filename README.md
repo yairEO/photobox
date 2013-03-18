@@ -93,7 +93,11 @@ Basicly, I'm just playing with the image's style state; before it's appearance a
    
 **hideFlash** (Default: 'true')
 
-    Hide flash instances when viewing an image in the gallery.
+    Hide flash instances when viewing an image in the gallery. 
+   
+**zoomableImage** (Default: 'true')
+
+    Disable image zooming functionality.
 
 **keys.close** (Default: "27, 88, 67")
 
