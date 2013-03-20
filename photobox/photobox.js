@@ -1,8 +1,8 @@
 /*!
-	photobox v1.6.6
+	photobox v1.7.0
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
-	Uses jQuery-mousewheel Version: 3.0.6
+	Uses jQuery-mousewheel Version: 3.0.6 by:
 	(c) 2009 Brandon Aaron <http://brandonaaron.net>
 	
 	MIT-style license.
@@ -34,6 +34,7 @@
 			time:			3000,				// autoplay interna, in miliseconds (less than 1000 will hide the autoplay button)
 			history:		true,				// should use history hashing if possible (HTML5 API)
 			hideFlash:		true,				// Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
+			zoomable:		true,				// disable/enable mousewheel image zooming
 			keys: {
 				close: '27, 88, 67',			// keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
 				prev:  '37, 80',          	 	// keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
@@ -256,9 +257,34 @@
 			}
 			
 			$(doc)[fn]({ "keydown.photobox": keyDown });
-			imageWrap[fn]({"mousewheel.photobox": scrollZoom });
-			if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
+			
+			if( 'ontouchstart' in document.documentElement ){
+				overlay.removeClass('hasArrows'); // no need for Arros on touch-enabled
+				imageWrap[fn]('swipe', onSwipe);
+			}
+			
+			if( options.zoomable ){
+				imageWrap[fn]({"mousewheel.photobox": scrollZoom });
+				if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
+			}
 		}
+	}
+	
+	// on touch-devices only
+	function onSwipe(e, Dx, Dy){
+		if( Dx == 1 ){
+			image.css({transform:'translateX(25%)', transition:'.7s', opacity:0});
+			setTimeout(function(){ changeImage(prevImage) }, 200);
+		}
+		else if( Dx == -1 ){
+			image.css({transform:'translateX(-25%)', transition:'.7s', opacity:0});
+			setTimeout(function(){ changeImage(nextImage) }, 200);
+		}
+			
+		if( Dy == 1 )
+			thumbs.addClass('show');
+		else if( Dy == -1 )
+			thumbs.removeClass('show');
 	}
 	
 	// manage the (bottom) thumbs strip
@@ -405,7 +431,9 @@
 
 		stop();
 		
-		overlay.addClass('pbLoading').removeClass('error');
+		overlay.removeClass('error');
+		// give a tiny delay to the preloader, so it won't be showed when images are already cached
+		var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); },50);
 
 		!options.loop && imageIndex == images.length-1 ? nextBtn.addClass('hide') : nextBtn.removeClass('hide');
 		!options.loop && imageIndex == 0 ? prevBtn.addClass('hide') : prevBtn.removeClass('hide');
@@ -429,7 +457,7 @@
 		//image.siblings().hide();
 		options.autoplay && APControl.progress.reset();
 		preload = new Image();
-		preload.onload = function(){ showImage(firstTime) };
+		preload.onload = function(){ clearTimeout(loaderTimeout); showImage(firstTime); };
 		preload.onerror = function(){ imageError() }; 
 		preload.src = activeURL;
 		
@@ -484,7 +512,7 @@
 	
 	function showImage(firstTime){
 		overlay.removeClass("pbLoading").addClass('hide');
-		image.removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
+		image.removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 		
 		if( firstTime || isOldIE )
 			show();
@@ -658,4 +686,61 @@
 		args.unshift(event, delta, deltaX, deltaY);
 		return ($.event.dispatch || $.event.handle).apply(this, args);
 	}
+	
+	/**
+	 * jQuery Plugin to add basic "swipe" support on touch-enabled devices
+	 * 
+	 * @author Yair Even Or
+	 * @version 1.0.0 (March 20, 2013)
+	 */
+	$.event.special.swipe = {
+		setup: function(){
+			$(this).bind('touchstart', $.event.special.swipe.handler);
+		},
+
+		teardown: function(){
+			$(this).unbind('touchstart', $.event.special.swipe.handler);
+		},
+
+		handler: function(event){
+			var args = [].slice.call( arguments, 1 ), // clone arguments array, remove original event from cloned array
+				touches = event.originalEvent.touches,
+				startX, startY,
+				deltaX = 0, deltaY = 0,
+				that = this;
+
+			event = $.event.fix(event);
+
+			if( touches.length == 1 ){
+				startX = touches[0].pageX;
+				startY = touches[0].pageY;
+				this.addEventListener('touchmove', onTouchMove, false);
+			}
+				
+			function cancelTouch(){
+				that.removeEventListener('touchmove', onTouchMove);
+				startX = startY = null;
+			}	
+			 
+			function onTouchMove(e){
+				e.preventDefault();
+
+				var Dx = startX - e.touches[0].pageX,
+					Dy = startY - e.touches[0].pageY;
+
+				if( Math.abs(Dx) >= 20 ){
+					cancelTouch();
+					deltaX = (Dx > 0) ? -1 : 1;
+				}
+				else if( Math.abs(Dy) >= 20 ){
+					cancelTouch();
+					deltaY = (Dy > 0) ? 1 : -1;
+				}
+				
+				event.type = 'swipe';
+				args.unshift(event, deltaX, deltaY); // add back the new event to the front of the arguments with the delatas
+				return ($.event.dispatch || $.event.handle).apply(that, args);
+			}
+		}
+	};
 })(jQuery);

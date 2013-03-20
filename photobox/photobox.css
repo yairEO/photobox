@@ -59,7 +59,7 @@
 	-webkit-backface-visibility:hidden; 
 	box-shadow:0 0 20px #000;
 }
-#pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ display:inline-block; opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; max-height:95%; }
+#pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ display:inline-block; opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; max-height:95%; max-width:100%; }
 #pbOverlay.on .imageWrap img{ transition-delay:0s; -webkit-transition-delay:0s; -ms-transition-delay:0s; }
 #pbOverlay .imageWrap img.zoomable{ transition:.1s; -webkit-transition:.1s; -ms-transition:.1ms; position:relative; z-index:9; }
 #pbOverlay.hide .imageWrap img{ transform:scale(1.2); -webkit-transform:scale(1.2); transform:none\9; opacity:0; transition:.4s ease-in; -webkit-transition:.4s ease-in; -ms-transition:.4s ease-in; }
@@ -105,7 +105,7 @@
 				#pbCaption .pbThumbs img{ height:96%; border:2px solid #FFF; max-width:none; border-radius:0; transition:0.15s; -webkit-transition:0.15s; }
 				#pbCaption .pbThumbs li:hover img{ min-height:96%; } /* fixs a bug in Chrome and Opera */
 				#pbCaption .pbThumbs li.fast a img{ transition:none; -webkit-transition:none; }
-				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; box-shadow:0 0 5px #D8FF16; }
+				#pbCaption .pbThumbs li.active a img{ border-color:#D8FF16; }
 
 #pbOverlay .prevNext{ display:none; background:rgba(0,0,0,0); position:absolute; z-index:10; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; text-shadow:0 0 12px #000, 0 0 10px #FFF; cursor:pointer; }
 #pbOverlay.hasArrows .prevNext{ display:block; }
@@ -127,3 +127,15 @@
 #pbOverlay.show #pbPrevBtn, #pbOverlay.show #pbNextBtn{  }
 #pbOverlay.show #pbPrevBtn{ left:0; text-align:left; }
 #pbOverlay.show #pbNextBtn{ right:0; text-align:right; }
+
+/*------- media queries (for small screens) -----------*/
+@media all and (max-width:700px){
+	#pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ max-height:100%; }
+	
+	#pbOverlay.thumbs .imageWrap{ padding:0; margin:0; }
+	#pbOverlay .pbThumbs{ margin-bottom:-60px; transition:0.25s; }
+	#pbOverlay .pbThumbs.show{ margin:0; }
+	
+	#pbCaption .pbThumbs ul{ height:50px; }
+	#pbCaption .pbThumbs li{ height:100%; opacity:1; }
+}

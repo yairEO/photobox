@@ -6,8 +6,8 @@
         data: {
             format: 'json',
             method: 'flickr.interestingness.getList',
-			//per_page : 10,
-            api_key: '7617adae70159d09ba78cfec73c13be3'
+			per_page : 80,
+            api_key: 'b51d3a7c3988ba6052e25cb152aecba2' // this is my own API key, please use yours
         },
 	    dataType: 'jsonp',
         jsonp: 'jsoncallback'
@@ -38,6 +38,6 @@
 		$('#gallery').photobox('a', { thumbs:true }, callback);
 		function callback(){
 			console.log('loaded!');
-		}
+		};
     });
 })();
