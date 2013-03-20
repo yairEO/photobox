@@ -6,16 +6,16 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 ## Benefits
-* Both the script & CSS are no more than 10k each (minified script) and can get much less using gzip compression.
+*    Both the script & CSS are no more than 10k each (minified script) and can get much less using gzip compression.
 *    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
-*   Pretty UI and easy UX
-*   Built so everything could be changed directly from the CSS 
-*   CSS3 pre-loader, tailored-made
-*   The only image is a pre-loader animation for old IE. For the rest, no images at all!
-*   Works also on IE8 and above, but clearly not as nice as on modern browsers
-*   Uses event-delegation on all thumbnails clicks
-*   Observes DOM changes (if images were added or removed) and adapt accordingly
-*   Uses HTML5 History so you can copy and send a link with the currently viewable image
+*    Pretty UI and easy UX
+*    Built so everything could be changed directly from the CSS 
+*    CSS3 pre-loader, tailored-made
+*    The only image is a pre-loader animation for old IE. For the rest, no images at all!
+*    Works also on IE8 and above, but clearly not as nice as on modern browsers
+*    Uses event-delegation on all thumbnails clicks
+*    Observes DOM changes (if images were added or removed) and adapt accordingly
+*    Uses HTML5 History so you can copy and send a link with the currently viewable image
 
 
 
@@ -25,6 +25,7 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 *    Bottom row of thumbnails, navigated by mouse movment, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
+*    Touch-friendly swipe left/right to change image. Swipe up/down to toggle the thumbnails stripe
 *    Supports looping after first and last images
 *    Auto-playing of images at a set interval (see "time" in Settings)
 *    Supports keyboard keys for navigation and closing the gallery view
@@ -90,6 +91,10 @@ Basicly, I'm just playing with the image's style state; before it's appearance a
 **counter** (Default: 'true')
 
     Show the current image index position relative to the whole. Example (3,11). 
+	
+**zoomable** (Default: 'true')
+
+    Enable/Disable mousewheel zooming over images
    
 **hideFlash** (Default: 'true')
 
