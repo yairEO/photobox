@@ -314,7 +314,9 @@
 		},
 		
 		changeActiveTimeout : null,
-		// Highlights the thumb which represents the photo and centers the thumbs viewer on it
+		/**	Highlights the thumb which represents the photo and centers the thumbs viewer on it.
+		**	@thumbClick - if a user clicked on a thumbnail, don't center on it
+		*/
 		changeActive : function(index, delay, thumbClick){
 			var lastIndex = activeThumb.index();
 			activeThumb.removeClass('active');
@@ -346,8 +348,8 @@
 			var ratio = thumbsTotalWidth / thumbsContainerWidth;
 			thumbs[0].scrollLeft = e.pageX * ratio - 500;
 		}
-	}
-
+	};
+	
 	// Autoplay controller
 	APControl = {
 		autoPlayTimer : false, 
@@ -439,6 +441,7 @@
 		!options.loop && imageIndex == 0 ? prevBtn.addClass('hide') : prevBtn.removeClass('hide');
 		
 		captionText.on(transitionend, captionTextChange).addClass('change');
+
 		function captionTextChange(){
 			captionText.off(transitionend).removeClass('change');
 			// change caption's text
@@ -479,7 +482,7 @@
 			if( !hash && overlay.hasClass('show') )
 				close();
 			else
-			// Scan all  galleries objects the image link (open the first gallery which includes the link)
+			// Scan all galleries for the image link (open the first gallery that has the link's image)
 				for( i = 0; i < photoboxes.length; i++ )
 					for( j in photoboxes[i].images )
 						if( photoboxes[i].images[j][0] == hash ){
