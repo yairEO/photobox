@@ -29,7 +29,7 @@ a{ text-decoration:none; }
 .btn:active{ box-shadow:0 0 0 0 rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329B inset, 0 0 6px #00243F inset; }
 
 #wrap{ overflow:hidden; padding:3%; }
-#pbOverlay.show ~ #wrap{ -webkit-filter:blur(2px) grayscale(.4);}
+#pbOverlay.show ~ #wrap{ -webkit-filter:blur(2px) grayscale(.4); }
 .main{ float:left; font-size:1.1em; width:36%; color:#FFF; text-shadow:2px 2px 4px rgba(0,0,0,.5); font-family:'Cuprum'; }
 	.main h1{ line-height:0.75; font-size:6.2em; margin:0; text-indent:1%; font-family:'Romanesco'; }
 		.main small{ color:inherit; }

@@ -1,12 +1,14 @@
 !(function(){
     'use strict';
+	// 
+	var numOfImages = parseInt(window.location.search.match(/\d+$/)[0]) || 80;
     // Get some photos from Flickr for the demo
     $.ajax({
         url: 'http://api.flickr.com/services/rest/',
         data: {
             format: 'json',
             method: 'flickr.interestingness.getList',
-			per_page : 80,
+			per_page : numOfImages,
             api_key: 'b51d3a7c3988ba6052e25cb152aecba2' // this is my own API key, please use yours
         },
 	    dataType: 'jsonp',

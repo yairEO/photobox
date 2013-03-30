@@ -1,5 +1,5 @@
 /*!
-	photobox v1.7.0
+	photobox v1.7.1
 	(c) 2012 Yair Even Or <http://dropthebit.com>
 	
 	Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -457,7 +457,9 @@
 		if( nextImage >= 0 ) preloadNext.src = images[nextImage][0]; 
 
 		if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old ie display the preloader
-		//image.siblings().hide();
+		// reset zoom value
+		image.data('zoom', 1);
+		
 		options.autoplay && APControl.progress.reset();
 		preload = new Image();
 		preload.onload = function(){ clearTimeout(loaderTimeout); showImage(firstTime); };
