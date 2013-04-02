@@ -1,7 +1,7 @@
 !(function(){
     'use strict';
 	// 
-	var numOfImages = parseInt(window.location.search.match(/\d+$/)[0]) || 80;
+	var numOfImages = window.location.search ? parseInt(window.location.search.match(/\d+$/)[0]) : 80;
     // Get some photos from Flickr for the demo
     $.ajax({
         url: 'http://api.flickr.com/services/rest/',
