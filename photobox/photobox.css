@@ -20,7 +20,7 @@
 	pointer-events:none;
 }
 #pbOverlay.msie{ background-color:rgba(0,0,0,.6); }
-#pbOverlay.msie.pbLoading .imageWrap{ background:url('../images/loading.gif') no-repeat center; width:80px; }
+#pbOverlay.msie.pbLoading .imageWrap{ background:url('../images/loading.gif') no-repeat center center; }
 
 @keyframes pbLoaderFrames{ 50%{ height:5px; } }
 @-webkit-keyframes pbLoaderFrames{ 50%{ height:5px; } }
@@ -41,7 +41,7 @@
 /* fixes image flickering when resizing with transform */
 #pbOverlay .imageWrap{ box-sizing:border-box; -moz-box-sizing:border-box; vertical-align:middle; height:100%; perspective:1200px; -webkit-perspective:1200px; position:relative; }
 	#pbOverlay.error .imageWrap{ display:inline-block; }
-	#pbOverlay.pbLoading .imageWrap{ display:inline-block\9; } /* ie8+9 hack */
+	#pbOverlay.pbLoading .imageWrap{ display:inline-block\9; width:100%; } /* ie8+9 hack */
 	#pbOverlay .imageWrap:before{ content:'Could not be loaded'; position:absolute; top:-999px; opacity:0; background:rgba(0,0,0,.6); border-radius:50px; color:#FFF; display:inline-block; font-size:1.4em; font-weight:bold; line-height:1.2; padding:20px; text-transform:uppercase; vertical-align:middle; white-space:pre; transition:.6s; -webkit-transition:.6s; }
 	#pbOverlay.error .imageWrap:before{ position:static; opacity:1; transform:scale(1.2); -webkit-transform:scale(1.2); }
 	#pbOverlay.thumbs .imageWrap{ margin-top:-50px; padding:50px 0; }
@@ -69,17 +69,18 @@
 .hide #pbCloseBtn{ top:-50px; right:-50px; }
 .on #pbCloseBtn{ top:-2px; right:-2px; }
 
-#pbCloseBtn b, #pbAutoplayBtn:before{ display:inline-block; height:35px; width:35px; padding:8px 8px 12px 12px; font-size:2em; opacity:0.8; line-height:.7; vertical-align:middle; background:rgba(255,255,255,0.2); border-radius:0 0 0 70px; transition:0.1s ease-out; -webkit-transition:0.1s ease-out; }
-#pbCloseBtn:hover b{ padding:10px 10px 24px 24px; font-size:2.2em; background:rgba(255,100,100,.4); }
+#pbCloseBtn:before{ content:'\00D7'; font-weight:bold; }
+#pbCloseBtn:before, #pbAutoplayBtn:before{ display:inline-block; height:35px; width:35px; padding:8px 8px 12px 12px; font-size:2em; opacity:0.8; line-height:.7; vertical-align:middle; background:rgba(255,255,255,0.2); border-radius:0 0 0 70px; transition:0.1s ease-out; -webkit-transition:0.1s ease-out; }
+#pbCloseBtn:hover:before{ padding:10px 10px 24px 24px; font-size:2.2em; background:rgba(255,100,100,.4); }
 
 /*-- autoplay controller --*/
 #pbAutoplayBtn{ display:none; right:auto; left:-50px; padding:0; width:50px; height:50px; font-size:0.8em; }
 .hasAutoplay #pbAutoplayBtn{ display:block; }
 #pbAutoplayBtn:hover{ width:60px; height:60px; font-size:1em; }
 .on #pbAutoplayBtn{ top:0px; left:0px;  transition:.1s ease-out; -webkit-transition:.1s ease-out; }
-	#pbAutoplayBtn:before{ content:'‖'; width:100%; height:100%; border-radius:0 0 70px 0; font-weight:bold; padding:0; text-indent:-6px; line-height:1.6; }
+	#pbAutoplayBtn:before{ content:'\2016'; width:100%; height:100%; border-radius:0 0 70px 0; font-weight:bold; padding:0; text-indent:-6px; line-height:1.6; }
 	#pbAutoplayBtn:active:before{ text-shadow:0 0 3px #FFF, 0 0 6px #FFF; }
-	#pbAutoplayBtn.play:before{ content:'►'; }
+	#pbAutoplayBtn.play:before{ content:'\25BA'; }
 
 	#pbAutoplayBtn .pbProgress{ display:none\9; width:100%; height:100%; overflow:hidden; position:absolute; padding:6px; top:0; left:0; opacity:0.2; transform:rotateZ(0deg); -webkit-transform:rotateZ(0deg); -ms-transform:rotateZ(0deg); -webkit-transform-origin:0 0; -ms-transform-origin:0 0; transform-origin:0 0; -webkit-transition:0.4s; -ms-transition:0.4s; transition:0.4s; }
 	#pbAutoplayBtn.playing .pbProgress{ -webkit-transform:rotateZ(90deg); -ms-transform:rotateZ(90deg); transform:rotateZ(90deg); }
@@ -89,7 +90,7 @@
 .show.on #pbCaption{ bottom:5px; transition-delay:.5s; -webkit-transition-delay:.5s; }
 	#pbCaption .title, #pbCaption .counter{ display:inline-block; color:#FFF; margin:0 6px; }
 	#pbCaption .counter{ opacity:.55; }
-	.pbCaptionText{ -webkit-transition:.3s; transition:.3s; opacity:0.9; font-weight:bold; font-size:.8em; text-shadow:1px 1px 1px rgba(0,0,0,.5); }
+	.pbCaptionText{ -webkit-transition:.3s; transition:.3s; opacity:0.9; font-weight:bold; font-size:.9em; text-shadow:1px 1px 1px rgba(0,0,0,.5); }
 	.pbCaptionText.change{ -webkit-transform:translateY(25px); transform:translateY(25px); opacity:0; }
 
 #pbOverlay .pbThumbs{ display:none; -webkit-transition:0.35s; transition:0.35s; }
@@ -110,7 +111,7 @@
 #pbOverlay .prevNext{ display:none; background:rgba(0,0,0,0); position:absolute; z-index:10; height:100%; width:35%; padding:80px 0; opacity:0; box-sizing:border-box; -moz-box-sizing:border-box; top:0; transition:.2s ease-out; -webkit-transition:.2s ease-out; text-shadow:0 0 12px #000, 0 0 10px #FFF; cursor:pointer; }
 #pbOverlay.hasArrows .prevNext{ display:block; }
 #pbOverlay.on .prevNext:hover{ opacity:.5; }
-#pbOverlay.on .prevNext:active{ opacity:1; text-shadow:0 0 16px #FFF, 0 0 10px #000; }
+#pbOverlay.on .prevNext:active{ transition:80ms; opacity:1; text-shadow:0 0 16px #FFF, 0 0 10px #000; }
 	.prevNext b{ display:inline-block; vertical-align:middle; transition:.2s ease-in; -webkit-transition:.2s ease-in; }
 	.prevNext:hover b{ transition:.2s cubic-bezier(0.095, 0.870, 0.485, 0.985); -webkit-transition:.2s cubic-bezier(0.095, 0.870, 0.485, 0.985); } 
 	#pbPrevBtn b{ transform:scale(.4) translateX(350px); -webkit-transform:scale(.4) translateX(350px); }
@@ -118,8 +119,8 @@
 	/* */
 	#pbPrevBtn b:before, #pbNextBtn b:after{ display:inline; line-height:.3; font-size:18em; font-weight:normal; color:#FFF; font-family:Arial; }
 	
-	#pbPrevBtn b:before{ content:'‹'; }
-	#pbNextBtn b:after{ content:'›'; }
+	#pbPrevBtn b:before{ content:'\2039'; }
+	#pbNextBtn b:after{ content:'\203A'; }
 	/* */
 	#pbOverlay.on #pbPrevBtn:hover b{ transform:scale(1) translateX(20px); -webkit-transform:scale(1) translateX(20px); }
 	#pbOverlay.on #pbNextBtn:hover b{ transform:scale(1) translateX(-20px); -webkit-transform:scale(1) translateX(-20px); }
