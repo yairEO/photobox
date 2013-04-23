@@ -179,7 +179,7 @@
                 // if no img child found in the link
                 if( !firstChild || !firstChild.tagName || firstChild.tagName.toLowerCase() != 'img' )
                     return false; // remove from array
-                images.push( [link.href, firstChild.getAttribute('alt') || firstChild.getAttribute('title')] || '');
+                images.push([link.href, firstChild.getAttribute('alt') || firstChild.getAttribute('title') || '']);
                 return true;
             }), images];
         },
