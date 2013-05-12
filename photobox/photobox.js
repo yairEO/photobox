@@ -272,6 +272,8 @@
             this.selector
                 .off('click.photobox', this.target)
                 .removeData('_photobox');
+				
+			close();
             return this.selector;
         }
     }
