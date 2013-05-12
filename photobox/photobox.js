@@ -1,5 +1,5 @@
 /*!
-    photobox v1.7.1
+    photobox v1.7.2
     (c) 2012 Yair Even Or <http://dropthebit.com>
     
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -91,10 +91,13 @@
         var _options = $.extend({}, defaults, settings || {}),
             pb = new Photobox(_options, this, target);
 
+		// Saves the insance on the gallery's target element
+        $(this).data('_photobox', pb);
         // add a callback to the specific gallery
         pb.callback = callback;
         // save every created gallery pointer
         photoboxes.push( pb );
+		
         // yes i know, it fired for every created gallery (instead of asking the code implementer to fire it after all galleries are loaded)
         history.load();
         return this;
@@ -117,16 +120,12 @@
     Photobox.prototype = {
         init : function(){
             var that = this;
-            // Saves the unique Options object to the "selector" object to handle multiple galleries
-            this.selector.data('_photobox', this);
             
             // only generates the thumbStripe once, and listen for any DOM changes on the selector element, if so, re-generate
             if( this.options.thumbs )
                 // generate gallery thumbnails every time (cause links might have been changed dynamicly)
                 this.thumbsList = thumbsStripe.generate(this.imageLinks);
             
-            // Removed in favor of event delegation
-            //$(imageLinks).off('click').on('click', openPhotobox );
             this.selector.on('click.photobox', this.target, function(e){
                 e.preventDefault();
                 that.open(this);
@@ -267,7 +266,14 @@
                 imageWrap[fn]({"mousewheel.photobox": scrollZoom });
                 if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
             }
-        }
+        },
+		
+		destroy : function(){
+			this.selector
+				.off('click.photobox', this.target)
+				.removeData('_photobox');
+			return this.selector;
+		}
     }
     
     // on touch-devices only
@@ -291,15 +297,15 @@
     thumbsStripe = {
         // returns a <ul> element which is populated with all the gallery links and thumbs
         generate : function(imageLinks){
-            var thumbsList = $('<ul>'), link, elements = [], i, title;
+            var thumbsList = $('<ul>'), link, elements = [], i, len = imageLinks.toArray().length, title;
 
-            for( i = imageLinks.toArray().length; i--; ){
+            for( i = 0; i < len; i++ ){
                 link = imageLinks[i];
                 title = link.children[0].title || link.children[0].alt || '';
                 elements.push('<li><a href="'+ link.href +'"><img src="'+ link.children[0].src +'" alt="" title="'+ title +'" /></a></li>');
             };
             
-            thumbsList.html( elements.reverse().join('') );
+            thumbsList.html( elements.join('') );
             return thumbsList;
         },
         
