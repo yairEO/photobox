@@ -91,13 +91,13 @@
         var _options = $.extend({}, defaults, settings || {}),
             pb = new Photobox(_options, this, target);
 
-		// Saves the insance on the gallery's target element
+        // Saves the insance on the gallery's target element
         $(this).data('_photobox', pb);
         // add a callback to the specific gallery
         pb.callback = callback;
         // save every created gallery pointer
         photoboxes.push( pb );
-		
+        
         // yes i know, it fired for every created gallery (instead of asking the code implementer to fire it after all galleries are loaded)
         history.load();
         return this;
@@ -267,13 +267,13 @@
                 if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
             }
         },
-		
-		destroy : function(){
-			this.selector
-				.off('click.photobox', this.target)
-				.removeData('_photobox');
-			return this.selector;
-		}
+        
+        destroy : function(){
+            this.selector
+                .off('click.photobox', this.target)
+                .removeData('_photobox');
+            return this.selector;
+        }
     }
     
     // on touch-devices only

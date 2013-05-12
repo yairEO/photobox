@@ -20,7 +20,6 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
 
 
 ## Funcionality
-
 *    Images can be zoomed in and out with mousewheel and navigated using mousemove to move around
 *    Bottom row of thumbnails, navigated by mouse movment, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
@@ -51,12 +50,16 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
     ...
     <script>
         // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
-    	$('#gallery').photobox('a',{ time:0 });
-        // using a callback and a fancier selector
+		$('#gallery').photobox('a',{ time:0 });
+       
+	    // using a callback and a fancier selector
         $('#gallery').photobox('li > a.family',{ time:0 }), callback);
         function callback(){
            console.log('image has been loaded');
         }
+		
+		// destroy the plugin on a certain gallery:
+		$('#gallery').data('_photobox').destroy();
     </script>
 
 ## Changing effects is easy!
