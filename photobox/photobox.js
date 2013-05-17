@@ -1,5 +1,5 @@
 /*!
-    photobox v1.7.2
+    photobox v1.7.4
     (c) 2012 Yair Even Or <http://dropthebit.com>
     
     Uses jQuery-mousewheel Version: 3.0.6 by:
