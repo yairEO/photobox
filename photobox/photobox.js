@@ -13,7 +13,7 @@
     var doc = document, win = window, Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, prevImage, nextImage, thumbsStripe, docElm, APControl,
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
         isOldIE = !('placeholder' in doc.createElement('input')),
-        isIe = !!win.ActiveXObject,
+        isIE = !!win.ActiveXObject,
         isMobile = 'ontouchend' in doc,
         thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
         blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
@@ -43,7 +43,7 @@
         },
 
         // DOM structure
-        overlay = $('<div id="pbOverlay">').hide().append(
+        overlay = $('<div id="pbOverlay">').append(
                     pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
                     imageWrap = $('<div class="imageWrap">').append(
                         image = $('<img>'),
@@ -65,6 +65,8 @@
     $(doc).ready(function(){
         // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
+		
+		isIE && overlay.hide();
 
         autoplayBtn.on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
@@ -432,7 +434,7 @@
         if( !imageIndex || imageIndex < 0 ) 
             imageIndex = 0;
             
-        overlay.addClass( imageIndex > activeImage ? 'next' : 'prev' );
+        overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
         
         activeImage = imageIndex;
         activeURL = images[imageIndex][0];
@@ -441,7 +443,6 @@
 
         stop();
         
-        overlay.removeClass('error');
         // give a tiny delay to the preloader, so it won't be showed when images are already cached
         var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); },50);
         // hide/show next-prev buttons
@@ -473,9 +474,9 @@
         options.autoplay && APControl.progress.reset();
         preload = new Image();
         preload.onload = function(){ clearTimeout(loaderTimeout); showImage(firstTime); };
-        preload.onerror = function(){ imageError() }; 
+        preload.onerror = imageError; 
         preload.src = activeURL;
-        
+		
         // Save url hash for current image
         history.save();
     }
@@ -520,7 +521,7 @@
     
     // handles all image loading error (if image is dead)
     function imageError(){
-        overlay.removeClass("pbLoading").addClass('error');
+        overlay.addClass('error');
         image[0].src = blankImg; // set the source to a blank image
         preload.onerror = null;
     }
@@ -625,9 +626,9 @@
 
             function hide(){
                 if( overlay[0].className == '' ) return; // if already hidden
-                overlay.removeClass('show hide');
+                overlay.removeClass('show hide error pbLoading');
                 image.removeAttr('class').removeAttr('style').off().data('zoom',1);
-                if(isIe) // pointer-events lack support in IE, so just hide the overlay
+                if(isIE) // pointer-events lack support in IE, so just hide the overlay
                     setTimeout(function(){ overlay.hide(); }, 200);
             }
 
