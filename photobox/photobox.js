@@ -61,9 +61,10 @@
      Initialization (on DOM ready)
      */
     $(doc).ready(Photobox.initOverlayDom = function(){
-        // remove old content to make this idempotent (useful for Turbolinks page:restore)
-        $('#pbOverlay').remove();
+        // unbind photobox events (useful when doc.ready is called multiple times, e.g. turbolinks)
         $(doc).off('.photobox');
+        // remove element, if there is one already (e.g. turbolinks page:restore)
+        $('#pbOverlay').remove();
         // DOM structure
         overlay = $('<div id="pbOverlay">').append(
             pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
