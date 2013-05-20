@@ -1,17 +1,17 @@
 /*!
     photobox v1.7.4
     (c) 2012 Yair Even Or <http://dropthebit.com>
-    
+
     Uses jQuery-mousewheel Version: 3.0.6 by:
     (c) 2009 Brandon Aaron <http://brandonaaron.net>
-    
+
     MIT-style license.
 */
 
 (function($){
     "use strict";
     var doc = document, win = window, Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, prevImage, nextImage, thumbsStripe, docElm, APControl,
-        transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
+        transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
         isIE = !!win.ActiveXObject,
         isMobile = 'ontouchend' in doc,
@@ -23,7 +23,7 @@
         // Preload images
         preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
         // DOM elements
-        closeBtn, image, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, imageWrap, 
+        overlay, closeBtn, image, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, imageWrap,
 
         defaults = {
             loop:       true,   // Allows to navigate between first and last images
@@ -40,33 +40,51 @@
                 prev:  '37, 80',        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
                 next:  '39, 78'         // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
             }
-        },
+        };
 
+
+    Photobox = function(_options, object, target){
+        this.options = $.extend({}, _options);
+        this.target = target;
+        this.selector = $(object || doc);
+
+        this.thumbsList = null;
+        // filter the links which actually HAS an image as a child
+        var filtered = this.imageLinksFilter( object.find(target) );
+
+        this.imageLinks = filtered[0];
+        this.images = filtered[1];
+        this.init();
+    };
+
+    /*
+     Initialization (on DOM ready)
+     */
+    $(doc).ready(Photobox.initOverlayDom = function(){
+        // remove old content to make this idempotent (useful for Turbolinks page:restore)
+        $('#pbOverlay').remove();
+        $(doc).off('.photobox');
         // DOM structure
         overlay = $('<div id="pbOverlay">').append(
-                    pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
-                    imageWrap = $('<div class="imageWrap">').append(
-                        image = $('<img>'),
-                        prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
-                        nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev)
-                    ),
-                    closeBtn = $('<div id="pbCloseBtn">').on('click', close)[0],
-                    autoplayBtn = $('<div id="pbAutoplayBtn">').append(
-                        $('<div class="pbProgress">')
-                    ),
-                    caption = $('<div id="pbCaption">').append(
-                        captionText = $('<div class="pbCaptionText">').append('<div class="title"></div><div class="counter">'),
-                        thumbs = $('<div>').addClass('pbThumbs')
-                    )
-                );
-    /*
-        Initialization (on DOM ready)
-    */
-    $(doc).ready(function(){
+            pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
+            imageWrap = $('<div class="imageWrap">').append(
+                image = $('<img>'),
+                prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
+                nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev)
+            ),
+            closeBtn = $('<div id="pbCloseBtn">').on('click', close)[0],
+            autoplayBtn = $('<div id="pbAutoplayBtn">').append(
+                $('<div class="pbProgress">')
+            ),
+            caption = $('<div id="pbCaption">').append(
+                captionText = $('<div class="pbCaptionText">').append('<div class="title"></div><div class="counter">'),
+                thumbs = $('<div>').addClass('pbThumbs')
+            )
+        );
+
         // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
-		
-		isIE && overlay.hide();
+        isIE && overlay.hide();
 
         autoplayBtn.on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
@@ -103,20 +121,6 @@
         // yes i know, it fired for every created gallery (instead of asking the code implementer to fire it after all galleries are loaded)
         history.load();
         return this;
-    }
-    
-    Photobox = function(_options, object, target){
-        this.options = $.extend({}, _options);
-        this.target = target;
-        this.selector = $(object || doc);
-        
-        this.thumbsList = null;
-        // filter the links which actually HAS an image as a child
-        var filtered = this.imageLinksFilter( object.find(target) );
-
-        this.imageLinks = filtered[0];
-        this.images = filtered[1];
-        this.init();
     };
 
     Photobox.prototype = {
@@ -278,7 +282,7 @@
 			close();
             return this.selector;
         }
-    }
+    };
     
     // on touch-devices only
     function onSwipe(e, Dx, Dy){
@@ -398,8 +402,8 @@
             e.stopPropagation();
             APControl[ options.autoplay ? 'pause' : 'play']();
         }
-    }
-    
+    };
+
     function getPrefixed(prop){
         var i, s = doc.createElement('p').style, v = ['ms','O','Moz','Webkit'];
         if( s[prop] == '' ) return prop;
