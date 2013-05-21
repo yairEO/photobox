@@ -1,5 +1,5 @@
 /*!
-    photobox v1.7.4
+    photobox v1.7.5
     (c) 2012 Yair Even Or <http://dropthebit.com>
     
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -63,12 +63,12 @@
         Initialization (on DOM ready)
     */
     $(doc).ready(prepareDOM);
-	
-	function prepareDOM(){
-		// if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
+    
+    function prepareDOM(){
+        // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
-		
-		isIE && overlay.hide();
+        
+        isIE && overlay.hide();
 
         autoplayBtn.on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
@@ -91,9 +91,9 @@
     $.fn.photobox = function(target, settings, callback){
         if( typeof target != 'string' )
             target = 'a';
-			
-		if( target === 'prepareDOM' )
-			prepareDOM();
+            
+        if( target === 'prepareDOM' )
+            prepareDOM();
         
         var _options = $.extend({}, defaults, settings || {}),
             pb = new Photobox(_options, this, target);
@@ -119,8 +119,8 @@
         // filter the links which actually HAS an image as a child
         var filtered = this.imageLinksFilter( object.find(target) );
 
-        this.imageLinks = filtered[0];
-        this.images = filtered[1];
+        this.imageLinks = filtered[0];  // Array of jQuery links
+        this.images = filtered[1];      // 2D Array of image url & title
         this.init();
     };
 
@@ -181,11 +181,10 @@
         imageLinksFilter : function(obj){
             var images = [];
             return [obj.filter(function(i){
-                var link = this, firstChild = link.firstElementChild || this.children[0];
+                var link = this, img = $(link).find('img')[0];
                 // if no img child found in the link
-                if( !firstChild || !firstChild.tagName || firstChild.tagName.toLowerCase() != 'img' )
-                    return false; // remove from array
-                images.push([link.href, firstChild.getAttribute('alt') || firstChild.getAttribute('title') || '']);
+                if( !img ) return false;
+                images.push([link.href, img.getAttribute('alt') || img.getAttribute('title') || '']);
                 return true;
             }), images];
         },
@@ -279,8 +278,8 @@
             this.selector
                 .off('click.photobox', this.target)
                 .removeData('_photobox');
-				
-			close();
+                
+            close();
             return this.selector;
         }
     }
@@ -481,7 +480,7 @@
         preload.onload = function(){ clearTimeout(loaderTimeout); showImage(firstTime); };
         preload.onerror = imageError; 
         preload.src = activeURL;
-		
+        
         // Save url hash for current image
         history.save();
     }
