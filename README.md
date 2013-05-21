@@ -1,23 +1,21 @@
 photobox
 ========
 
-A lightweight CSS3 image gallery that is pretty to look and and easy to use.
+A lightweight(!) CSS3 image gallery that is pretty to look and and easy to use.
 
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 ## Benefits
-*    Both the script & CSS are no more than 10k each (minified script) and can get much less using gzip compression.
-*    Uses silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
-*    Pretty UI and easy UX
-*    Built so everything could be changed directly from the CSS 
+*    Lightweight! Both script & CSS are no more than 10k each (minified, no gzip)
+*    Silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
+*    Stunning UI and user-friendly UX
+*    Built so everything could be changed directly from the CSS
+*    Observes DOM changes (if images were added/removed) and adapt accordingly
 *    CSS3 pre-loader, tailored-made
+*    Uses event-delegation on all thumbnails clicks (obviously...)
+*    Uses HTML5 History to update location with the currently viewed image
 *    The only image is a pre-loader animation for old IE. For the rest, no images at all!
-*    Works also on IE8 and above, but clearly not as nice as on modern browsers
-*    Uses event-delegation on all thumbnails clicks
-*    Observes DOM changes (if images were added or removed) and adapt accordingly
-*    Uses HTML5 History so you can copy and send a link with the currently viewable image
-
-
+*    Browsers support: IE8+ (graceful degradation), Modren browsers
 
 ## Funcionality
 *    Images can be zoomed in and out with mousewheel and navigated using mousemove to move around
@@ -50,16 +48,23 @@ A lightweight CSS3 image gallery that is pretty to look and and easy to use.
     ...
     <script>
         // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
+		//-----------------------------------------------
 		$('#gallery').photobox('a',{ time:0 });
        
 	    // using a callback and a fancier selector
+		//----------------------------------------------
         $('#gallery').photobox('li > a.family',{ time:0 }), callback);
         function callback(){
            console.log('image has been loaded');
         }
 		
 		// destroy the plugin on a certain gallery:
+		//-----------------------------------------------
 		$('#gallery').data('_photobox').destroy();
+		
+		// re-initialize the photbox DOM (does what Document ready does)
+		//-----------------------------------------------
+		$('#gallery').photobox('prepareDOM');
     </script>
 
 ## Changing effects is easy!
