@@ -58,12 +58,14 @@
                         captionText = $('<div class="pbCaptionText">').append('<div class="title"></div><div class="counter">'),
                         thumbs = $('<div>').addClass('pbThumbs')
                     )
-                );
-    /*
+        );
+    /*---------------------------------------------------------------
         Initialization (on DOM ready)
     */
-    $(doc).ready(function(){
-        // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
+    $(doc).ready(prepareDOM);
+	
+	function prepareDOM(){
+		// if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
 		
 		isIE && overlay.hide();
@@ -83,12 +85,15 @@
         
         // need this for later:
         docElm = doc.documentElement;
-    });
+    }
     
-    // @param [List of elements to work on, Custom settings, Callback when image is loaded]
+    // @param [List of elements to work on, Custom settings, Callback after image is loaded]
     $.fn.photobox = function(target, settings, callback){
         if( typeof target != 'string' )
             target = 'a';
+			
+		if( target === 'prepareDOM' )
+			prepareDOM();
         
         var _options = $.extend({}, defaults, settings || {}),
             pb = new Photobox(_options, this, target);
