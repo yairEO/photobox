@@ -27,7 +27,6 @@
 			
 			// lazy show the photos one by one
 			img.onload = function(e){
-				console.log(this['largeUrl']);
 				var link = document.createElement('a'),
 				li = document.createElement('li')
 				link.href = this.largeUrl;
