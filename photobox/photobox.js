@@ -94,7 +94,7 @@
             
         if( target === 'prepareDOM' ){
             prepareDOM();
-			return false;
+			return this;
 		}
         
         var _options = $.extend({}, defaults, settings || {}),
