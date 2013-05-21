@@ -92,8 +92,10 @@
         if( typeof target != 'string' )
             target = 'a';
             
-        if( target === 'prepareDOM' )
+        if( target === 'prepareDOM' ){
             prepareDOM();
+			return false;
+		}
         
         var _options = $.extend({}, defaults, settings || {}),
             pb = new Photobox(_options, this, target);
