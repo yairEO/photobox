@@ -19,7 +19,8 @@
 	    dataType: 'jsonp',
         jsonp: 'jsoncallback'
     }).done(function (data){
-        var gallery = $('#gallery');
+        var gallery = $('#gallery'),
+			loadedIndex = 1;
         $.each( data.photos.photo, function(index, photo){
 			// http://www.flickr.com/services/api/misc.urls.html
             var url = 'http://farm' + photo.farm + '.static.flickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret,
@@ -36,7 +37,7 @@
 			
 				setTimeout( function(){ 
 					li.className = 'loaded'; 
-				}, 20*index);
+				}, 20*loadedIndex++);
 			};
 			
 			img['largeUrl'] = url + '_b.jpg';
