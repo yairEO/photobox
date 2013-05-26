@@ -1,6 +1,6 @@
 /*!
-    photobox v1.7.5
-    (c) 2012 Yair Even Or <http://dropthebit.com>
+    photobox v1.8.0
+    (c) 2013 Yair Even Or <http://dropthebit.com>
     
     Uses jQuery-mousewheel Version: 3.0.6 by:
     (c) 2009 Brandon Aaron <http://brandonaaron.net>
@@ -8,9 +8,9 @@
     MIT-style license.
 */
 
-(function($){
+(function($, doc, win){
     "use strict";
-    var doc = document, win = window, Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, prevImage, nextImage, thumbsStripe, docElm, APControl,
+    var Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl,
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
         isOldIE = !('placeholder' in doc.createElement('input')),
         isIE = !!win.ActiveXObject,
@@ -23,7 +23,7 @@
         // Preload images
         preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
         // DOM elements
-        closeBtn, image, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, imageWrap, 
+        closeBtn, image, video, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper, 
 
         defaults = {
             loop:       true,   // Allows to navigate between first and last images
@@ -45,10 +45,11 @@
         // DOM structure
         overlay = $('<div id="pbOverlay">').append(
                     pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
-                    imageWrap = $('<div class="imageWrap">').append(
+					prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
+                    nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
+                    wrapper = $('<div class="wrapper">').append(  // gives Perspective
                         image = $('<img>'),
-                        prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
-                        nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev)
+						video = $('<div>')
                     ),
                     closeBtn = $('<div id="pbCloseBtn">').on('click', close)[0],
                     autoplayBtn = $('<div id="pbAutoplayBtn">').append(
@@ -164,6 +165,7 @@
             // load the right gallery selector...
             options = this.options;
             images = this.images;
+            imageLinks = this.imageLinks;
             
             photobox = this;
             
@@ -267,11 +269,11 @@
             
             if( 'ontouchstart' in document.documentElement ){
                 overlay.removeClass('hasArrows'); // no need for Arros on touch-enabled
-                imageWrap[fn]('swipe', onSwipe);
+                wrapper[fn]('swipe', onSwipe);
             }
             
             if( options.zoomable ){
-                imageWrap[fn]({"mousewheel.photobox": scrollZoom });
+                overlay[fn]({"mousewheel.photobox": scrollZoom });
                 if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
             }
         },
@@ -430,7 +432,6 @@
         //  return false;
             
         var img = (this.id == 'pbPrevBtn') ? prevImage : nextImage;
-        //  mouseOverThumbs = thumbs.css('clear') == 'both';
 
         changeImage(img);
         return false;
@@ -441,51 +442,70 @@
             imageIndex = 0;
             
         overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
-        
+		
+		lastActive = activeImage;
         activeImage = imageIndex;
         activeURL = images[imageIndex][0];
         prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
         nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
 
+		// reset things
         stop();
-        
-        // give a tiny delay to the preloader, so it won't be showed when images are already cached
-        var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); },50);
-        // hide/show next-prev buttons
-        if( !options.loop ){
-            nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
-            prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
-        }
-        
-        captionText.on(transitionend, captionTextChange).addClass('change');
+		video.empty();
+		preload.onerror = null;
+		image.add(video).data('zoom', 1);
 
-        function captionTextChange(){
-            captionText.off(transitionend).removeClass('change');
-            // change caption's text
-            options.counter && caption.find('.counter').text('(' + (activeImage + 1) + ' / ' + images.length + ')');
-            options.title && caption.find('.title').text( images[activeImage][1] );
-        }
-        if( firstTime || isOldIE ) captionTextChange();
-        
-        if( options.thumbs )
-            thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
-        
-        if( prevImage >= 0 ) preloadPrev.src = images[prevImage][0]; 
-        if( nextImage >= 0 ) preloadNext.src = images[nextImage][0]; 
+		activeType = imageLinks[imageIndex].rel == 'video' ? 'video' : 'image';
+		
+		// check if corrent link is a video
+		if( activeType == 'video' ){
+			// $('#pbOverlay').find('.wrapper').append(iframe)
+			video.html( newVideo() );
+			showContent(firstTime);
+		}
+        else{
+			// give a tiny delay to the preloader, so it won't be showed when images are already cached
+			var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); },50);
+			// hide/show next-prev buttons
+			if( !options.loop ){
+				nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
+				prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
+			}
+			
+			if( prevImage >= 0 ) preloadPrev.src = images[prevImage][0]; 
+			if( nextImage >= 0 ) preloadNext.src = images[nextImage][0]; 
 
-        if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old ie display the preloader
-        // reset zoom value
-        image.data('zoom', 1);
-        
-        options.autoplay && APControl.progress.reset();
-        preload = new Image();
-        preload.onload = function(){ clearTimeout(loaderTimeout); showImage(firstTime); };
-        preload.onerror = imageError; 
-        preload.src = activeURL;
-        
+			if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old ie display the preloader
+			
+			options.autoplay && APControl.progress.reset();
+			preload = new Image();
+			preload.onload = function(){ clearTimeout(loaderTimeout); showContent(firstTime); };
+			preload.onerror = imageError;
+			preload.src = activeURL;
+        }
+		
+		// Show Caption text
+		captionText.on(transitionend, captionTextChange).addClass('change');
+		if( firstTime || isOldIE ) captionTextChange();
+		
+		if( options.thumbs )
+			thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
         // Save url hash for current image
         history.save();
     }
+	
+	function newVideo(){
+		var url = images[activeImage][0] + '&wmode=transparent';
+		return $("<iframe>").prop({ scrolling:'no', frameborder:0, allowTransparency:true, src:url });
+	}
+	
+	// show the item's Title & Counter
+	function captionTextChange(){
+		captionText.off(transitionend).removeClass('change');
+		// change caption's text
+		options.counter && caption.find('.counter').text('(' + (activeImage + 1) + ' / ' + images.length + ')');
+		options.title && caption.find('.title').text( images[activeImage][1] );
+	}
     
     // Handles the history states when changing images
     var history = {
@@ -515,7 +535,7 @@
         }
     };
 
-    // add Photobox special `onpopstate` to the `onpopstate` function
+    // Add Photobox special `onpopstate` to the `onpopstate` function
     window.onpopstate = (function(){
         var cached = window.onpopstate;
         return function(event){
@@ -532,73 +552,102 @@
         preload.onerror = null;
     }
     
-    function showImage(firstTime){
-        overlay.removeClass("pbLoading").addClass('hide');
-        image.removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
+	// Shows the content (image/video) on the screen
+    function showContent(firstTime){
+		var out, showSaftyTimer;
+		
+		overlay.removeClass("pbLoading").addClass('hide');
+        image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
         
+		// check which element needs to transition-out:
+		if( !firstTime && imageLinks[lastActive].rel == 'video' ){
+			out = video;
+			image.addClass('prepare');
+		}
+		else
+			out = image;
+			
         if( firstTime || isOldIE )
             show();
         else
-            image.on(transitionend, show);
-
+            out.on(transitionend, show);
+		
+		// in case the 'transitionend' didn't fire
+		showSaftyTimer = setTimeout(show, 2000);
+			
         // after hiding the last seen image, show the new one
         function show(){
-                image.off(transitionend).css({'transition':'none'});
-                image[0].src = activeURL;
-                image[0].className = 'prepare';
+			clearTimeout(showSaftyTimer);
+			out.off(transitionend).css({'transition':'none'});
+			overlay.removeClass('video');
+			if( activeType == 'video' ){
+				image[0].src = blankImg;
+				overlay.addClass('video');
+				video.addClass('prepare');
+			}
+			else
+				image.prop({ src:activeURL, class:'prepare' });
 
-                // filthy hack for the transitionend event, but cannot work without it:
-                setTimeout(function(){
-                    image.removeAttr('style')[0].className = '';
-                    overlay.removeClass('hide next prev');
-                    setTimeout(function(){
-                        image[0].className = '';
-                        image.on(transitionend, showImageEnd);
-                        if(isOldIE) showImageEnd(); // IE9 and below don't support transitionEnd...
-                    }, 0);
-                },50);
+			// filthy hack for the transitionend event, but cannot work without it:
+			setTimeout(function(){
+				image.add(video).removeAttr('style class');
+				overlay.removeClass('hide next prev');
+				setTimeout(function(){
+					//image[0].className = '';  // ?????????????
+					image.add(video).on(transitionend, showDone);
+					if(isOldIE) showDone(); // IE9 and below don't support transitionEnd...
+				}, 0);
+			},50);
         }
     }
-    
-    function showImageEnd(){
-        image.off(transitionend);
-        image.addClass('zoomable');
-        if( autoplayBtn && options.autoplay ){
-            APControl.play();
-        }
+	
+	// a callback whenever a transition of an image or a video is done
+    function showDone(){
+        image.add(video).off(transitionend).addClass('zoomable');
+		if( activeType != 'video' ){
+			autoplayBtn && options.autoplay && APControl.play();
+		}
         if( typeof photobox.callback == 'function' )
             photobox.callback();
     }
     
     function scrollZoom(e, delta){
-        var zoomLevel = image.data('zoom') || 1,
-            getSize = image[0].getBoundingClientRect();
-        
-        zoomLevel += (delta / 10);
+		if( activeType == 'video' ){
+			var zoomLevel = video.data('zoom') || 1;
+			zoomLevel += (delta / 10);
+			
+			video.data('zoom', zoomLevel).css({width:624*zoomLevel, height:351*zoomLevel});
+		}
+		else{
+			var zoomLevel = image.data('zoom') || 1,
+				getSize = image[0].getBoundingClientRect();
+			
+			zoomLevel += (delta / 10);
 
-        if( zoomLevel < 0.1 )
-            zoomLevel = 0.1;
-        
-        image.data('zoom', zoomLevel).css({'transform':'scale('+ zoomLevel +')'});
-        
-        // check if dragging should take effect (if image is larger than the window
-        if( getSize.height > docElm.clientHeight || getSize.width > docElm.clientWidth ){
-            $(doc).on('mousemove.photobox', imageReposition);
+			if( zoomLevel < 0.1 )
+				zoomLevel = 0.1;
+			
+			image.data('zoom', zoomLevel).css({'transform':'scale('+ zoomLevel +')'});
+			
+			// check if dragging should take effect (if image is larger than the window
+			if( getSize.height > docElm.clientHeight || getSize.width > docElm.clientWidth ){
+				$(doc).on('mousemove.photobox', imageReposition);
+			}
+			else{
+				$(doc).off('mousemove.photobox');
+				image[0].style[transformOrigin] = '50% 50%';
+			}
         }
-        else{
-            $(doc).off('mousemove.photobox');
-            image[0].style[transformOrigin] = '50% 50%';
-        }
-        
         return false;
     }
     
     function thumbsResize(e, delta){
         e.preventDefault();
+        e.stopPropagation(); // stop the event from bubbling up to the Overlay and enlarge the content itself
         var thumbList = photobox.thumbsList;
         thumbList.css('height', thumbList[0].clientHeight + (delta * 10) );
         var h = caption[0].clientHeight / 2;
-        imageWrap[0].style.cssText = "margin-top: -"+ h +"px; padding: "+ h +"px 0;";
+        wrapper[0].style.cssText = "margin-top: -"+ h +"px; padding: "+ h +"px 0;";
         thumbs.hide().show(0);
         thumbsStripe.calc();
     }
@@ -622,10 +671,11 @@
 
     function close(){
             stop();
+			video.empty();
             Photobox.prototype.setup();
             history.clear();
 
-            overlay.removeClass('on').addClass('hide');
+            overlay.removeClass('on video').addClass('hide');
 
             image.on(transitionend, hide);
             isOldIE && hide();
@@ -765,4 +815,4 @@
             }
         }
     };
-})(jQuery);
+})(jQuery, document, window);
