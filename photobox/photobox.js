@@ -108,8 +108,6 @@
         // save every created gallery pointer
         photoboxes.push( pb );
         
-        // yes i know, it fired for every created gallery (instead of asking the code implementer to fire it after all galleries are loaded)
-        history.load();
         return this;
     }
     
@@ -309,12 +307,14 @@
     thumbsStripe = {
         // returns a <ul> element which is populated with all the gallery links and thumbs
         generate : function(imageLinks){
-            var thumbsList = $('<ul>'), link, elements = [], i, len = imageLinks.toArray().length, title;
+            var thumbsList = $('<ul>'), link, elements = [], i, len = imageLinks.size(), title, image, type;
 
             for( i = 0; i < len; i++ ){
                 link = imageLinks[i];
-                title = link.children[0].title || link.children[0].alt || '';
-                elements.push('<li><a href="'+ link.href +'"><img src="'+ link.children[0].src +'" alt="" title="'+ title +'" /></a></li>');
+				image = $(link).find('img');
+                title = image[0].title || image[0].alt || '';
+				type = link.rel ? " class='" + link.rel +"'" : '';
+                elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ image[0].src +'" alt="" title="'+ title +'" /></a></li>');
             };
             
             thumbsList.html( elements.join('') );
@@ -459,8 +459,7 @@
 		
 		// check if corrent link is a video
 		if( activeType == 'video' ){
-			// $('#pbOverlay').find('.wrapper').append(iframe)
-			video.html( newVideo() );
+			video.html( newVideo() ).addClass('hide');
 			showContent(firstTime);
 		}
         else{
@@ -495,8 +494,8 @@
     }
 	
 	function newVideo(){
-		var url = images[activeImage][0] + '&wmode=transparent';
-		return $("<iframe>").prop({ scrolling:'no', frameborder:0, allowTransparency:true, src:url });
+		var url = images[activeImage][0] + '?vq=hd720&wmode=opaque';
+		return $("<iframe>").prop({ scrolling:'no', frameborder:0, allowTransparency:true, src:url }).attr({webkitAllowFullScreen:true, mozallowfullscreen:true, allowFullScreen:true});
 	}
 	
 	// show the item's Title & Counter
@@ -582,18 +581,17 @@
 			overlay.removeClass('video');
 			if( activeType == 'video' ){
 				image[0].src = blankImg;
-				overlay.addClass('video');
 				video.addClass('prepare');
+				overlay.addClass('video');
 			}
 			else
 				image.prop({ src:activeURL, class:'prepare' });
 
 			// filthy hack for the transitionend event, but cannot work without it:
 			setTimeout(function(){
-				image.add(video).removeAttr('style class');
+				image.add(video).removeAttr('style').removeClass('prepare');
 				overlay.removeClass('hide next prev');
 				setTimeout(function(){
-					//image[0].className = '';  // ?????????????
 					image.add(video).on(transitionend, showDone);
 					if(isOldIE) showDone(); // IE9 and below don't support transitionEnd...
 				}, 0);
@@ -604,9 +602,10 @@
 	// a callback whenever a transition of an image or a video is done
     function showDone(){
         image.add(video).off(transitionend).addClass('zoomable');
-		if( activeType != 'video' ){
+		if( activeType == 'video' )
+			video.removeClass('hide');
+		else
 			autoplayBtn && options.autoplay && APControl.play();
-		}
         if( typeof photobox.callback == 'function' )
             photobox.callback();
     }
@@ -815,4 +814,9 @@
             }
         }
     };
+	
+	// expose outside
+	window._photobox = {
+		history : history
+	};
 })(jQuery, document, window);
