@@ -494,7 +494,9 @@
     }
 	
 	function newVideo(){
-		var url = images[activeImage][0] + '?vq=hd720&wmode=opaque';
+		var url = images[activeImage][0],
+			sign = $('<a>').prop('href',images[activeImage][0])[0].search ? '&' : '?';
+		url += sign + 'vq=hd720&wmode=opaque';
 		return $("<iframe>").prop({ scrolling:'no', frameborder:0, allowTransparency:true, src:url }).attr({webkitAllowFullScreen:true, mozallowfullscreen:true, allowFullScreen:true});
 	}
 	
@@ -585,7 +587,7 @@
 				overlay.addClass('video');
 			}
 			else
-				image.prop({ src:activeURL, class:'prepare' });
+				image.prop({ 'src':activeURL, 'class':'prepare' });
 
 			// filthy hack for the transitionend event, but cannot work without it:
 			setTimeout(function(){
@@ -614,6 +616,8 @@
 		if( activeType == 'video' ){
 			var zoomLevel = video.data('zoom') || 1;
 			zoomLevel += (delta / 10);
+			if( zoomLevel < 0.5 )
+				return false;
 			
 			video.data('zoom', zoomLevel).css({width:624*zoomLevel, height:351*zoomLevel});
 		}
