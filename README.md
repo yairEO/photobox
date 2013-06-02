@@ -1,13 +1,14 @@
 photobox
 ========
 
-A lightweight(!) CSS3 image gallery that is pretty to look and and easy to use.
+A lightweight CSS3 image & video gallery that is pretty to look and and easy to use.
 
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 ## Benefits
 *    Lightweight! Both script & CSS are no more than 10k each (minified, no gzip)
 *    Silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
+*    Support videos via iframe embedding
 *    Stunning UI and user-friendly UX
 *    Built so everything could be changed directly from the CSS
 *    Observes DOM changes (if images were added/removed) and adapt accordingly
@@ -18,7 +19,7 @@ A lightweight(!) CSS3 image gallery that is pretty to look and and easy to use.
 *    Browsers support: IE8+ (graceful degradation), Modren browsers
 
 ## Funcionality
-*    Images can be zoomed in and out with mousewheel and navigated using mousemove to move around
+*    Images/videos can be zoomed in and out with mousewheel and navigated using mousemove to move around
 *    Bottom row of thumbnails, navigated by mouse movment, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
@@ -42,6 +43,9 @@ A lightweight(!) CSS3 image gallery that is pretty to look and and easy to use.
     	<a href="http://www.somedomain.com/images/image4_large.jpg">
     		<img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title">
     	</a>
+		<a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
+			<img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
+		</a>
     </div>
     ...
     ...
@@ -66,6 +70,17 @@ A lightweight(!) CSS3 image gallery that is pretty to look and and easy to use.
 		//-----------------------------------------------
 		$('#gallery').photobox('prepareDOM');
     </script>
+	
+## How to put a video link
+    <div id='gallery'>
+		...
+		<a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
+			<img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
+		</a>
+		...
+	</div>
+	
+A video link must have the `rel` attribute with the value of `video`. The url of the link must be the iframe embed (youtube, vimeo, etc.) And inside you can put a thumbnail of the video (of course)
 
 ## Changing effects is easy!
 Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
