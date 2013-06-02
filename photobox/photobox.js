@@ -90,6 +90,9 @@
     
     // @param [List of elements to work on, Custom settings, Callback after image is loaded]
     $.fn.photobox = function(target, settings, callback){
+		if( $(this).data('_photobox') ) // don't initiate the plugin more than once on the same element
+			return this;
+	
         if( typeof target != 'string' )
             target = 'a';
             
