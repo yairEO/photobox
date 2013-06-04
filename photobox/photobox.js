@@ -63,8 +63,6 @@
     /*---------------------------------------------------------------
         Initialization (on DOM ready)
     */
-    $(doc).ready(prepareDOM);
-    
     function prepareDOM(){
         // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
@@ -677,7 +675,7 @@
 
     function close(){
             stop();
-			video.empty();
+			video.find('iframe').prop('src','').empty();
             Photobox.prototype.setup();
             history.clear();
 
@@ -821,6 +819,8 @@
             }
         }
     };
+	
+	$(doc).ready(prepareDOM);
 	
 	// expose outside
 	window._photobox = {
