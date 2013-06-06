@@ -13,7 +13,7 @@
     var Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl,
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
         isOldIE = !('placeholder' in doc.createElement('input')),
-        isIE = !!win.ActiveXObject,
+        supportsCSSPointerEvents = (function(){ var el = doc.createElement('x'); el.style.cssText = 'pointer-events:auto'; return el.style.pointerEvents === 'auto'})(),
         isMobile = 'ontouchend' in doc,
         thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
         blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
@@ -67,7 +67,7 @@
         // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
         
-        isIE && overlay.hide();
+        !supportsCSSPointerEvents && overlay.hide();
 
         autoplayBtn.on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
@@ -688,7 +688,7 @@
                 if( overlay[0].className == '' ) return; // if already hidden
                 overlay.removeClass('show hide error pbLoading');
                 image.removeAttr('class').removeAttr('style').off().data('zoom',1);
-                if(isIE) // pointer-events lack support in IE, so just hide the overlay
+                if(!supportsCSSPointerEvents) // pointer-events lack support in IE, so just hide the overlay
                     setTimeout(function(){ overlay.hide(); }, 200);
             }
 
