@@ -557,6 +557,7 @@
 	// Shows the content (image/video) on the screen
     function showContent(firstTime){
 		var out, showSaftyTimer;
+		showSaftyTimer = setTimeout(show, 2000);
 		
 		overlay.removeClass("pbLoading").addClass('hide');
         image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
@@ -575,8 +576,6 @@
             out.on(transitionend, show);
 		
 		// in case the 'transitionend' didn't fire
-		showSaftyTimer = setTimeout(show, 2000);
-			
         // after hiding the last seen image, show the new one
         function show(){
 			clearTimeout(showSaftyTimer);
@@ -601,7 +600,7 @@
 			},50);
         }
     }
-	
+
 	// a callback whenever a transition of an image or a video is done
     function showDone(){
         image.add(video).off(transitionend).addClass('zoomable');
@@ -610,7 +609,7 @@
 		else
 			autoplayBtn && options.autoplay && APControl.play();
         if( typeof photobox.callback == 'function' )
-            photobox.callback();
+            photobox.callback.apply(imageLinks[activeImage]);
     }
     
     function scrollZoom(e, delta){
