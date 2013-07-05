@@ -18,7 +18,7 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 *    The only image is a pre-loader animation for old IE. For the rest, no images at all!
 *    Browsers support: IE8+ (graceful degradation), Modren browsers
 
-## Funcionality
+## Functionality
 *    Images/videos can be zoomed in and out with mousewheel and navigated using mousemove to move around
 *    Bottom row of thumbnails, navigated by mouse movment, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
