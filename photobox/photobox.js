@@ -148,10 +148,21 @@
                     // use a timeout to prevent more than one DOM change event fireing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
                     clearTimeout(that.observerTimeout);
                     that.observerTimeout = setTimeout( function(){
-                        var filtered = that.imageLinksFilter( that.selector.find(that.target) );
+                        var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
+							activeIndex;
+	
                         that.imageLinks = filtered[0];
                         that.images = filtered[1];
+						images = that.images;
+						imageLinks = that.imageLinks;
+
                         that.thumbsList = thumbsStripe.generate(that.imageLinks);
+						
+						activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
+						
+						thumbs.html( that.thumbsList );
+						updateIndexes(activeIndex);
+						thumbsStripe.changeActive(activeIndex, 0);
                     }, 50);
                 });
         },
@@ -437,6 +448,14 @@
         changeImage(img);
         return false;
     }
+	
+	function updateIndexes(idx){
+		lastActive = activeImage;
+        activeImage = idx;
+        activeURL = images[idx][0];
+        prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
+        nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
+	}
     
     function changeImage(imageIndex, firstTime, thumbClick){
         if( !imageIndex || imageIndex < 0 ) 
@@ -444,11 +463,7 @@
             
         overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
 		
-		lastActive = activeImage;
-        activeImage = imageIndex;
-        activeURL = images[imageIndex][0];
-        prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
-        nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
+		updateIndexes(imageIndex);
 
 		// reset things
         stop();
