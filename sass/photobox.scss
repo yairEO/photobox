@@ -2,13 +2,13 @@
 @import "partials/photobox-variables.scss";
 @import "partials/photobox-helpers.scss";
 
-#pbOverlay.show {
-	@extend %opacity-1;
-	@extend %pointer-events-auto;
-}
-
 #pbOverlay {
 	@extend %opacity-0;
+	@extend %centred;
+	@extend %pointer-events-none;
+	@extend %user-select-none;
+	@include translate3d(0, 0, 0);
+	@include transition(opacity 300ms ease);
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
@@ -16,226 +16,198 @@
 	z-index: 9999;
 	left: 0;
 	top: 0;
-	@extend %centred;
-	@extend %pointer-events-none;
-	@extend %user-select-none;
 	background: rgba(0, 0, 0, 0.85);
 	background: radial-gradient(rgba(0, 0, 0, .6) 0%, rgba(0, 0, 0, .9) 100%);
-	@include translate3d(0, 0, 0);
-	@include transition(opacity 300ms ease);
-}
 
-#pbOverlay.msie {
-	background-color: rgba(0, 0, 0, .6);
-}
+	/* IE Styles */
+	&.msie {
+		background-color: rgba(0, 0, 0, .6);
 
-#pbOverlay.msie.pbLoading .wrapper {
-	background: url('../images/loading.gif') no-repeat center center;
-}
-
-@keyframes pbLoaderFrames {
-	50% {
-		height: 5px;
+		&.pbLoading {
+			.wrapper {
+				background: url('../images/loading.gif') no-repeat center center;
+			}
+		}
 	}
-}
 
-@-webkit-keyframes pbLoaderFrames {
-	50% {
-		height: 5px;
+	&.hide {
+		.wrapper > * {
+			@include scale(1.2);
+			transform: none\9;
+			@extend %opacity-0;
+			@include transition(.4s ease-in);
+		}
 	}
-}
+	/* When media is loaded and showing */
+	&.show {
+		@extend %opacity-1;
+		@extend %pointer-events-auto;
 
-#pbOverlay .pbLoader {
-	@extend %invisible;
-	@extend %opacity-0;
-	@extend %pointer-events-none;
-	@include scale(.2);
-	@extend %absolute;
-	z-index: 999;
-	top: 50%;
-	left: 50%;
-	margin: -50px 0 0 -50px;
-	@extend %centred;
-	@include border-radius(100%);
-	@include box-shadow(15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px);
-	width: 100px;
-	height: 100px;
-	@include transition(0.3s);
-}
-
-#pbOverlay.thumbs .pbLoader {
-	margin-top: -100px;
-}
-
-#pbOverlay.pbLoading:not(.msie):not(.error) .pbLoader {
-	@extend %visible;
-	@extend %opacity-1;
-	@include scale(1);
-}
-
-#pbOverlay .pbLoader b {
-	@extend %inline;
-	@extend %middle-aligned;
-	margin: 0 2px;
-	width: 8px;
-	height: 60px;
-	@extend %rounded;
-	background: rgba(255, 255, 255, 0.8);
-	@include box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-	-webkit-animation: .9s pbLoaderFrames infinite linear;
-	animation: .9s pbLoaderFrames infinite linear;
-}
-
-#pbOverlay .pbLoader b:nth-child(2) {
-	-webkit-animation-delay: .3s;
-	animation-delay: .3s;
-}
-
-#pbOverlay .pbLoader b:nth-child(3) {
-	-webkit-animation-delay: .6s;
-	animation-delay: .6s;
-}
-
-#pbOverlay .wrapper:after,
-#pbCaption .pbThumbs ul:after,
-#pbOverlay .prevNext:after,
-#pbOverlay .pbLoader:before {
-	content: "";
-	@extend %inline;
-	height: 100%;
-	margin-right: -0.25em;
-	@extend %middle-aligned;
-}
-
-/* Animation when image was not loaded */
-@keyframes deadImage {
-	50% {
-		text-shadow: 0 0 25px rgba(255, 255, 255, .5);
-		@include scale(0.85);
+		.wrapper > * {
+			@include transition(0.3s 0.5s ease-out);
+			@include transform(none);
+			-webkit-backface-visibility: hidden;
+			@include box-shadow(0 0 20px #000);
+		}
 	}
-}
 
-@-webkit-keyframes deadImage {
-	50% {
-		text-shadow: 0 0 25px rgba(255, 255, 255, .5);
-		@include scale(0.85);
+	&.on {
+		.wrapper > * {
+			@include transition-delay(0.3s);
+		}
 	}
-}
+	/* When the media is being loaded */
+	&.pbLoading {
+		&:not(.msie):not(.error) .pbLoader {
+			@extend %visible;
+			@extend %opacity-1;
+			@include scale(1);
+		}
 
-#pbOverlay .wrapper {
-	@extend %border-box;
-	@extend %middle-aligned;
-	height: 100%;
-	@include perspective(1200px);
-	@extend %relative;
-}
+		.wrapper {
+			@extend %inline;
+			width: 100%;
+		}
+	}
 
-#pbOverlay.video .wrapper {
-	z-index: 11;
-	@extend %inline;
-}
+	//when an error has occured
+	&.error {
+		.wrapper {
+			&:before {
+				font-size: 22em;
+				text-shadow: 0 0 0 #FFF;
+				-webkit-animation: 2s 1s deadImage infinite linear;
+				animation: 2s 1s deadImage infinite linear;
+			}
+			img {
+				width: 0;
+			}
+		}
+	}
 
-/*#pbOverlay.error .wrapper{ display:inline-block; width:100%; }*/
-#pbOverlay.pbLoading .wrapper {
-	@extend %inline;
-	width: 100%;
-}
+	.pbLoader {
+		@extend %invisible;
+		@extend %opacity-0;
+		@extend %pointer-events-none;
+		@include scale(.2);
+		@extend %absolute;
+		z-index: 999;
+		top: 50%;
+		left: 50%;
+		margin: -50px 0 0 -50px;
+		@extend %centred;
+		@include border-radius(100%);
+		@include box-shadow(15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px);
+		width: 100px;
+		height: 100px;
+		@include transition(0.3s);
 
-/* ie8+9 hack */
-#pbOverlay .wrapper:before {
-	content: '\2716';
-	color: transparent;
-	text-shadow: 0 2px 35px rgba(255, 255, 255, 0);
-	font-size: 0;
-	@extend %middle-aligned;
-	cursor: default;
-	@include transition(text-shadow .7s ease-out);
-}
+		b {
+			@extend %inline;
+			@extend %middle-aligned;
+			margin: 0 2px;
+			width: 8px;
+			height: 60px;
+			@extend %rounded;
+			background: rgba(255, 255, 255, 0.8);
+			@include box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+			-webkit-animation: .9s pbLoaderFrames infinite linear;
+			animation: .9s pbLoaderFrames infinite linear;
 
-#pbOverlay.error .wrapper:before {
-	font-size: 22em;
-	text-shadow: 0 0 0 #FFF;
-	-webkit-animation: 2s 1s deadImage infinite linear;
-	animation: 2s 1s deadImage infinite linear;
-}
+			&:nth-child(2) {
+				-webkit-animation-delay: .3s;
+				animation-delay: .3s;
+			}
 
-#pbOverlay.thumbs .wrapper {
-	margin-top: -50px;
-	padding: 50px 0;
-}
+			&:nth-child(3) {
+				-webkit-animation-delay: .6s;
+				animation-delay: .6s;
+			}
+		}
+	}
 
-#pbOverlay.error .wrapper img {
-	width: 0;
-}
+	&.thumbs {
+		.pbLoader {
+			margin-top: -100px;
+		}
+		.wrapper {
+			margin-top: -50px;
+			padding: 50px 0;
+		}
+	}
 
-#pbOverlay .wrapper > div {
-	@extend %hidden;
-	width: 624px;
-	height: 351px;
-	@extend %middle-aligned;
-	@extend %rounded;
-	background: rgba(0, 0, 0, 0.5);
-}
+	.wrapper {
+		@extend %border-box;
+		@extend %middle-aligned;
+		height: 100%;
+		@include perspective(1200px);
+		@extend %relative;
 
-#pbOverlay.video .wrapper > div {
-	@extend %inline;
-}
+		//ie8+9 hack
+		&:before {
+			content: '\2716';
+			color: transparent;
+			text-shadow: 0 2px 35px rgba(255, 255, 255, 0);
+			font-size: 0;
+			@extend %middle-aligned;
+			cursor: default;
+			@include transition(text-shadow .7s ease-out);
+		}
 
-#pbOverlay iframe, #pbOverlay embed, #pbOverlay object {
-	@extend %block;
-	width: 100%;
-	height: 100%;
-	@extend %opacity-1;
-	@include transition(0.5s);
-}
+		> div {
+			@extend %hidden;
+			width: 624px;
+			height: 351px;
+			@extend %middle-aligned;
+			@extend %rounded;
+			background: rgba(0, 0, 0, 0.5);
+		}
+		.hide {
+			iframe {
+				@extend %opacity-0;
+			}
+		}
+		.zoomable {
+			@include transition(0.1s);
+			@extend %relative;
+			z-index: 9;
+		}
+	}
 
-#pbOverlay .wrapper .hide iframe {
-	@extend %opacity-0;
-}
+	.wrapper > *, &.hide .wrapper > .prepare {
+		@extend %inline;
+		@extend %opacity-1;
+		@extend %middle-aligned;
+		transform: scale(0) rotateX(80deg);
+		-webkit-transform: scale(0) rotateX(80deg);
+		-ms-transform: scale(0) rotateX(80deg);
+		@include border-radius(6px);
+		border: none;
+		max-height: 95%;
+		max-width: 100%;
+	}
+	&.video {
+		.wrapper {
+			z-index: 11;
+			@extend %inline;
 
-#pbOverlay.show .wrapper > * {
-	-ms-transition: .3s .5s ease-out;
-	-webkit-transition: .8s .5s cubic-bezier(0.1, 0.8, 0.5, 1.03);
-	transition: .8s .5s cubic-bezier(0.1, 0.87, 0.48, 1);
+			> div {
+				@extend %inline;
+			}
+		}
+	}
 
-	@include transform(none);
-
-	-webkit-backface-visibility: hidden;
-	@include box-shadow(0 0 20px #000);
-}
-
-#pbOverlay .wrapper > *, #pbOverlay.hide .wrapper > .prepare {
-	@extend %inline;
-	@extend %opacity-1;
-	@extend %middle-aligned;
-	transform: scale(0) rotateX(80deg);
-	-webkit-transform: scale(0) rotateX(80deg);
-	-ms-transform: scale(0) rotateX(80deg);
-	@include border-radius(6px);
-	border: none;
-	max-height: 95%;
-	max-width: 100%;
-}
-
-#pbOverlay.on .wrapper > * {
-	@include transition-delay(0.3s);
-}
-
-#pbOverlay .wrapper .zoomable {
-	@include transition(0.1s);
-	@extend %relative;
-	z-index: 9;
-}
-
-#pbOverlay.hide .wrapper > * {
-	@include scale(1.2);
-	transform: none\9;
-	@extend %opacity-0;
-	@include transition(.4s ease-in);
+	iframe, embed, object {
+		@extend %block;
+		width: 100%;
+		height: 100%;
+		@extend %opacity-1;
+		@include transition(0.5s);
+	}
 }
 
 /*-- close button --*/
-#pbCloseBtn, #pbAutoplayBtn {
+%mediabutton {
 	@extend %absolute;
 	top: -50px;
 	right: -50px;
@@ -246,43 +218,40 @@
 	cursor: pointer;
 	color: #FFF;
 	@include transition(.3s .3s ease-out);
+
+	&:before {
+		@extend %inline;
+		height: 35px;
+		width: 35px;
+		padding: 8px 8px 12px 12px;
+		font-size: 2em;
+		@extend %opacity-0;
+		line-height: .7;
+		@extend %middle-aligned;
+		background: rgba(255, 255, 255, 0.2);
+		@include border-radius(0 0 0 70px);
+		@include transition(0.1s ease-out);
+	}
 }
 
-.hide #pbCloseBtn {
-	top: -50px;
-	right: -50px;
+#pbAutoplayBtn, #pbCloseBtn {
+	@extend %mediabutton;
 }
 
-.on #pbCloseBtn {
-	top: -2px;
-	right: -2px;
+#pbCloseBtn {
+	&:before {
+		content: '\00D7';
+		font-weight: bold;
+	}
+
+	&:hover {
+		&:before {
+			padding: 15px 10px 24px 24px;
+			background: rgba(255, 100, 100, .4);
+		}
+	}
 }
 
-#pbCloseBtn:before {
-	content: '\00D7';
-	font-weight: bold;
-}
-
-#pbCloseBtn:before, #pbAutoplayBtn:before {
-	@extend %inline;
-	height: 35px;
-	width: 35px;
-	padding: 8px 8px 12px 12px;
-	font-size: 2em;
-	@extend %opacity-0;
-	line-height: .7;
-	@extend %middle-aligned;
-	background: rgba(255, 255, 255, 0.2);
-	@include border-radius(0 0 0 70px);
-	@include transition(0.1s ease-out);
-}
-
-#pbCloseBtn:hover:before {
-	padding: 15px 10px 24px 24px;
-	background: rgba(255, 100, 100, .4);
-}
-
-/*-- autoplay controller --*/
 #pbAutoplayBtn {
 	@extend %hidden;
 	right: auto;
@@ -291,60 +260,87 @@
 	width: 50px;
 	height: 50px;
 	font-size: 13px;
+
+	&.play {
+		&:before {
+			content: '\25BA';
+		}
+	}
+	&:hover {
+		width: 60px;
+		height: 60px;
+	}
+
+	&:before {
+		content: '\2016';
+		width: 100%;
+		height: 100%;
+		@include border-radius(0 0 70px 0);
+		font-weight: bold;
+		@extend %padding-none;
+		text-indent: -6px;
+		line-height: 1.6;
+	}
+
+	&:active {
+		&:before {
+			text-shadow: 0 0 3px #FFF, 0 0 6px #FFF;
+		}
+	}
+
+	.pbProgress {
+		@extend %hidden;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		@extend %absolute;
+		padding: 6px;
+		top: 0;
+		left: 0;
+		@extend %opacity-0;
+		@include transform(rotateZ(0deg));
+		@include transform-origin(0 0);
+		@include transition(0.4s);
+	}
+
+	&.playing {
+		.pbProgress {
+			@include rotateZ(90deg);
+		}
+	}
+}
+
+.hide {
+	#pbCloseBtn {
+		top: -50px;
+		right: -50px;
+	}
+}
+
+.show {
+	&.on {
+		#pbCaption {
+			bottom: 5px;
+			@include transition-delay(0.5s);
+		}
+	}
+}
+
+.on {
+	#pbCloseBtn {
+		top: -2px;
+		right: -2px;
+	}
+
+	#pbAutoplayBtn {
+		top: 0;
+		left: 0;
+		@include transition(0.1s ease-out);
+	}
 }
 
 .hasAutoplay #pbAutoplayBtn {
 	@extend %block;
-}
-
-#pbAutoplayBtn:hover {
-	width: 60px;
-	height: 60px;
-}
-
-.on #pbAutoplayBtn {
-	top: 0;
-	left: 0;
-	transition: .1s ease-out;
-	-webkit-transition: .1s ease-out;
-}
-
-#pbAutoplayBtn:before {
-	content: '\2016';
-	width: 100%;
-	height: 100%;
-	@include border-radius(0 0 70px 0);
-	font-weight: bold;
-	padding: 0;
-	text-indent: -6px;
-	line-height: 1.6;
-}
-
-#pbAutoplayBtn:active:before {
-	text-shadow: 0 0 3px #FFF, 0 0 6px #FFF;
-}
-
-#pbAutoplayBtn.play:before {
-	content: '\25BA';
-}
-
-#pbAutoplayBtn .pbProgress {
-	@extend %hidden;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	@extend %absolute;
-	padding: 6px;
-	top: 0;
-	left: 0;
-	@extend %opacity-0;
-	@include transform(rotateZ(0deg));
-	@include transform-origin(0 0);
-	@include transition(0.4s);
-}
-
-#pbAutoplayBtn.playing .pbProgress {
-	@include rotateZ(90deg);
 }
 
 #pbAutoplayBtn .pbProgress:before {
@@ -355,7 +351,7 @@
 	width: 200%;
 	height: 200%;
 	@include border-radius(50%);
-	box-shadow: 0 0 0 8px #FFF inset;
+	@include box-shadow(0 0 0 8px #FFF inset);
 }
 
 #pbCaption, .hide #pbCaption {
@@ -364,11 +360,6 @@
 	bottom: -110px;
 	width: 100%;
 	@include transition(0.4s);
-}
-
-.show.on #pbCaption {
-	bottom: 5px;
-	@include transition-delay(0.5s);
 }
 
 #pbCaption .title, #pbCaption .counter {
@@ -457,7 +448,7 @@
 	bottom: 4px;
 	left: 7px;
 	background: rgba(0, 0, 0, 0.4);
-	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.4);
+	@include box-shadow(0 0 0 3px rgba(0, 0, 0, 0.4));
 	@include border-radius(0 3px 0 0);
 	@extend %pointer-events-none;
 }
@@ -517,7 +508,7 @@
 }
 
 #pbOverlay.on .prevNext:active {
-	transition: 80ms;
+	@include transition(80ms);
 	@extend %opacity-1;
 	text-shadow: 0 0 16px #FFF, 0 0 10px #000;
 }
@@ -577,4 +568,15 @@
 #pbOverlay.show #pbNextBtn {
 	right: 0;
 	text-align: right;
+}
+
+#pbOverlay .wrapper:after,
+#pbCaption .pbThumbs ul:after,
+#pbOverlay .prevNext:after,
+#pbOverlay .pbLoader:before {
+	content: "";
+	@extend %inline;
+	height: 100%;
+	margin-right: -0.25em;
+	@extend %middle-aligned;
 }
