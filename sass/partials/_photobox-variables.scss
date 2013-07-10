@@ -1,0 +1,98 @@
+@import "compass/css3/pie";
+@import "compass/css3";
+
+$pie-behavior: url("/css/PIE.htc");
+
+$pie-base-class: pie-element;
+
+/*Grid*/
+$num-cols: 12;
+$rowWidth: 100%;
+$container-lateral-padding: 1em;
+$col-margin-right: 3.8%;
+$col-unit: ($rowWidth + $col-margin-right) / $num-cols;
+
+$rowNotation: row;
+
+$container-width: $rowWidth;
+$total-columns: $num-cols;
+$column-width: 4%;
+$gutter-width: 2%;
+$grid-padding: 0%; //rows should take up the whole screen
+$from-direction: left;
+
+$container-style: fluid;
+
+//Turn off media-query fallback output for non-IE stylesheets.
+$breakpoint-ie-output: true;
+
+$multiplier: 1.3;
+$multiplierLarge: $multiplier * 2.1;
+$multiplierSmall: $multiplier / $multiplierLarge;
+
+$multiplierLargePercentage: $multiplierLarge * 10%;
+$padding: 1em;
+$paddingLarge: $padding * $multiplier;
+$paddingSmall: $padding / $multiplier;
+$paddingMini: $padding / $multiplierLarge;
+$margin: 1em;
+$marginSmall: $margin / $multiplier;
+$marginLarge: $margin * $multiplierLarge;
+$marginMini: $margin / $multiplierLarge;
+
+/* =============================================================================
+Type
+========================================================================== */
+$baseFontSize: 100%;
+$baseFontFamily: "Open Sans", "sans-serif", "arial";
+$fontSizeSmall: 85%;
+$fontSizeMedium: 90%;
+$fontSizeLarge: 250%;
+$fontSizeMini: 60%;
+$lineHeight: 1.4;
+$em: 1em;
+$headingFontWeight: 300;
+$baseFontWeight: 500;
+
+$borderRadius: ($margin / $multiplierLarge);
+$borderRadiusSmall: $borderRadius * 0.75;
+$borderRadiusLarge: $borderRadius * 1.25;
+
+/* Transitions*/
+$transitionTime: 0.5s;
+$transitionFunction: linear;
+/* =============================================================================
+Colours
+========================================================================== */
+$textColour: #000;
+$inverseTextColour: invert($textColour);
+$primaryColour: $textColour;
+//colour of text and main colour overall
+$secondaryColour: #d5d5d5;
+$tertiaryColour: #313131;
+//background colour.  Should be the opposite of primary colour for good results
+$bodyBackground: #FFF;
+$bodyBackgroundImage: url("http://subtlepatterns.com/patterns/grey.png");
+$bodyBackgroundImageAlt: url("http://subtlepatterns.com/patterns/shattered.png");
+
+/* =============================================================================
+Buttons
+========================================================================== */
+$buttonPrimaryColour: #CCC;
+$buttonSecondaryColour: lighten($buttonPrimaryColour, $multiplierLargePercentage);
+
+/* =============================================================================
+Borders
+========================================================================== */
+$borderWidth: 1px;
+$borderStyle: solid;
+$borderColour: fade-out(lighten($textColour, 80%), 0.5);
+$border: $borderWidth $borderStyle $borderColour;
+
+/* =============================================================================
+Media query variables
+========================================================================== */
+$breakpointMain: (screen) (max-width 767px);
+$queryIphone3: (only screen) (min-device-width 320px) (max-device-width 480px) (1 -webkit-device-pixel-ratio);
+$queryIphone3Portrait: (only screen) (min-device-width 320px) (max-device-width 480px) (1 -webkit-device-pixel-ratio) (orientation portrait);
+$queryIphone3Landscape: (only screen) (min-device-width 320px) (max-device-width 480px) (1 -webkit-device-pixel-ratio) (orientation landscape);

@@ -1,0 +1,49 @@
+/*------- media queries (for small screens) -----------*/
+@media all and (max-width:700px) {
+	#pbOverlay .wrapper img, #pbOverlay.hide .wrapper img.prepare {
+		max-height: 100%;
+	}
+
+	#pbOverlay.thumbs .wrapper {
+		padding: 0;
+		margin: 0;
+	}
+
+	#pbOverlay .pbThumbs {
+		margin-bottom: -60px;
+	}
+
+	#pbOverlay .pbThumbs.show {
+		margin: 0;
+	}
+
+	#pbCaption .pbThumbs ul {
+		height: 50px;
+	}
+
+	#pbCaption .pbThumbs li {
+		height: 100%;
+		opacity: 1;
+	}
+
+	#pbCaption .pbThumbs li img {
+		min-height: 96.5%;
+	}
+
+	/* Helpers */
+	.hidden-phone {
+		display: none;
+	}
+
+	.show-phone {
+		display: block;
+	}
+
+}
+
+/* fix for Chrome */
+@media all and (max-width:710px) {
+	#pbCaption .pbThumbs li.active a img {
+		min-height: 96%;
+	}
+}

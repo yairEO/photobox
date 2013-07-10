@@ -1,10 +1,14 @@
+@import "compass/css3";
+@import "partials/photobox-variables.scss";
+@import "partials/photobox-helpers.scss";
+
 #pbOverlay.show {
-	opacity: 1;
-	pointer-events: auto;
+	@extend %opacity-1;
+	@extend %pointer-events-auto;
 }
 
 #pbOverlay {
-	opacity: 0;
+	@extend %opacity-0;
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
@@ -12,15 +16,13 @@
 	z-index: 9999;
 	left: 0;
 	top: 0;
-	text-align: center;
-	pointer-events: none;
-	-moz-user-select: none;
+	@extend %centred;
+	@extend %pointer-events-none;
+	@extend %user-select-none;
 	background: rgba(0, 0, 0, 0.85);
 	background: radial-gradient(rgba(0, 0, 0, .6) 0%, rgba(0, 0, 0, .9) 100%);
-	-webkit-transform: translate3d(0px, 0px, 0px);
-	-webkit-transition: opacity 300ms ease;
-	-ms-transition: opacity 300ms ease;
-	transition: opacity 300ms ease;
+	@include translate3d(0, 0, 0);
+	@include transition(opacity 300ms ease);
 }
 
 #pbOverlay.msie {
@@ -44,23 +46,21 @@
 }
 
 #pbOverlay .pbLoader {
-	visibility: hidden;
-	opacity: 0;
-	pointer-events: none;
-	-webkit-transform: scale(.2);
-	transform: scale(.2);
-	position: absolute;
+	@extend %invisible;
+	@extend %opacity-0;
+	@extend %pointer-events-none;
+	@include scale(.2);
+	@extend %absolute;
 	z-index: 999;
 	top: 50%;
 	left: 50%;
 	margin: -50px 0 0 -50px;
-	text-align: center;
-	border-radius: 100%;
-	box-shadow: 15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px;
+	@extend %centred;
+	@include border-radius(100%);
+	@include box-shadow(15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px);
 	width: 100px;
 	height: 100px;
-	transition: 0.3s;
-	-webkit-transition: 0.2s;
+	@include transition(0.3s);
 }
 
 #pbOverlay.thumbs .pbLoader {
@@ -68,21 +68,20 @@
 }
 
 #pbOverlay.pbLoading:not(.msie):not(.error) .pbLoader {
-	visibility: visible;
-	opacity: 1;
-	-webkit-transform: scale(1);
-	transform: scale(1);
+	@extend %visible;
+	@extend %opacity-1;
+	@include scale(1);
 }
 
 #pbOverlay .pbLoader b {
-	display: inline-block;
-	vertical-align: middle;
+	@extend %inline;
+	@extend %middle-aligned;
 	margin: 0 2px;
 	width: 8px;
 	height: 60px;
-	border-radius: 5px;
+	@extend %rounded;
 	background: rgba(255, 255, 255, 0.8);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	@include box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 	-webkit-animation: .9s pbLoaderFrames infinite linear;
 	animation: .9s pbLoaderFrames infinite linear;
 }
@@ -102,45 +101,43 @@
 #pbOverlay .prevNext:after,
 #pbOverlay .pbLoader:before {
 	content: "";
-	display: inline-block;
+	@extend %inline;
 	height: 100%;
 	margin-right: -0.25em;
-	vertical-align: middle;
+	@extend %middle-aligned;
 }
 
 /* Animation when image was not loaded */
 @keyframes deadImage {
 	50% {
 		text-shadow: 0 0 25px rgba(255, 255, 255, .5);
-		transform: scale(0.85);
+		@include scale(0.85);
 	}
 }
 
 @-webkit-keyframes deadImage {
 	50% {
 		text-shadow: 0 0 25px rgba(255, 255, 255, .5);
-		-webkit-transform: scale(0.85);
+		@include scale(0.85);
 	}
 }
 
 #pbOverlay .wrapper {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	vertical-align: middle;
+	@extend %border-box;
+	@extend %middle-aligned;
 	height: 100%;
-	perspective: 1200px;
-	-webkit-perspective: 1200px;
-	position: relative;
+	@include perspective(1200px);
+	@extend %relative;
 }
 
 #pbOverlay.video .wrapper {
 	z-index: 11;
-	display: inline-block;
+	@extend %inline;
 }
 
 /*#pbOverlay.error .wrapper{ display:inline-block; width:100%; }*/
 #pbOverlay.pbLoading .wrapper {
-	display: inline-block\9;
+	@extend %inline;
 	width: 100%;
 }
 
@@ -150,10 +147,9 @@
 	color: transparent;
 	text-shadow: 0 2px 35px rgba(255, 255, 255, 0);
 	font-size: 0;
-	vertical-align: middle;
+	@extend %middle-aligned;
 	cursor: default;
-	-webkit-transition: text-shadow .7s ease-out;
-	transition: text-shadow .7s ease-out;
+	@include transition(text-shadow .7s ease-out);
 }
 
 #pbOverlay.error .wrapper:before {
@@ -173,28 +169,28 @@
 }
 
 #pbOverlay .wrapper > div {
-	display: none;
+	@extend %hidden;
 	width: 624px;
 	height: 351px;
-	vertical-align: middle;
-	border-radius: 5px;
+	@extend %middle-aligned;
+	@extend %rounded;
 	background: rgba(0, 0, 0, 0.5);
 }
 
 #pbOverlay.video .wrapper > div {
-	display: inline-block;
+	@extend %inline;
 }
 
 #pbOverlay iframe, #pbOverlay embed, #pbOverlay object {
-	display: block;
+	@extend %block;
 	width: 100%;
 	height: 100%;
-	opacity: 1;
-	transition: 0.5s;
+	@extend %opacity-1;
+	@include transition(0.5s);
 }
 
 #pbOverlay .wrapper .hide iframe {
-	opacity: 0;
+	@extend %opacity-0;
 }
 
 #pbOverlay.show .wrapper > * {
@@ -202,64 +198,54 @@
 	-webkit-transition: .8s .5s cubic-bezier(0.1, 0.8, 0.5, 1.03);
 	transition: .8s .5s cubic-bezier(0.1, 0.87, 0.48, 1);
 
-	-webkit-transform: none;
-	-ms-transform: none;
-	transform: none;
+	@include transform(none);
 
 	-webkit-backface-visibility: hidden;
-	box-shadow: 0 0 20px #000;
+	@include box-shadow(0 0 20px #000);
 }
 
 #pbOverlay .wrapper > *, #pbOverlay.hide .wrapper > .prepare {
-	display: inline-block;
-	opacity: 1;
-	vertical-align: middle;
+	@extend %inline;
+	@extend %opacity-1;
+	@extend %middle-aligned;
 	transform: scale(0) rotateX(80deg);
 	-webkit-transform: scale(0) rotateX(80deg);
 	-ms-transform: scale(0) rotateX(80deg);
-	border-radius: 6px;
+	@include border-radius(6px);
 	border: none;
 	max-height: 95%;
 	max-width: 100%;
 }
 
 #pbOverlay.on .wrapper > * {
-	transition-delay: 0s;
-	-webkit-transition-delay: 0s;
-	-ms-transition-delay: 0s;
+	@include transition-delay(0.3s);
 }
 
 #pbOverlay .wrapper .zoomable {
-	transition: .1s;
-	-webkit-transition: .1s;
-	-ms-transition: .1ms;
-	position: relative;
+	@include transition(0.1s);
+	@extend %relative;
 	z-index: 9;
 }
 
 #pbOverlay.hide .wrapper > * {
-	transform: scale(1.2);
-	-webkit-transform: scale(1.2);
+	@include scale(1.2);
 	transform: none\9;
-	opacity: 0;
-	-webkit-transition: .4s ease-in;
-	-ms-transition: .4s ease-in;
-	transition: .4s ease-in;
+	@extend %opacity-0;
+	@include transition(.4s ease-in);
 }
 
 /*-- close button --*/
 #pbCloseBtn, #pbAutoplayBtn {
-	position: absolute;
+	@extend %absolute;
 	top: -50px;
 	right: -50px;
 	z-index: 999;
-	display: block;
+	@extend %block;
 	padding: 0 0 20px 20px;
-	text-align: center;
+	@extend %centred;
 	cursor: pointer;
 	color: #FFF;
-	transition: .3s .3s ease-out;
-	-webkit-transition: .2s .3s ease-out;
+	@include transition(.3s .3s ease-out);
 }
 
 .hide #pbCloseBtn {
@@ -278,18 +264,17 @@
 }
 
 #pbCloseBtn:before, #pbAutoplayBtn:before {
-	display: inline-block;
+	@extend %inline;
 	height: 35px;
 	width: 35px;
 	padding: 8px 8px 12px 12px;
 	font-size: 2em;
-	opacity: 0.8;
+	@extend %opacity-0;
 	line-height: .7;
-	vertical-align: middle;
+	@extend %middle-aligned;
 	background: rgba(255, 255, 255, 0.2);
-	border-radius: 0 0 0 70px;
-	transition: 0.1s ease-out;
-	-webkit-transition: 0.1s ease-out;
+	@include border-radius(0 0 0 70px);
+	@include transition(0.1s ease-out);
 }
 
 #pbCloseBtn:hover:before {
@@ -299,7 +284,7 @@
 
 /*-- autoplay controller --*/
 #pbAutoplayBtn {
-	display: none;
+	@extend %hidden;
 	right: auto;
 	left: -50px;
 	padding: 0;
@@ -309,7 +294,7 @@
 }
 
 .hasAutoplay #pbAutoplayBtn {
-	display: block;
+	@extend %block;
 }
 
 #pbAutoplayBtn:hover {
@@ -318,8 +303,8 @@
 }
 
 .on #pbAutoplayBtn {
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	transition: .1s ease-out;
 	-webkit-transition: .1s ease-out;
 }
@@ -328,7 +313,7 @@
 	content: '\2016';
 	width: 100%;
 	height: 100%;
-	border-radius: 0 0 70px 0;
+	@include border-radius(0 0 70px 0);
 	font-weight: bold;
 	padding: 0;
 	text-indent: -6px;
@@ -344,72 +329,61 @@
 }
 
 #pbAutoplayBtn .pbProgress {
-	display: none\9;
+	@extend %hidden;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	position: absolute;
+	@extend %absolute;
 	padding: 6px;
 	top: 0;
 	left: 0;
-	opacity: 0.2;
-	transform: rotateZ(0deg);
-	-webkit-transform: rotateZ(0deg);
-	-ms-transform: rotateZ(0deg);
-	-webkit-transform-origin: 0 0;
-	-ms-transform-origin: 0 0;
-	transform-origin: 0 0;
-	-webkit-transition: 0.4s;
-	-ms-transition: 0.4s;
-	transition: 0.4s;
+	@extend %opacity-0;
+	@include transform(rotateZ(0deg));
+	@include transform-origin(0 0);
+	@include transition(0.4s);
 }
 
 #pbAutoplayBtn.playing .pbProgress {
-	-webkit-transform: rotateZ(90deg);
-	-ms-transform: rotateZ(90deg);
-	transform: rotateZ(90deg);
+	@include rotateZ(90deg);
 }
 
 #pbAutoplayBtn .pbProgress:before {
 	content: '';
-	position: absolute;
+	@extend %absolute;
 	right: 0;
 	bottom: 0;
 	width: 200%;
 	height: 200%;
-	border-radius: 50%;
+	@include border-radius(50%);
 	box-shadow: 0 0 0 8px #FFF inset;
 }
 
 #pbCaption, .hide #pbCaption {
-	position: absolute;
+	@extend %absolute;
 	z-index: 999;
 	bottom: -110px;
 	width: 100%;
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
+	@include transition(0.4s);
 }
 
 .show.on #pbCaption {
 	bottom: 5px;
-	transition-delay: .5s;
-	-webkit-transition-delay: .5s;
+	@include transition-delay(0.5s);
 }
 
 #pbCaption .title, #pbCaption .counter {
-	display: inline-block;
+	@extend %inline;
 	color: #FFF;
 	margin: 0 6px;
 }
 
 #pbCaption .counter {
-	opacity: .55;
+	@include opacity(0.55);
 }
 
 .pbCaptionText {
-	-webkit-transition: .3s;
-	transition: .3s;
-	opacity: 0.9;
+	@include transition(0.3s);
+	@extend %opacity-0;
 	font-weight: bold;
 	font-size: .9em;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
@@ -418,17 +392,16 @@
 .pbCaptionText.change {
 	-webkit-transform: translateY(25px);
 	transform: translateY(25px);
-	opacity: 0;
+	@extend %opacity-0;
 }
 
 #pbOverlay .pbThumbs {
-	display: none;
-	-webkit-transition: 0.35s;
-	transition: 0.35s;
+	@extend %hidden;
+	@include transition(0.35s);
 }
 
 #pbOverlay.thumbs .pbThumbs {
-	display: block;
+	@extend %block;
 	width: 100%;
 	padding: 5px 0 2px;
 	overflow: hidden;
@@ -439,40 +412,38 @@
 }
 
 #pbCaption .pbThumbs ul {
-	display: inline-block;
-	position: relative;
-	list-style: none;
+	@extend %inline;
+	@extend %relative;
+	@extend %no-list-style;
 	height: 80px;
 	padding: 0 5px;
-	margin: 0;
+	@extend %margin-none;
 	white-space: pre;
-	transition: 0.2s;
-	-webkit-transition: 0.2s;
+	@include transition(0.2s);
 }
 
 #pbCaption .pbThumbs ul:after {
-	vertical-align: bottom;
+	@extend %bottom-aligned;
 }
 
 #pbCaption .pbThumbs li {
-	display: inline-block;
-	vertical-align: bottom;
+	@extend %inline;
+	@extend %bottom-aligned;
 	height: 70%;
-	opacity: .6;
-	text-align: center;
-	position: relative;
-	transition: 0.15s;
-	-webkit-transition: 0.15s;
+	@include opacity(0.6);
+	@extend %centred;
+	@extend %relative;
+	@include transition(0.15s);
 }
 
 #pbCaption .pbThumbs li.active {
 	height: 100%;
-	opacity: 1;
+	@extend %opacity-1;
 }
 
 #pbCaption .pbThumbs li:hover {
 	height: 100%;
-	opacity: 1;
+	@extend %opacity-1;
 }
 
 #pbCaption .pbThumbs li.video::before {
@@ -482,23 +453,20 @@
 	height: 20px;
 	width: 20px;
 	line-height: 0.9;
-	position: absolute;
+	@extend %absolute;
 	bottom: 4px;
 	left: 7px;
 	background: rgba(0, 0, 0, 0.4);
 	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.4);
-	border-radius: 0 3px 0 0;
-	pointer-events: none;
+	@include border-radius(0 3px 0 0);
+	@extend %pointer-events-none;
 }
 
 #pbCaption .pbThumbs a {
 	height: 100%;
 	padding: 0 2px;
-	display: block;
-	-moz-user-select: none;
-}
-
-#pbCaption .pbThumbs li:hover a {
+	@extend %block;
+	@extend %user-select-none;
 }
 
 #pbCaption .pbThumbs img {
@@ -506,9 +474,8 @@
 	min-height: 95.9%;
 	border: 2px solid #FFF;
 	max-width: none;
-	border-radius: 0;
-	transition: 0.15s;
-	-webkit-transition: 0.15s;
+	@extend %rounded-none;
+	@include transition(0.15s);
 }
 
 #pbCaption .pbThumbs li:hover img {
@@ -517,8 +484,7 @@
 
 /* fix a bug in Chrome and Opera */
 #pbCaption .pbThumbs li.fast a img {
-	transition: none;
-	-webkit-transition: none;
+	@include transition(none);
 }
 
 #pbCaption .pbThumbs li.active a img {
@@ -527,57 +493,51 @@
 }
 
 #pbOverlay .prevNext {
-	display: none;
+	@extend %hidden;
 	background: rgba(0, 0, 0, 0);
-	position: absolute;
+	@extend %absolute;
 	z-index: 10;
 	height: 100%;
 	width: 35%;
 	padding: 80px 0;
-	opacity: 0;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
+	@extend %opacity-0;
+	@extend %border-box;
 	top: 0;
-	transition: .2s ease-out;
-	-webkit-transition: .2s ease-out;
+	@include transition(0.2s ease-out);
 	text-shadow: 0 0 12px #000, 0 0 10px #FFF;
 	cursor: pointer;
 }
 
 #pbOverlay.hasArrows .prevNext {
-	display: block;
+	@extend %block;
 }
 
 #pbOverlay.on .prevNext:hover {
-	opacity: .5;
+	@include opacity(0.5);
 }
 
 #pbOverlay.on .prevNext:active {
 	transition: 80ms;
-	opacity: 1;
+	@extend %opacity-1;
 	text-shadow: 0 0 16px #FFF, 0 0 10px #000;
 }
 
 .prevNext b {
-	display: inline-block;
-	vertical-align: middle;
-	transition: .2s ease-in;
-	-webkit-transition: .2s ease-in;
+	@extend %inline;
+	@extend %middle-aligned;
+	@include transition(0.2s ease-in);
 }
 
 .prevNext:hover b {
-	transition: .2s cubic-bezier(0.095, 0.870, 0.485, 0.985);
-	-webkit-transition: .2s cubic-bezier(0.095, 0.870, 0.485, 0.985);
+	@include transition(.2s cubic-bezier(0.095, 0.870, 0.485, 0.985));
 }
 
 #pbPrevBtn b {
-	transform: scale(.4) translateX(350px);
-	-webkit-transform: scale(.4) translateX(350px);
+	@include transform(scale(.4) translateX(350px));
 }
 
 #pbNextBtn b {
-	transform: scale(.4) translateX(-350px);
-	-webkit-transform: scale(.4) translateX(-350px);
+	@include transform(scale(.4) translateX(-350px));
 }
 
 /* */
@@ -609,9 +569,6 @@
 	-webkit-transform: scale(1) translateX(-20px);
 }
 
-#pbOverlay.show #pbPrevBtn, #pbOverlay.show #pbNextBtn {
-}
-
 #pbOverlay.show #pbPrevBtn {
 	left: 0;
 	text-align: left;
@@ -620,44 +577,4 @@
 #pbOverlay.show #pbNextBtn {
 	right: 0;
 	text-align: right;
-}
-
-/*------- media queries (for small screens) -----------*/
-@media all and (max-width:700px) {
-	#pbOverlay .wrapper img, #pbOverlay.hide .wrapper img.prepare {
-		max-height: 100%;
-	}
-
-	#pbOverlay.thumbs .wrapper {
-		padding: 0;
-		margin: 0;
-	}
-
-	#pbOverlay .pbThumbs {
-		margin-bottom: -60px;
-	}
-
-	#pbOverlay .pbThumbs.show {
-		margin: 0;
-	}
-
-	#pbCaption .pbThumbs ul {
-		height: 50px;
-	}
-
-	#pbCaption .pbThumbs li {
-		height: 100%;
-		opacity: 1;
-	}
-
-	#pbCaption .pbThumbs li img {
-		min-height: 96.5%;
-	}
-}
-
-/* fix for Chrome */
-@media all and (max-width:710px) {
-	#pbCaption .pbThumbs li.active a img {
-		min-height: 96%;
-	}
 }
