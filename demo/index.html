@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<!--
+/*
+ * Photobox
+ *
+ * Copyright 2012, Yair Even Or
+ * https://dropthebit.com
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+-->
+<html lang = "en">
+<head>
+	<!-- =============================================================================
+	Meta
+	========================================================================== -->
+	<!--[if IE]>
+		<meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1">
+	<![endif]-->
+	<meta charset = "utf-8">
+	<title>Photobox - CSS3 image gallery modal viewer</title>
+	<meta name = "description" content = "A lightweight CSS3 image gallery that is pretty to look and and easy to use">
+	<meta name = "viewport" content = "width=device-width">
+
+	<link rel = "shortcut icon" href = "favicon.ico"/>
+
+	<!-- =============================================================================
+	Styles
+	========================================================================== -->
+	<link rel = "stylesheet" href = "../css/photobox.min.css">
+	<link rel = "stylesheet" href = "css/styles.css">
+
+	<!-- =============================================================================
+	Scripts
+	========================================================================== -->
+	<!--[if lt IE 9]>
+		<script src = "http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src = "../src/photobox.js"></script>
+	<script src = "js/main.js"></script>
+</head>
+<body>
+<div id = "wrap">
+	<div class = "main">
+		<h1>Photobox</h1>
+
+		<h2>CSS3 image gallery jQuery plugin</h2>
+
+		<p>A lightweight image gallery modal window script which uses only CSS3 for silky-smooth animations and
+			transitions,
+			utilizes GPU rending, which can be completely controlled and themed directly from the CSS.</p>
+
+		<p>Supports: <strong>Firefox</strong>, <strong>Chrome</strong> and <strong>IE8+</strong></p>
+
+		<p>(This plugin has <u>nothing</u> to do with Flickr)</p>
+		<a href = "https://github.com/yairEO/photobox" class = "btn">Github project page</a>
+		<footer>By Yair Even Or <span class = "copy">&copy;</span> 2012
+			<a href = "http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/">Dropthebit.com</a></footer>
+	</div>
+	<ul id = "gallery"></ul>
+</div>
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push(["_setAccount", "UA-26520680-1"]);
+	_gaq.push(["_trackPageview"]);
+
+	(function ()
+	{
+		var ga = document.createElement("script");
+		ga.type = "text/javascript";
+		ga.async = true;
+		ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</body>
+</html>

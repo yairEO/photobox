@@ -1,0 +1,69 @@
+@import "compass/css3/pie";
+@import "compass/css3";
+
+/* =============================================================================
+Measurements and Spacing
+========================================================================== */
+$photoBoxPadding: 1em;
+$photoBoxPaddingLarge: $photoBoxPadding * 2.4;
+$photoBoxPaddingSmall: $photoBoxPadding / 2;
+$photoBoxPaddingMini: $photoBoxPadding / 4;
+$photoBoxMargin: 1em;
+$photoBoxMarginSmall: $photoBoxMargin / 2;
+$photoBoxMarginLarge: $photoBoxMargin * 2.5;
+$photoBoxMarginMini:  $photoBoxMargin / 4;
+
+/* =============================================================================
+Type
+========================================================================== */
+$photoBoxBaseFontSize: 100%;
+$photoBoxBaseFontFamily: Arial;
+$photoBoxFontSizeSmall: 0.6em;
+
+$photoBoxFontSizeMedium: 0.8em;
+$photoBoxFontSizeLarge: 2.6em;
+$photoBoxFontSizeMini: 0.4em;
+$photoBoxLineHeight: 1.4;
+
+/* =============================================================================
+Border Radii
+========================================================================== */
+$photoBoxBorderRadius: 0.4em;
+$photoBoxBorderRadiusSmall: $photoBoxBorderRadius * 0.75;
+$photoBoxBorderRadiusLarge: $photoBoxBorderRadius * 1.25;
+
+/* =============================================================================
+Transitions
+========================================================================== */
+$photoBoxTransitionTime: 0.5s;
+$photoBoxTransitionTimeSmall: 0.2s;
+$photoBoxTransitionTimeLarge: 1s;
+$photoBoxTransitionFunction: ease;
+
+/* =============================================================================
+Colours
+========================================================================== */
+$photoBoxTextColour: #000;
+$photoBoxInverseTextColour: invert($photoBoxTextColour);
+$photoBoxPrimaryColour: $photoBoxTextColour;
+//colour of text and main colour overall
+$photoBoxsecondaryColour: #d5d5d5;
+$photoBoxtertiaryColour: #313131;
+
+/* =============================================================================
+Images
+========================================================================== */
+$photoBoxLoadingImage: url("../images/loading.gif");
+
+/* =============================================================================
+Borders
+========================================================================== */
+$photoBoxBorderWidth: 1px;
+$photoBoxBorderStyle: solid;
+$photoBoxBorderColour: fade-out(lighten($photoBoxTextColour, 80%), 0.5);
+$photoBoxBorder: $photoBoxBorderWidth $photoBoxBorderStyle $photoBoxBorderColour;
+
+/* =============================================================================
+Media Queries
+========================================================================== */
+$breakpointWidth: 700px;

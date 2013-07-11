@@ -1,0 +1,609 @@
+@import "compass/css3";
+@import "partials/photobox-variables.scss";
+@import "partials/photobox-helpers.scss";
+@import "partials/photobox-animations.scss";
+@import "partials/photobox-media-queries.scss";
+
+#pbOverlay {
+	@extend %opacity-0;
+	@extend %centred;
+	@extend %pointer-events-none;
+	@extend %user-select-none;
+	@include translate3d(0, 0, 0);
+	@include transition(opacity 300ms ease);
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 9999;
+	left: 0;
+	top: 0;
+	background: rgba(0, 0, 0, 0.85);
+	//fallback for IE8-
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkFEQ0Y1MjQ1QTg4MTFFMkFCRjFCRDZEQjFDMTJDNDciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkFEQ0Y1MjU1QTg4MTFFMkFCRjFCRDZEQjFDMTJDNDciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQURDRjUyMjVBODgxMUUyQUJGMUJENkRCMUMxMkM0NyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQURDRjUyMzVBODgxMUUyQUJGMUJENkRCMUMxMkM0NyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pj9rBBcAAAASSURBVHjaYmRgYNgMxAwAAQYAA5EAtcchicsAAAAASUVORK5CYII=');
+	@include background(radial-gradient(rgba(0, 0, 0, .6) 0%, rgba(0, 0, 0, .9) 100%));
+
+	/* IE Styles */
+	&.msie {
+		background-color: rgba(0, 0, 0, .6);
+
+		&.pbLoading {
+			.wrapper {
+				background: $photoBoxLoadingImage no-repeat center center;
+			}
+		}
+	}
+
+	&.hide {
+		.wrapper > * {
+			@include scale(1.2);
+			transform: none\9;
+			@extend %opacity-0;
+			@include transition(.4s ease-in);
+		}
+	}
+	/* When media is loaded and showing */
+	&.show {
+		@extend %opacity-1;
+		@extend %pointer-events-auto;
+
+		.wrapper > * {
+			@include transition(0.3s 0.5s ease-out);
+			@include transform(none);
+			-webkit-backface-visibility: hidden;
+			@include box-shadow(0 0 20px #000);
+		}
+
+		#pbPrevBtn {
+			left: 0;
+			text-align: left;
+		}
+
+		#pbNextBtn {
+			right: 0;
+			text-align: right;
+		}
+	}
+
+	&.on {
+		.wrapper > * {
+			@include transition-delay(0.3s);
+		}
+		.prevNext {
+			&:hover {
+				@include opacity(0.5);
+			}
+			&:active {
+				@include transition(80ms);
+				@extend %opacity-1;
+				text-shadow: 0 0 16px #FFF, 0 0 10px #000;
+			}
+		}
+
+		//buttons
+		#pbPrevBtn:hover b {
+			@include transform(scale(1) translateX(20px));
+		}
+
+		#pbNextBtn:hover b {
+			@include transform(scale(1) translateX(-20px));
+		}
+	}
+	/* When the media is being loaded */
+	&.pbLoading {
+		&:not(.msie):not(.error) .pbLoader {
+			@extend %visible;
+			@extend %opacity-1;
+			@include scale(1);
+		}
+
+		.wrapper {
+			@extend %inline;
+			width: 100%;
+		}
+	}
+
+	//when an error has occured
+	&.error {
+		.wrapper {
+			&:before {
+				font-size: 22em;
+				text-shadow: 0 0 0 #FFF;
+				-webkit-animation: 2s 1s deadImage infinite linear;
+				-o-animation: 2s 1s deadImage infinite linear;
+				-moz-animation: 2s 1s deadImage infinite linear;
+				animation: 2s 1s deadImage infinite linear;
+			}
+			img {
+				width: 0;
+			}
+		}
+	}
+
+	.pbLoader {
+		@extend %invisible;
+		@extend %opacity-0;
+		@extend %pointer-events-none;
+		@include scale(.2);
+		@extend %absolute;
+		z-index: 999;
+		top: 50%;
+		left: 50%;
+		margin: -50px 0 0 -50px;
+		@extend %centred;
+		@include border-radius(100%);
+		@include box-shadow(15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px);
+		width: 100px;
+		height: 100px;
+		@include transition(0.3s);
+
+		b {
+			@extend %inline;
+			@extend %middle-aligned;
+			margin: 0 2px;
+			width: 8px;
+			height: 60px;
+			@extend %rounded;
+			background: rgba(255, 255, 255, 0.8);
+			@include box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+			-webkit-animation: .9s pbLoaderFrames infinite linear;
+			animation: .9s pbLoaderFrames infinite linear;
+
+			&:nth-child(2) {
+				-webkit-animation-delay: .3s;
+				animation-delay: .3s;
+			}
+
+			&:nth-child(3) {
+				-webkit-animation-delay: .6s;
+				animation-delay: .6s;
+			}
+		}
+	}
+
+	&.thumbs {
+		.pbLoader {
+			margin-top: -100px;
+		}
+		.wrapper {
+			margin-top: -50px;
+			padding: 50px 0;
+		}
+	}
+
+	.wrapper {
+		@extend %border-box;
+		@extend %middle-aligned;
+		height: 100%;
+		@include perspective(1200px);
+		@extend %relative;
+
+		//ie8+9 hack
+		&:before {
+			content: '\2716';
+			color: transparent;
+			text-shadow: 0 2px 35px rgba(255, 255, 255, 0);
+			font-size: 0;
+			@extend %middle-aligned;
+			cursor: default;
+			@include transition(text-shadow .7s ease-out);
+		}
+
+		> div {
+			@extend %hidden;
+			width: 624px;
+			height: 351px;
+			@extend %middle-aligned;
+			@extend %rounded;
+			background: rgba(0, 0, 0, 0.5);
+		}
+		.hide {
+			iframe {
+				@extend %opacity-0;
+			}
+		}
+		.zoomable {
+			@include transition(0.1s);
+			@extend %relative;
+			z-index: 9;
+		}
+	}
+
+	.wrapper > *, &.hide .wrapper > .prepare {
+		@extend %inline;
+		@extend %opacity-1;
+		@extend %middle-aligned;
+		@include transform(scale(0) rotateX(80deg));
+		-ms-transform: scale(0) rotateX(80deg);
+		@include border-radius(6px);
+		border: none;
+		max-height: 95%;
+		max-width: 100%;
+	}
+
+	&.video {
+		.wrapper {
+			z-index: 11;
+			@extend %inline;
+
+			> div {
+				@extend %inline;
+			}
+		}
+	}
+
+	iframe, embed, object {
+		@extend %block;
+		width: 100%;
+		height: 100%;
+		@extend %opacity-1;
+		@include transition(0.5s);
+	}
+
+	.pbThumbs {
+		@extend %hidden;
+		@include transition(0.35s);
+	}
+
+	&.thumbs {
+		.pbThumbs {
+			@extend %block;
+			width: 100%;
+			padding: 5px 0 2px;
+			overflow: hidden;
+		}
+	}
+
+	.prevNext {
+		@extend %hidden;
+		background: transparent;
+		@extend %absolute;
+		z-index: 10;
+		height: 100%;
+		width: 35%;
+		padding: 80px 0;
+		@extend %opacity-0;
+		@extend %border-box;
+		top: 0;
+		@include transition(0.2s ease-out);
+		text-shadow: 0 0 12px #000, 0 0 10px #FFF;
+		cursor: pointer;
+	}
+
+	&.hasArrows {
+		.prevNext {
+			@extend %block;
+		}
+	}
+}
+
+#pbOverlay .wrapper:after,
+#pbCaption .pbThumbs ul:after,
+#pbOverlay .prevNext:after,
+#pbOverlay .pbLoader:before {
+	content: "";
+	@extend %inline;
+	height: 100%;
+	margin-right: -0.25em;
+	@extend %middle-aligned;
+}
+
+/* =============================================================================
+Buttons
+========================================================================== */
+
+%mediabutton {
+	@extend %absolute;
+	top: -50px;
+	right: -50px;
+	z-index: 999;
+	@extend %block;
+	padding: 0 0 20px 20px;
+	@extend %centred;
+	cursor: pointer;
+	color: #FFF;
+	@include transition(.3s .3s ease-out);
+
+	&:before {
+		@extend %inline;
+		height: 35px;
+		width: 35px;
+		padding: 8px 8px 12px 12px;
+		font-size: 2em;
+		line-height: .7;
+		@extend %middle-aligned;
+		background: rgba(255, 255, 255, 0.2);
+		@include border-radius(0 0 0 70px);
+		@include transition(0.1s ease-out);
+	}
+}
+
+#pbAutoplayBtn, #pbCloseBtn {
+	@extend %mediabutton;
+}
+
+#pbCloseBtn {
+	&:before {
+		content: '\00D7';
+		font-weight: bold;
+	}
+
+	&:hover {
+		&:before {
+			padding: $photoBoxPadding 10px 24px 24px;
+			background: rgba(255, 100, 100, .4);
+		}
+	}
+}
+
+#pbAutoplayBtn {
+	@extend %hidden;
+	right: auto;
+	left: -50px;
+	padding: 0;
+	width: 50px;
+	height: 50px;
+	font-size: 13px;
+
+	&.play {
+		&:before {
+			content: '\25BA';
+		}
+	}
+	&:hover {
+		width: 60px;
+		height: 60px;
+	}
+
+	&:before {
+		content: '\2016';
+		width: 100%;
+		height: 100%;
+		@include border-radius(0 0 70px 0);
+		font-weight: bold;
+		@extend %padding-none;
+		text-indent: -6px;
+		line-height: 1.6;
+	}
+
+	&:active {
+		&:before {
+			text-shadow: 0 0 3px #FFF, 0 0 6px #FFF;
+		}
+	}
+
+	.pbProgress {
+		@extend %hidden;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		@extend %absolute;
+		padding: 6px;
+		top: 0;
+		left: 0;
+		@extend %opacity-0;
+		@include transform(rotateZ(0deg));
+		@include transform-origin(0 0);
+		@include transition(0.4s);
+
+		&:before {
+			content: '';
+			@extend %absolute;
+			right: 0;
+			bottom: 0;
+			width: 200%;
+			height: 200%;
+			@include border-radius(50%);
+			@include box-shadow(0 0 0 8px #FFF inset);
+		}
+	}
+
+	&.playing {
+		.pbProgress {
+			@include rotateZ(90deg);
+		}
+	}
+}
+
+
+#pbPrevBtn, #pbNextBtn {
+	b {
+		@include transform(scale(.4) translateX(350px));
+
+		&:before, &:after {
+			display: inline;
+			line-height: .3;
+			font-size: 18em;
+			font-weight: normal;
+			color: #FFF;
+			font-family: Arial;
+		}
+	}
+}
+
+#pbPrevBtn {
+	b:before {
+		content: '\2039';
+	}
+}
+
+#pbNextBtn{
+	b:after {
+		content: '\203A';
+	}
+}
+
+.hide {
+	#pbCloseBtn {
+		top: -50px;
+		right: -50px;
+	}
+
+	#pbCaption {
+		@extend %caption;
+	}
+}
+
+.show {
+	&.on {
+		#pbCaption {
+			bottom: 5px;
+			@include transition-delay(0.5s);
+		}
+	}
+}
+
+.on {
+	#pbCloseBtn {
+		top: -2px;
+		right: -2px;
+	}
+
+	#pbAutoplayBtn {
+		top: 0;
+		left: 0;
+		@include transition(0.1s ease-out);
+	}
+}
+
+.hasAutoplay #pbAutoplayBtn {
+	@extend %block;
+}
+
+%caption {
+	@extend %absolute;
+	z-index: 999;
+	bottom: -110px;
+	width: 100%;
+	@include transition(0.4s);
+}
+
+
+%captionText {
+	@extend %inline;
+	color: #FFF;
+	margin: 0 6px;
+}
+
+#pbCaption {
+	@extend %caption;
+	.counter {
+		@include opacity(0.55);
+		@extend %captionText;
+	}
+
+	.pbThumbs {
+		&:hover {
+			clear: both;
+		}
+
+		ul {
+			@extend %inline;
+			@extend %relative;
+			@extend %no-list-style;
+			height: 80px;
+			padding: 0 5px;
+			@extend %margin-none;
+			white-space: pre;
+			@include transition(0.2s);
+
+			&:after {
+				@extend %bottom-aligned;
+			}
+		}
+		a {
+			height: 100%;
+			padding: 0 2px;
+			@extend %block;
+			@extend %user-select-none;
+		}
+
+		img {
+			height: 96%;
+			min-height: 95.9%;
+			border: 2px solid #FFF;
+			max-width: none;
+			@extend %rounded-none;
+			@include transition(0.15s);
+		}
+		li {
+			@extend %inline;
+			@extend %bottom-aligned;
+			height: 70%;
+			@include opacity(0.6);
+			@extend %centred;
+			@extend %relative;
+			@include transition(0.15s);
+
+			&:active {
+				height: 100%;
+				@extend %opacity-1;
+			}
+
+			&.active a img {
+				border-color: #D8FF16;
+				min-height: 96%;
+			}
+			&:hover {
+				height: 100%;
+				@extend %opacity-1;
+
+				img {
+					min-height: 96%;
+				}
+			}
+
+			&.video {
+				&:before {
+					content: '\25BA';
+					color: #FFF;
+					font-size: 20px;
+					height: 20px;
+					width: 20px;
+					line-height: 0.9;
+					@extend %absolute;
+					bottom: 4px;
+					left: 7px;
+					background: rgba(0, 0, 0, 0.4);
+					@include box-shadow(0 0 0 3px rgba(0, 0, 0, 0.4));
+					@include border-radius(0 3px 0 0);
+					@extend %pointer-events-none;
+				}
+			}
+
+			&.fast a img {
+				@include transition(none);
+			}
+		}
+	}
+
+	.title {
+		@extend %captionText;
+	}
+}
+
+.pbCaptionText {
+	@include transition(0.3s);
+	font-weight: bold;
+	font-size: .9em;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+
+	&.change {
+		@include transform(translateY(25px));
+		@extend %opacity-0;
+	}
+}
+
+.prevNext {
+	b {
+		@extend %inline;
+		@extend %middle-aligned;
+		@include transition(0.2s ease-in);
+	}
+
+	&:hover {
+		b {
+			@include transition(.2s cubic-bezier(0.095, 0.870, 0.485, 0.985));
+		}
+	}
+}

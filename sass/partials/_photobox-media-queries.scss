@@ -1,0 +1,58 @@
+/*------- media queries (for small screens) -----------*/
+@media all and (max-width: $breakpointWidth) {
+	#pbOverlay .wrapper img, #pbOverlay.hide .wrapper img.prepare {
+		max-height: 100%;
+	}
+
+	#pbOverlay {
+		&.thumbs {
+			.wrapper {
+				padding: 0;
+				margin: 0;
+			}
+		}
+
+		&.show {
+			&.on {
+				#pbCaption {
+					bottom: 4em;
+				}
+			}
+		}
+		.pbThumbs {
+			margin-bottom: -60px;
+
+			&.show {
+				margin: 0;
+			}
+
+			ul {
+				height: 50px;
+			}
+			li {
+				height: 100%;
+				opacity: 1;
+				img {
+					min-height: 96.5%;
+				}
+			}
+		}
+	}
+
+/* Helpers */
+	.hidden-phone {
+		display: none;
+	}
+
+	.show-phone {
+		display: block;
+	}
+
+}
+
+/* fix for Chrome */
+@media all and (max-width: 710px) {
+	#pbCaption .pbThumbs li.active a img {
+		min-height: 96%;
+	}
+}

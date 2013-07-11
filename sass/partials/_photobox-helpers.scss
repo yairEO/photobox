@@ -1,0 +1,246 @@
+/**
+ * Non-semantic helper classes: please define your styles before this section.
+ */
+@import "compass/css3/pie";
+@import "compass/css3";
+
+/* Hide for both screenreaders and browsers:
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+%hidden {
+	display: none;
+}
+
+%show-phone {
+	display: none;
+}
+
+/* Hide visually and from screenreaders, but maintain layout */
+%invisible {
+	visibility: hidden;
+}
+
+%visible {
+	visibility: visible;
+}
+
+%centred {
+	text-align: center;
+}
+
+%top-aligned {
+	vertical-align: top;
+}
+
+%middle-aligned {
+	vertical-align: middle;
+}
+
+%bottom-aligned {
+	vertical-align: bottom;
+}
+/* =============================================================================
+Margins
+========================================================================== */
+%margin-none {
+	margin: 0;
+}
+
+%normal-margin {
+	margin: $photoBoxMargin;
+}
+
+%normal-margin-bottom {
+	margin-bottom: $photoBoxMargin;
+}
+
+%normal-margin-right {
+	margin-right: $photoBoxMargin;
+}
+
+%normal-margin-left {
+	margin-left: $photoBoxMargin;
+}
+
+%normal-margin-top-bottom {
+	margin: $photoBoxMargin 0;
+}
+
+%normal-margin-left-right {
+	margin: 0 $photoBoxMargin;
+}
+
+%normal-padding {
+	padding: $photoBoxPadding;
+}
+
+%normal-padding-top-bottom {
+	padding: $photoBoxPadding 0;
+}
+
+%normal-padding-left-right {
+	padding: 0 $photoBoxPadding;
+}
+
+%normal-padding-bottom {
+	padding-bottom: $photoBoxPadding;
+}
+
+%normal-padding-right {
+	padding-right: $photoBoxPadding;
+}
+
+%normal-padding-left {
+	padding-left: $photoBoxPadding;
+}
+
+%padding-none {
+	padding: 0;
+}
+/* =============================================================================
+Border radius
+========================================================================== */
+%rounded {
+	@include border-radius($photoBoxBorderRadius);
+}
+
+%rounded-none {
+	@include border-radius(0);
+}
+
+%rounded-left {
+	@include border-top-left-radius($photoBoxBorderRadius);
+	@include border-bottom-left-radius($photoBoxBorderRadius);
+}
+
+%rounded-right {
+	@include border-top-right-radius($photoBoxBorderRadius);
+	@include border-bottom-right-radius($photoBoxBorderRadius);
+}
+
+%rounded-top {
+	@include border-top-left-radius($photoBoxBorderRadius);
+	@include border-top-right-radius($photoBoxBorderRadius);
+}
+
+%rounded-bottom {
+	@include border-bottom-left-radius($photoBoxBorderRadius);
+	@include border-bottom-right-radius($photoBoxBorderRadius);
+}
+
+%rounded-left-none {
+	@include border-top-left-radius(0);
+	@include border-bottom-left-radius(0);
+}
+
+%rounded-left-large {
+	@include border-top-left-radius($photoBoxBorderRadiusLarge);
+	@include border-bottom-left-radius($photoBoxBorderRadiusLarge);
+}
+
+%rounded-right-large {
+	@include border-top-right-radius($photoBoxBorderRadiusLarge);
+	@include border-bottom-left-radius($photoBoxBorderRadiusLarge);
+}
+
+%rounded-top-large {
+	@include border-top-left-radius($photoBoxBorderRadiusLarge);
+	@include border-top-right-radius($photoBoxBorderRadiusLarge);
+}
+
+%rounded-bottom-large {
+	@include border-bottom-left-radius($photoBoxBorderRadiusLarge);
+	@include border-bottom-right-radius($photoBoxBorderRadiusLarge);
+}
+
+%rounded-left-none {
+	@include border-top-left-radius(0);
+	@include border-bottom-left-radius(0);
+}
+
+%rounded-right-none {
+	@include border-top-right-radius(0);
+	@include border-bottom-left-radius(0);
+}
+
+%rounded-top-none {
+	@include border-top-left-radius(0);
+	@include border-top-right-radius(0);
+}
+
+%rounded-bottom-none {
+	@include border-bottom-left-radius(0);
+	@include border-bottom-right-radius(0);
+}
+
+%rounded-large {
+	@include border-radius($photoBoxBorderRadiusLarge);
+}
+%border-box {
+	@include box-sizing(border-box);
+}
+
+%transitioned, %transition-all {
+	@include transition($photoBoxTransitionTime all $photoBoxTransitionFunction);
+}
+
+/* =============================================================================
+Opacity/visibility
+========================================================================== */
+%opacity-0 {
+	@include opacity(0);
+}
+
+%opacity-1 {
+	@include opacity(1);
+}
+
+/* =============================================================================
+Floats
+========================================================================== */
+%pull-left {
+	float: left;
+}
+%pull-right {
+	float: right;
+}
+
+%inline {
+	@include inline-block();
+}
+
+%absolute {
+	position: absolute;
+}
+
+%relative {
+	position: relative;
+}
+
+%block {
+	display: block;
+}
+
+/* =============================================================================
+Lists
+========================================================================== */
+%no-list-style {
+	list-style: none;
+}
+
+/* =============================================================================
+Pointer events
+========================================================================== */
+%pointer-events-none {
+	pointer-events: none;
+}
+
+%pointer-events-auto {
+	pointer-events: auto;
+}
+
+/* =============================================================================
+User select
+========================================================================== */
+%user-select-none {
+	@include user-select(none);
+}
