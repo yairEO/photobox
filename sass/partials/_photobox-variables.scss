@@ -7,7 +7,7 @@ Measurements and Spacing
 $photoBoxPadding: 1em;
 $photoBoxPaddingLarge: $photoBoxPadding * 2.4;
 $photoBoxPaddingSmall: $photoBoxPadding / 2;
-$photoBoxPaddingMini: $photoBoxpadding / 4;
+$photoBoxPaddingMini: $photoBoxPadding / 4;
 $photoBoxMargin: 1em;
 $photoBoxMarginSmall: $photoBoxMargin / 2;
 $photoBoxMarginLarge: $photoBoxMargin * 2.5;
@@ -51,15 +51,9 @@ $photoBoxsecondaryColour: #d5d5d5;
 $photoBoxtertiaryColour: #313131;
 
 /* =============================================================================
-Buttons
-========================================================================== */
-$photoBoxbuttonPrimaryColour: #CCC;
-$photoBoxbuttonSecondaryColour: lighten($photoBoxbuttonPrimaryColour, $photoBoxmultiplierLargePercentage);
-
-/* =============================================================================
 Images
 ========================================================================== */
-$photoBoxphotoBoxLoadingImage: url("../images/loading.gif");
+$photoBoxLoadingImage: url("../images/loading.gif");
 
 /* =============================================================================
 Borders

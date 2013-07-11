@@ -46,51 +46,51 @@ Margins
 }
 
 %normal-margin {
-	margin: $margin;
+	margin: $photoBoxMargin;
 }
 
 %normal-margin-bottom {
-	margin-bottom: $margin;
+	margin-bottom: $photoBoxMargin;
 }
 
 %normal-margin-right {
-	margin-right: $margin;
+	margin-right: $photoBoxMargin;
 }
 
 %normal-margin-left {
-	margin-left: $margin;
+	margin-left: $photoBoxMargin;
 }
 
 %normal-margin-top-bottom {
-	margin: $margin 0;
+	margin: $photoBoxMargin 0;
 }
 
 %normal-margin-left-right {
-	margin: 0 $margin;
+	margin: 0 $photoBoxMargin;
 }
 
 %normal-padding {
-	padding: $padding;
+	padding: $photoBoxPadding;
 }
 
 %normal-padding-top-bottom {
-	padding: $padding 0;
+	padding: $photoBoxPadding 0;
 }
 
 %normal-padding-left-right {
-	padding: 0 $padding;
+	padding: 0 $photoBoxPadding;
 }
 
 %normal-padding-bottom {
-	padding-bottom: $padding;
+	padding-bottom: $photoBoxPadding;
 }
 
 %normal-padding-right {
-	padding-right: $padding;
+	padding-right: $photoBoxPadding;
 }
 
 %normal-padding-left {
-	padding-left: $padding;
+	padding-left: $photoBoxPadding;
 }
 
 %padding-none {
@@ -100,7 +100,7 @@ Margins
 Border radius
 ========================================================================== */
 %rounded {
-	@include border-radius($borderRadius);
+	@include border-radius($photoBoxBorderRadius);
 }
 
 %rounded-none {
@@ -108,23 +108,23 @@ Border radius
 }
 
 %rounded-left {
-	@include border-top-left-radius($borderRadius);
-	@include border-bottom-left-radius($borderRadius);
+	@include border-top-left-radius($photoBoxBorderRadius);
+	@include border-bottom-left-radius($photoBoxBorderRadius);
 }
 
 %rounded-right {
-	@include border-top-right-radius($borderRadius);
-	@include border-bottom-right-radius($borderRadius);
+	@include border-top-right-radius($photoBoxBorderRadius);
+	@include border-bottom-right-radius($photoBoxBorderRadius);
 }
 
 %rounded-top {
-	@include border-top-left-radius($borderRadius);
-	@include border-top-right-radius($borderRadius);
+	@include border-top-left-radius($photoBoxBorderRadius);
+	@include border-top-right-radius($photoBoxBorderRadius);
 }
 
 %rounded-bottom {
-	@include border-bottom-left-radius($borderRadius);
-	@include border-bottom-right-radius($borderRadius);
+	@include border-bottom-left-radius($photoBoxBorderRadius);
+	@include border-bottom-right-radius($photoBoxBorderRadius);
 }
 
 %rounded-left-none {
@@ -133,23 +133,23 @@ Border radius
 }
 
 %rounded-left-large {
-	@include border-top-left-radius($borderRadiusLarge);
-	@include border-bottom-left-radius($borderRadiusLarge);
+	@include border-top-left-radius($photoBoxBorderRadiusLarge);
+	@include border-bottom-left-radius($photoBoxBorderRadiusLarge);
 }
 
 %rounded-right-large {
-	@include border-top-right-radius($borderRadiusLarge);
-	@include border-bottom-left-radius($borderRadiusLarge);
+	@include border-top-right-radius($photoBoxBorderRadiusLarge);
+	@include border-bottom-left-radius($photoBoxBorderRadiusLarge);
 }
 
 %rounded-top-large {
-	@include border-top-left-radius($borderRadiusLarge);
-	@include border-top-right-radius($borderRadiusLarge);
+	@include border-top-left-radius($photoBoxBorderRadiusLarge);
+	@include border-top-right-radius($photoBoxBorderRadiusLarge);
 }
 
 %rounded-bottom-large {
-	@include border-bottom-left-radius($borderRadiusLarge);
-	@include border-bottom-right-radius($borderRadiusLarge);
+	@include border-bottom-left-radius($photoBoxBorderRadiusLarge);
+	@include border-bottom-right-radius($photoBoxBorderRadiusLarge);
 }
 
 %rounded-left-none {
@@ -173,14 +173,14 @@ Border radius
 }
 
 %rounded-large {
-	@include border-radius($borderRadiusLarge);
+	@include border-radius($photoBoxBorderRadiusLarge);
 }
 %border-box {
 	@include box-sizing(border-box);
 }
 
 %transitioned, %transition-all {
-	@include transition($transitionTime all $transitionFunction);
+	@include transition($photoBoxTransitionTime all $photoBoxTransitionFunction);
 }
 
 /* =============================================================================

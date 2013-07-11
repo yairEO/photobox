@@ -11,8 +11,17 @@
 				margin: 0;
 			}
 		}
+
+		&.show {
+			&.on {
+				#pbCaption {
+					bottom: 4em;
+				}
+			}
+		}
 		.pbThumbs {
 			margin-bottom: -60px;
+
 			&.show {
 				margin: 0;
 			}
