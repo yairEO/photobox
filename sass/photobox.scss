@@ -25,7 +25,7 @@
 
 		&.pbLoading {
 			.wrapper {
-				background: url('../images/loading.gif') no-repeat center center;
+				background: $photoBoxLoadingImage no-repeat center center;
 			}
 		}
 	}
@@ -485,7 +485,7 @@
 
 #pbOverlay .prevNext {
 	@extend %hidden;
-	background: rgba(0, 0, 0, 0);
+	background: transparent;
 	@extend %absolute;
 	z-index: 10;
 	height: 100%;
