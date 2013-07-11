@@ -68,3 +68,8 @@ $photoBoxBorderWidth: 1px;
 $photoBoxBorderStyle: solid;
 $photoBoxBorderColour: fade-out(lighten($photoBoxTextColour, 80%), 0.5);
 $photoBoxBorder: $photoBoxBorderWidth $photoBoxBorderStyle $photoBoxBorderColour;
+
+/* =============================================================================
+Media Queries
+========================================================================== */
+$breakpointWidth: 700px;
