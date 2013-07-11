@@ -49,11 +49,40 @@
 			-webkit-backface-visibility: hidden;
 			@include box-shadow(0 0 20px #000);
 		}
+
+		#pbPrevBtn {
+			left: 0;
+			text-align: left;
+		}
+
+		#pbNextBtn {
+			right: 0;
+			text-align: right;
+		}
 	}
 
 	&.on {
 		.wrapper > * {
 			@include transition-delay(0.3s);
+		}
+		.prevNext {
+			&:hover {
+				@include opacity(0.5);
+			}
+			&:active {
+				@include transition(80ms);
+				@extend %opacity-1;
+				text-shadow: 0 0 16px #FFF, 0 0 10px #000;
+			}
+		}
+
+		//buttons
+		#pbPrevBtn:hover b {
+			@include transform(scale(1) translateX(20px));
+		}
+
+		#pbNextBtn:hover b {
+			@include transform(scale(1) translateX(-20px));
 		}
 	}
 	/* When the media is being loaded */
@@ -186,6 +215,7 @@
 		max-height: 95%;
 		max-width: 100%;
 	}
+
 	&.video {
 		.wrapper {
 			z-index: 11;
@@ -204,9 +234,59 @@
 		@extend %opacity-1;
 		@include transition(0.5s);
 	}
+
+	.pbThumbs {
+		@extend %hidden;
+		@include transition(0.35s);
+	}
+
+	&.thumbs {
+		.pbThumbs {
+			@extend %block;
+			width: 100%;
+			padding: 5px 0 2px;
+			overflow: hidden;
+		}
+	}
+
+	.prevNext {
+		@extend %hidden;
+		background: transparent;
+		@extend %absolute;
+		z-index: 10;
+		height: 100%;
+		width: 35%;
+		padding: 80px 0;
+		@extend %opacity-0;
+		@extend %border-box;
+		top: 0;
+		@include transition(0.2s ease-out);
+		text-shadow: 0 0 12px #000, 0 0 10px #FFF;
+		cursor: pointer;
+	}
+
+	&.hasArrows {
+		.prevNext {
+			@extend %block;
+		}
+	}
 }
 
-/*-- close button --*/
+#pbOverlay .wrapper:after,
+#pbCaption .pbThumbs ul:after,
+#pbOverlay .prevNext:after,
+#pbOverlay .pbLoader:before {
+	content: "";
+	@extend %inline;
+	height: 100%;
+	margin-right: -0.25em;
+	@extend %middle-aligned;
+}
+
+/* =============================================================================
+Buttons
+========================================================================== */
+
 %mediabutton {
 	@extend %absolute;
 	top: -50px;
@@ -301,6 +381,17 @@
 		@include transform(rotateZ(0deg));
 		@include transform-origin(0 0);
 		@include transition(0.4s);
+
+		&:before {
+			content: '';
+			@extend %absolute;
+			right: 0;
+			bottom: 0;
+			width: 200%;
+			height: 200%;
+			@include border-radius(50%);
+			@include box-shadow(0 0 0 8px #FFF inset);
+		}
 	}
 
 	&.playing {
@@ -310,10 +401,42 @@
 	}
 }
 
+
+#pbPrevBtn, #pbNextBtn {
+	b {
+		@include transform(scale(.4) translateX(350px));
+
+		&:before, &:after {
+			display: inline;
+			line-height: .3;
+			font-size: 18em;
+			font-weight: normal;
+			color: #FFF;
+			font-family: Arial;
+		}
+	}
+}
+
+#pbPrevBtn {
+	b:before {
+		content: '\2039';
+	}
+}
+
+#pbNextBtn{
+	b:after {
+		content: '\203A';
+	}
+}
+
 .hide {
 	#pbCloseBtn {
 		top: -50px;
 		right: -50px;
+	}
+
+	#pbCaption {
+		@extend %caption;
 	}
 }
 
@@ -343,18 +466,7 @@
 	@extend %block;
 }
 
-#pbAutoplayBtn .pbProgress:before {
-	content: '';
-	@extend %absolute;
-	right: 0;
-	bottom: 0;
-	width: 200%;
-	height: 200%;
-	@include border-radius(50%);
-	@include box-shadow(0 0 0 8px #FFF inset);
-}
-
-#pbCaption, .hide #pbCaption {
+%caption {
 	@extend %absolute;
 	z-index: 999;
 	bottom: -110px;
@@ -362,14 +474,108 @@
 	@include transition(0.4s);
 }
 
-#pbCaption .title, #pbCaption .counter {
+
+%captionText {
 	@extend %inline;
 	color: #FFF;
 	margin: 0 6px;
 }
 
-#pbCaption .counter {
-	@include opacity(0.55);
+#pbCaption {
+	@extend %caption;
+	.counter {
+		@include opacity(0.55);
+		@extend %captionText;
+	}
+
+	.pbThumbs {
+		&:hover {
+			clear: both;
+		}
+
+		ul {
+			@extend %inline;
+			@extend %relative;
+			@extend %no-list-style;
+			height: 80px;
+			padding: 0 5px;
+			@extend %margin-none;
+			white-space: pre;
+			@include transition(0.2s);
+
+			&:after {
+				@extend %bottom-aligned;
+			}
+		}
+		a {
+			height: 100%;
+			padding: 0 2px;
+			@extend %block;
+			@extend %user-select-none;
+		}
+
+		img {
+			height: 96%;
+			min-height: 95.9%;
+			border: 2px solid #FFF;
+			max-width: none;
+			@extend %rounded-none;
+			@include transition(0.15s);
+		}
+		li {
+			@extend %inline;
+			@extend %bottom-aligned;
+			height: 70%;
+			@include opacity(0.6);
+			@extend %centred;
+			@extend %relative;
+			@include transition(0.15s);
+
+			&:active {
+				height: 100%;
+				@extend %opacity-1;
+			}
+
+			&.active a img {
+				border-color: #D8FF16;
+				min-height: 96%;
+			}
+			&:hover {
+				height: 100%;
+				@extend %opacity-1;
+
+				img {
+					min-height: 96%;
+				}
+			}
+
+			&.video {
+				&:before {
+					content: '\25BA';
+					color: #FFF;
+					font-size: 20px;
+					height: 20px;
+					width: 20px;
+					line-height: 0.9;
+					@extend %absolute;
+					bottom: 4px;
+					left: 7px;
+					background: rgba(0, 0, 0, 0.4);
+					@include box-shadow(0 0 0 3px rgba(0, 0, 0, 0.4));
+					@include border-radius(0 3px 0 0);
+					@extend %pointer-events-none;
+				}
+			}
+
+			&.fast a img {
+				@include transition(none);
+			}
+		}
+	}
+
+	.title {
+		@extend %captionText;
+	}
 }
 
 .pbCaptionText {
@@ -378,205 +584,23 @@
 	font-weight: bold;
 	font-size: .9em;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+
+	&.change {
+		@include transform(translateY(25px));
+		@extend %opacity-0;
+	}
 }
 
-.pbCaptionText.change {
-	-webkit-transform: translateY(25px);
-	transform: translateY(25px);
-	@extend %opacity-0;
-}
+.prevNext {
+	b {
+		@extend %inline;
+		@extend %middle-aligned;
+		@include transition(0.2s ease-in);
+	}
 
-#pbOverlay .pbThumbs {
-	@extend %hidden;
-	@include transition(0.35s);
-}
-
-#pbOverlay.thumbs .pbThumbs {
-	@extend %block;
-	width: 100%;
-	padding: 5px 0 2px;
-	overflow: hidden;
-}
-
-#pbCaption .pbThumbs:hover {
-	clear: both;
-}
-
-#pbCaption .pbThumbs ul {
-	@extend %inline;
-	@extend %relative;
-	@extend %no-list-style;
-	height: 80px;
-	padding: 0 5px;
-	@extend %margin-none;
-	white-space: pre;
-	@include transition(0.2s);
-}
-
-#pbCaption .pbThumbs ul:after {
-	@extend %bottom-aligned;
-}
-
-#pbCaption .pbThumbs li {
-	@extend %inline;
-	@extend %bottom-aligned;
-	height: 70%;
-	@include opacity(0.6);
-	@extend %centred;
-	@extend %relative;
-	@include transition(0.15s);
-}
-
-#pbCaption .pbThumbs li.active {
-	height: 100%;
-	@extend %opacity-1;
-}
-
-#pbCaption .pbThumbs li:hover {
-	height: 100%;
-	@extend %opacity-1;
-}
-
-#pbCaption .pbThumbs li.video::before {
-	content: '\25BA';
-	color: #FFF;
-	font-size: 20px;
-	height: 20px;
-	width: 20px;
-	line-height: 0.9;
-	@extend %absolute;
-	bottom: 4px;
-	left: 7px;
-	background: rgba(0, 0, 0, 0.4);
-	@include box-shadow(0 0 0 3px rgba(0, 0, 0, 0.4));
-	@include border-radius(0 3px 0 0);
-	@extend %pointer-events-none;
-}
-
-#pbCaption .pbThumbs a {
-	height: 100%;
-	padding: 0 2px;
-	@extend %block;
-	@extend %user-select-none;
-}
-
-#pbCaption .pbThumbs img {
-	height: 96%;
-	min-height: 95.9%;
-	border: 2px solid #FFF;
-	max-width: none;
-	@extend %rounded-none;
-	@include transition(0.15s);
-}
-
-#pbCaption .pbThumbs li:hover img {
-	min-height: 96%;
-}
-
-/* fix a bug in Chrome and Opera */
-#pbCaption .pbThumbs li.fast a img {
-	@include transition(none);
-}
-
-#pbCaption .pbThumbs li.active a img {
-	border-color: #D8FF16;
-	min-height: 96%;
-}
-
-#pbOverlay .prevNext {
-	@extend %hidden;
-	background: transparent;
-	@extend %absolute;
-	z-index: 10;
-	height: 100%;
-	width: 35%;
-	padding: 80px 0;
-	@extend %opacity-0;
-	@extend %border-box;
-	top: 0;
-	@include transition(0.2s ease-out);
-	text-shadow: 0 0 12px #000, 0 0 10px #FFF;
-	cursor: pointer;
-}
-
-#pbOverlay.hasArrows .prevNext {
-	@extend %block;
-}
-
-#pbOverlay.on .prevNext:hover {
-	@include opacity(0.5);
-}
-
-#pbOverlay.on .prevNext:active {
-	@include transition(80ms);
-	@extend %opacity-1;
-	text-shadow: 0 0 16px #FFF, 0 0 10px #000;
-}
-
-.prevNext b {
-	@extend %inline;
-	@extend %middle-aligned;
-	@include transition(0.2s ease-in);
-}
-
-.prevNext:hover b {
-	@include transition(.2s cubic-bezier(0.095, 0.870, 0.485, 0.985));
-}
-
-#pbPrevBtn b {
-	@include transform(scale(.4) translateX(350px));
-}
-
-#pbNextBtn b {
-	@include transform(scale(.4) translateX(-350px));
-}
-
-/* */
-#pbPrevBtn b:before, #pbNextBtn b:after {
-	display: inline;
-	line-height: .3;
-	font-size: 18em;
-	font-weight: normal;
-	color: #FFF;
-	font-family: Arial;
-}
-
-#pbPrevBtn b:before {
-	content: '\2039';
-}
-
-#pbNextBtn b:after {
-	content: '\203A';
-}
-
-/* */
-#pbOverlay.on #pbPrevBtn:hover b {
-	transform: scale(1) translateX(20px);
-	-webkit-transform: scale(1) translateX(20px);
-}
-
-#pbOverlay.on #pbNextBtn:hover b {
-	transform: scale(1) translateX(-20px);
-	-webkit-transform: scale(1) translateX(-20px);
-}
-
-#pbOverlay.show #pbPrevBtn {
-	left: 0;
-	text-align: left;
-}
-
-#pbOverlay.show #pbNextBtn {
-	right: 0;
-	text-align: right;
-}
-
-#pbOverlay .wrapper:after,
-#pbCaption .pbThumbs ul:after,
-#pbOverlay .prevNext:after,
-#pbOverlay .pbLoader:before {
-	content: "";
-	@extend %inline;
-	height: 100%;
-	margin-right: -0.25em;
-	@extend %middle-aligned;
+	&:hover {
+		b {
+			@include transition(.2s cubic-bezier(0.095, 0.870, 0.485, 0.985));
+		}
+	}
 }

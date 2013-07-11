@@ -5,20 +5,21 @@
 Measurements and Spacing
 ========================================================================== */
 $photoBoxPadding: 1em;
-$photoBoxPaddingLarge: $photoBoxpadding;
-$photoBoxPaddingSmall: $photoBoxpadding;
-$photoBoxPaddingMini: $photoBoxpadding;
+$photoBoxPaddingLarge: $photoBoxPadding * 2.4;
+$photoBoxPaddingSmall: $photoBoxPadding / 2;
+$photoBoxPaddingMini: $photoBoxpadding / 4;
 $photoBoxMargin: 1em;
-$photoBoxMarginSmall: $photoBoxmargin;
-$photoBoxMarginLarge: $photoBoxmargin;
-$photoBoxMarginMini: $photoBoxmargin;
+$photoBoxMarginSmall: $photoBoxMargin / 2;
+$photoBoxMarginLarge: $photoBoxMargin * 2.5;
+$photoBoxMarginMini:  $photoBoxMargin / 4;
 
 /* =============================================================================
 Type
 ========================================================================== */
 $photoBoxBaseFontSize: 100%;
-$photoBoxBaseFontFamily: "Open Sans", "sans-serif", "arial";
+$photoBoxBaseFontFamily: Arial;
 $photoBoxFontSizeSmall: 0.6em;
+
 $photoBoxFontSizeMedium: 0.8em;
 $photoBoxFontSizeLarge: 2.6em;
 $photoBoxFontSizeMini: 0.4em;
