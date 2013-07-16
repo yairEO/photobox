@@ -179,6 +179,8 @@
             
             photobox = this;
             
+            // unbind event handlers before binding new ones in case photobox was not closed
+            Photobox.prototype.setup();
             this.setup(1);
 
             overlay.on(transitionend, function(){
