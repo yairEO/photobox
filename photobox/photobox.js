@@ -69,14 +69,14 @@
         
         noPointerEvents && overlay.hide();
 
-        autoplayBtn.on('click', APControl.toggle);
+        autoplayBtn.off('click').on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
-        thumbs.on('click', 'a', thumbsStripe.click);
+        thumbs.off('click', 'a').on('click', 'a', thumbsStripe.click);
         // enable scrolling gesture on mobile
         isMobile && thumbs.css('overflow', 'auto');
         
         // cancel prppogation up to the overlay container so it won't close
-        overlay.on('click', 'img', function(e){
+        overlay.off('click', 'img').on('click', 'img', function(e){
             e.stopPropagation();
         });
 
