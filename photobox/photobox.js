@@ -69,14 +69,14 @@
         
         noPointerEvents && overlay.hide();
 
-        autoplayBtn.on('click', APControl.toggle);
+        autoplayBtn.off().on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
-        thumbs.on('click', 'a', thumbsStripe.click);
+        thumbs.off().on('click', 'a', thumbsStripe.click);
         // enable scrolling gesture on mobile
         isMobile && thumbs.css('overflow', 'auto');
         
         // cancel prppogation up to the overlay container so it won't close
-        overlay.on('click', 'img', function(e){
+        overlay.off().on('click', 'img', function(e){
             e.stopPropagation();
         });
 
@@ -178,7 +178,6 @@
             imageLinks = this.imageLinks;
             
             photobox = this;
-            
             this.setup(1);
 
             overlay.on(transitionend, function(){
@@ -275,7 +274,7 @@
                 });
             }
             
-            $(doc)[fn]({ "keydown.photobox": keyDown });
+            $(doc).off("keydown.photobox")[fn]({ "keydown.photobox": keyDown });
             
             if( 'ontouchstart' in document.documentElement ){
                 overlay.removeClass('hasArrows'); // no need for Arros on touch-enabled
