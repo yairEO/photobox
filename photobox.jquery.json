@@ -25,6 +25,6 @@
 	"docs": "https://github.com/yairEO/photobox",
 	"download": "https://github.com/yairEO/photobox",
 	"dependencies": {
-		"jquery": ">=1.5"
+		"jquery": ">=1.7"
 	}
 }
