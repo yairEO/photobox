@@ -122,9 +122,8 @@
         var filtered = this.imageLinksFilter( object.find(target) );
 
         this.imageLinks = filtered[0];  // Array of jQuery links
-        this.images = filtered[1];      // 2D Array of image url & title
-		if( this.images.length )
-			this.init();
+        this.images = filtered[1];      // 2D Array of image URL & title
+		this.init();
     };
 
     Photobox.prototype = {
@@ -150,7 +149,7 @@
                     clearTimeout(that.observerTimeout);
                     that.observerTimeout = setTimeout( function(){
                         var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
-							activeIndex;
+							activeIndex = 0;
 	
                         that.imageLinks = filtered[0];
                         that.images = filtered[1];
@@ -159,18 +158,20 @@
 
                         that.thumbsList = thumbsStripe.generate(that.imageLinks);
 						
-						activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
-						
 						thumbs.html( that.thumbsList );
-						updateIndexes(activeIndex);
-						thumbsStripe.changeActive(activeIndex, 0);
+						
+						if( activeURL ){
+							activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
+							updateIndexes(activeIndex);
+							thumbsStripe.changeActive(activeIndex, 0);
+						}
                     }, 50);
                 });
         },
 
         open : function(link){
             var startImage = $.inArray(link, this.imageLinks);
-            // if image link does not exist in the imageLinks array (probably means it's not a valid part of the galery)
+            // if image link does not exist in the imageLinks array (probably means it's not a valid part of the gallery)
             if( startImage == -1 ) return false;
 
             // load the right gallery selector...
@@ -199,6 +200,7 @@
                 // if no img child found in the link
                 if( !img ) return false;
                 images.push([link.href, img.getAttribute('alt') || img.getAttribute('title') || '']);
+	
                 return true;
             }), images];
         },
