@@ -123,7 +123,8 @@
 
         this.imageLinks = filtered[0];  // Array of jQuery links
         this.images = filtered[1];      // 2D Array of image url & title
-        this.init();
+		if( this.images.length )
+			this.init();
     };
 
     Photobox.prototype = {

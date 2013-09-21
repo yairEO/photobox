@@ -48,7 +48,7 @@
 			isVideo = photo.thumb ? true : false;
 			// http://www.flickr.com/services/api/misc.urls.html
             var url = 'http://farm' + photo.farm + '.static.flickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret,
-				img = new Image();
+				img = document.createElement('img');
 			
 			// lazy show the photos one by one
 			img.onload = function(e){
@@ -56,6 +56,7 @@
 				var link = document.createElement('a'),
 				li = document.createElement('li')
 				link.href = this.largeUrl;
+
 				link.appendChild(this);
 				if( this.isVideo ){
 					link.rel = 'video';
