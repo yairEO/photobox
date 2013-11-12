@@ -32,16 +32,16 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 ## Basic use-case example:
     <div id='gallery'>
         <a href="http://www.somedomain.com/images/image1_large.jpg">
-        	<img src="http://www.somedomain.com/images/image1_small.jpg" alt="photo1 title">
+        	<img src="http://www.somedomain.com/images/image1_small.jpg" title="photo1 title">
     	</a>
     	<a href="http://www.somedomain.com/images/image2_large.jpg">
     		<img src="http://www.somedomain.com/images/image2_small.jpg" alt="photo2 title">
     	</a>
     	<a href="http://www.somedomain.com/images/image3_large.jpg">
-    		<img src="http://www.somedomain.com/images/image3_small.jpg" alt="photo3 title">
+    		<img src="http://www.somedomain.com/images/image3_small.jpg" title="photo3 title">
     	</a>
     	<a href="http://www.somedomain.com/images/image4_large.jpg">
-    		<img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title">
+    		<img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
     	</a>
 		<a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
 			<img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
@@ -71,7 +71,7 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 		$('#gallery').photobox('prepareDOM');
     </script>
 	
-## How to put a video link
+## Videos
     <div id='gallery'>
 		...
 		<a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
@@ -82,7 +82,7 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 	
 A video link must have the `rel` attribute with the value of `video`. The url of the link must be the iframe embed (youtube, vimeo, etc.) And inside you can put a thumbnail of the video (of course)
 
-## Changing effects is easy!
+## Changing Effects Is Easy!
 Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
     
     #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
@@ -90,47 +90,26 @@ Advanced CSS users would know this, but for rest, you can just copy the below ex
 
 Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
+## Custom Caption Links
+you can add your own links along with the `title` or `alt` attributes texts, just add `data-pb-captionLink` to the image thumbnail:<br>
+`data-pb-captionLink='Google website[www.google.com]'`
+
+
 ## Settings
-**history** (default: true)
 
-    Enable/disable HTML5 history using hash urls
 
-**time** (default: 3000) minimum 1000ms allowed
-
-    The time in miliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.
-
-**autoplay** (default: false)
-
-    should the gallery autoplay on start or not.
-
-**loop** (Default: 'true')
-
-    Loop back to last image before the first one and to the first image after last one.
-    
-**thumbs** (Default: 'true') 
-
-    Show thumbs of all the images in the gallery at the bottom.
+Name        | Info                                                                                                     | Default
+----------- | -------------------------------------------------------------------------------------------------------- | -----------------------------
+history     | Enable/disable HTML5 history using hash urls                                                             | true
+time        | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum 1000ms allowed
+autoplay    | should the gallery autoplay on start or not.                                                             | false
+loop        | Loop back to last image before the first one and to the first image after last one.                      | true
+thumbs      | Show thumbs of all the images in the gallery at the bottom.                                              | true
+counter     | Show the current image index position relative to the whole. Example (3,11)                              | true
+zoomable    | Enable/Disable mousewheel zooming over images                                                            | true
+hideFlash   | Hide flash instances when viewing an image in the gallery                                                | true
+keys.close  | Key codes which close the gallery                                                                        | "27, 88, 67"
+keys.prev   | Key codes which change to the previous image                                                             | "37, 80"
+keys.next   | Key codes which change to the next image                                                                 | "39, 78"
    
-**counter** (Default: 'true')
 
-    Show the current image index position relative to the whole. Example (3,11). 
-	
-**zoomable** (Default: 'true')
-
-    Enable/Disable mousewheel zooming over images
-   
-**hideFlash** (Default: 'true')
-
-    Hide flash instances when viewing an image in the gallery.
-
-**keys.close** (Default: "27, 88, 67")
-
-    Key codes which close the gallery.
-
-**keys.prev** (Default: "37, 80")
-
-    Key codes which change to the previous image.
-
-**keys.next** (Default: "39, 78")
-
-    Key codes which change to the next image.

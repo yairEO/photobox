@@ -194,12 +194,30 @@
         },
 
         imageLinksFilter : function(obj){
-            var images = [];
+            var images = [], caption = {}, captionlink;
             return [obj.filter(function(i){
                 var link = this, img = $(link).find('img')[0];
                 // if no img child found in the link
                 if( !img ) return false;
-                images.push([link.href, img.getAttribute('alt') || img.getAttribute('title') || '']);
+				
+				caption.content = "<span>" +( img.getAttribute('alt') || img.getAttribute('title') || '') + "</span>";
+				// if there is a caption link to be added:
+				captionlink = img.getAttribute('data-pb-captionlink')
+				if( captionlink ){
+					captionlink = captionlink.split('[');
+					// parse complex links: text[www.site.com]
+					if( captionlink.length == 2 ){
+						caption.linkText = captionlink[0];
+						caption.linkHref = captionlink[1].slice(0,-1);
+					}
+					else{
+						caption.linkText = captionlink;
+						caption.linkHref = captionlink;
+					}
+					caption.content += ' <a href="'+ caption.linkHref +'">' + caption.linkText + '</a>';
+				}
+				
+                images.push([link.href, caption.content]);
 	
                 return true;
             }), images];
@@ -523,7 +541,7 @@
 		captionText.off(transitionend).removeClass('change');
 		// change caption's text
 		options.counter && caption.find('.counter').text('(' + (activeImage + 1) + ' / ' + images.length + ')');
-		options.title && caption.find('.title').text( images[activeImage][1] );
+		options.title && caption.find('.title').html( images[activeImage][1] );
 	}
     
     // Handles the history states when changing images
