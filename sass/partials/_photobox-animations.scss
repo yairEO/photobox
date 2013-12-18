@@ -2,27 +2,14 @@
 Animations
 ========================================================================== */
 
-@keyframes pbLoaderFrames {
-	50% {
-		height: 5px;
-	}
-}
-
-@-webkit-keyframes pbLoaderFrames {
+@include keyframes("pbLoaderFrames") {
 	50% {
 		height: 5px;
 	}
 }
 
 /* Animation when image was not loaded */
-@keyframes deadImage {
-	50% {
-		text-shadow: 0 0 25px rgba(255, 255, 255, .5);
-		@include scale(0.85);
-	}
-}
-
-@-webkit-keyframes deadImage {
+@include keyframes ("deadImage") {
 	50% {
 		text-shadow: 0 0 25px rgba(255, 255, 255, .5);
 		@include scale(0.85);

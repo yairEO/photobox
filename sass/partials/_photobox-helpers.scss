@@ -3,6 +3,7 @@
  */
 @import "compass/css3/pie";
 @import "compass/css3";
+@import "compass/support";
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
@@ -212,6 +213,11 @@ Floats
 	position: absolute;
 }
 
+%fixed {
+	position: fixed;
+	position: fixed;
+}
+
 %relative {
 	position: relative;
 }
@@ -219,6 +225,7 @@ Floats
 %block {
 	display: block;
 }
+
 
 /* =============================================================================
 Lists
@@ -228,19 +235,27 @@ Lists
 }
 
 /* =============================================================================
-Pointer events
+Pointer events mixin
 ========================================================================== */
+@mixin pointer-events($type: none) {
+	$type: unquote($type);
+	-moz-pointer-events: $type;
+	-webkit-pointer-events: $type;
+	-ms-pointer-events: $type;
+	pointer-events: $type;
+}
+
 %pointer-events-none {
-	pointer-events: none;
+	@include pointer-events(none);
 }
 
 %pointer-events-auto {
-	pointer-events: auto;
+	@include pointer-events(auto);
 }
-
 /* =============================================================================
 User select
 ========================================================================== */
 %user-select-none {
 	@include user-select(none);
 }
+

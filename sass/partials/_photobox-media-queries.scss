@@ -1,5 +1,5 @@
 /*------- media queries (for small screens) -----------*/
-@media all and (max-width: $breakpointWidth) {
+@media all and (max-width: $photoBoxBreakpointWidth) {
 	#pbOverlay .wrapper img, #pbOverlay.hide .wrapper img.prepare {
 		max-height: 100%;
 	}
@@ -31,7 +31,7 @@
 			}
 			li {
 				height: 100%;
-				opacity: 1;
+				@include opacity(1);
 				img {
 					min-height: 96.5%;
 				}
@@ -51,7 +51,7 @@
 }
 
 /* fix for Chrome */
-@media all and (max-width: 710px) {
+@media all and (max-width: $photoBoxBreakpointWidthChrome) {
 	#pbCaption .pbThumbs li.active a img {
 		min-height: 96%;
 	}

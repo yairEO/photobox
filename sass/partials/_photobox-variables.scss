@@ -12,7 +12,14 @@ $photoBoxMargin: 1em;
 $photoBoxMarginSmall: $photoBoxMargin / 2;
 $photoBoxMarginLarge: $photoBoxMargin * 2.5;
 $photoBoxMarginMini:  $photoBoxMargin / 4;
+$photoBoxImageSpacing: 4%;
 
+//captions
+$photoBoxCaptionHeight: 80px;
+
+$photoBoxButtonWidth: 2em;
+$photoBoxButtonWidthMedium: $photoBoxButtonWidth * 1.4;
+$photoBoxButtonWidthLarge: $photoBoxButtonWidth * 1.7;
 /* =============================================================================
 Type
 ========================================================================== */
@@ -49,7 +56,7 @@ $photoBoxPrimaryColour: $photoBoxTextColour;
 //colour of text and main colour overall
 $photoBoxsecondaryColour: #d5d5d5;
 $photoBoxtertiaryColour: #313131;
-
+$photoBoxOverlayColour: fade-out($photoBoxPrimaryColour, 0.15);
 /* =============================================================================
 Images
 ========================================================================== */
@@ -58,12 +65,33 @@ $photoBoxLoadingImage: url("../images/loading.gif");
 /* =============================================================================
 Borders
 ========================================================================== */
-$photoBoxBorderWidth: 1px;
+$photoBoxBorderWidth: 2px;
 $photoBoxBorderStyle: solid;
-$photoBoxBorderColour: fade-out(lighten($photoBoxTextColour, 80%), 0.5);
+$photoBoxBorderColour: #FFF;
 $photoBoxBorder: $photoBoxBorderWidth $photoBoxBorderStyle $photoBoxBorderColour;
+
+/* =============================================================================
+Icons
+========================================================================== */
+$photoBoxPlayIcon: "\25BA";
+$photoBoxAutoPlayIcon: "\2016";
+$photoBoxCloseIcon: "\00D7";
+$photoBoxPreviousIcon: "\2039";
+$photoBoxNextIcon: "\203A";
+$photoBoxVideoPlayIcon: "\25BA";
+$photoBoxVideoIconSize: 20px;
+
+$photoBoxIconColour: #FFF;
+
+/* =============================================================================
+Animations
+========================================================================== */
+
+//animation duration
+$photoBoxAnimationDuration: 0.3s;
 
 /* =============================================================================
 Media Queries
 ========================================================================== */
-$breakpointWidth: 700px;
+$photoBoxBreakpointWidth: 700px;
+$photoBoxBreakpointWidthChrome: 710px;

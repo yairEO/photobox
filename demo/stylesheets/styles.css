@@ -1,0 +1,594 @@
+/* =============================================================================
+Measurements and Spacing
+========================================================================== */
+/* =============================================================================
+Type
+========================================================================== */
+/* =============================================================================
+Border Radii
+========================================================================== */
+/* =============================================================================
+Transitions
+========================================================================== */
+/* =============================================================================
+Colours
+========================================================================== */
+/* =============================================================================
+Images
+========================================================================== */
+/* =============================================================================
+Borders
+========================================================================== */
+/* =============================================================================
+Icons
+========================================================================== */
+/* =============================================================================
+Animations
+========================================================================== */
+/* =============================================================================
+Media Queries
+========================================================================== */
+/**
+ * Non-semantic helper classes: please define your styles before this section.
+ */
+/* Hide for both screenreaders and browsers:
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+/* Hide visually and from screenreaders, but maintain layout */
+/* =============================================================================
+Margins
+========================================================================== */
+/* line 45, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, .main h2 {
+	margin: 0;
+}
+
+/* line 97, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+	padding: 0;
+}
+
+/* =============================================================================
+Border radius
+========================================================================== */
+/* line 103, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+.btn, .main a {
+	-moz-border-radius: 0.4em;
+	-webkit-border-radius: 0.4em;
+	border-radius: 0.4em;
+}
+
+/* =============================================================================
+Opacity/visibility
+========================================================================== */
+/* line 190, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+.main a:after, #gallery li.video:before, #gallery li.loaded.video:hover:before {
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	opacity: 0;
+}
+
+/* line 194, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+.main footer a:hover::after, #gallery li.loaded.video:before {
+	filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+	opacity: 1;
+}
+
+/* =============================================================================
+Floats
+========================================================================== */
+/* line 208, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+.btn, .main a:after {
+	display: inline-block;
+	vertical-align: middle;
+	*vertical-align: auto;
+	*zoom: 1;
+	*display: inline;
+}
+
+/* line 212, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+#gallery li.video:before {
+	position: absolute;
+}
+
+/* line 221, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+.main a, #gallery li {
+	position: relative;
+}
+
+/* line 225, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+#gallery a {
+	display: block;
+}
+
+/* =============================================================================
+Lists
+========================================================================== */
+/* line 233, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/../../sass/partials/_photobox-helpers.scss */
+ol, ul, #gallery li {
+	list-style: none;
+}
+
+/* =============================================================================
+Pointer events mixin
+========================================================================== */
+/* =============================================================================
+User select
+========================================================================== */
+/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. */
+/* line 6, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+html {
+	color: #000;
+	background: #FFF;
+}
+
+/* line 16, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* line 21, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+fieldset, img {
+	border: 0;
+}
+
+/* line 25, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+
+/* line 34, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+caption, th {
+	text-align: left;
+}
+
+/* line 38, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+/* line 43, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+q:before, q:after {
+	content: "";
+}
+
+/* line 47, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+abbr, acronym {
+	border: 0;
+	font-variant: normal;
+}
+
+/* line 52, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+sup {
+	vertical-align: text-top;
+}
+
+/* line 56, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+sub {
+	vertical-align: text-bottom;
+}
+
+/* line 60, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+input, textarea, select {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+/* line 66, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+input, textarea, select {
+	*font-size: 100%;
+}
+
+/* line 70, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+legend {
+	color: #000;
+}
+
+/* line 74, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#yui3-css-stamp.cssreset {
+	display: none;
+}
+
+/* line 78, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+html {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+/* line 83, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	-moz-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1) inset;
+	-webkit-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1) inset;
+	box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1) inset;
+	min-height: 100%;
+	padding: 0;
+	background: url("bg2.jpg") 50% 50% fixed no-repeat;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
+	-moz-animation: 8s bg forwards ease;
+	-webkit-animation: 8s bg forwards ease;
+	animation: 8s bg forwards ease;
+}
+
+@-moz-keyframes bg {
+	/* line 94, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	0% {
+		-moz-background-size: 120% 120%;
+		background-size: 120% 120%;
+	}
+
+	/* line 97, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	100% {
+		-moz-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+}
+
+@-webkit-keyframes bg {
+	/* line 94, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	0% {
+		-webkit-background-size: 120% 120%;
+		background-size: 120% 120%;
+	}
+
+	/* line 97, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	100% {
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+}
+
+@keyframes bg {
+	/* line 94, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	0% {
+		-moz-background-size: 120% 120%;
+		-o-background-size: 120% 120%;
+		-webkit-background-size: 120% 120%;
+		background-size: 120% 120%;
+	}
+
+	/* line 97, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	100% {
+		-moz-background-size: 100% 100%;
+		-o-background-size: 100% 100%;
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+}
+
+@font-face {
+	font-family: "Romanesco";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Romanesco"), local("Romanesco-Regular"), url(http://themes.googleusercontent.com/static/fonts/romanesco/v1/ulV2bu0ivcWDuAzM7oh4XT8E0i7KZn-EPnyo3HZu7kw.woff) format("woff");
+}
+
+@font-face {
+	font-family: "Cuprum";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Cuprum"), local("Cuprum-Regular"), url(http://themes.googleusercontent.com/static/fonts/cuprum/v4/sp1_LTSOMWWV0K5VTuZzvQ.woff) format("woff");
+}
+
+/* line 116, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+a {
+	text-decoration: none;
+}
+
+/* line 120, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.btn {
+	-moz-box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329b inset, 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	-webkit-box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329b inset, 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329b inset, 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	background: #0088CC;
+	background-repeat: repeat-x;
+	color: #FFF;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	padding: 1em 2.4em;
+	-moz-transition: 0.5s;
+	-o-transition: 0.5s;
+	-webkit-transition: 0.5s;
+	transition: 0.5s;
+}
+
+/* line 130, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.btn:hover {
+	background: #0068BA;
+}
+
+/* line 133, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.btn:active {
+	-moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329b inset, 0 0 6px #00243f inset;
+	-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329b inset, 0 0 6px #00243f inset;
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329b inset, 0 0 6px #00243f inset;
+}
+
+/* line 138, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#wrap {
+	overflow: hidden;
+	padding: 3%;
+}
+
+/* line 143, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#pbOverlay.show ~ #wrap {
+	-webkit-filter: blur(2px) grayscale(0.4);
+	filter: blur(2px) grayscale(0.4);
+}
+
+/* line 147, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main {
+	float: left;
+	font-size: 1.1em;
+	width: 36%;
+	color: #FFF;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	font-family: "Cuprum";
+}
+
+/* line 154, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main h1 {
+	line-height: 0.75;
+	font-size: 6.2em;
+	margin: 0;
+	text-indent: 1%;
+	font-family: "Romanesco";
+}
+
+/* line 161, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main small {
+	color: inherit;
+}
+
+/* line 164, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main h2 {
+	font-size: 1.7em;
+	color: #FF1668;
+	line-height: 1.2;
+	font-family: "Romanesco";
+}
+
+/* line 171, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main p {
+	margin: 1em 0;
+}
+
+/* line 174, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main footer {
+	margin-top: 2.5em;
+	text-shadow: none;
+	font-size: 0.9em;
+}
+
+/* line 178, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main footer a:hover::after {
+	margin-left: 0.25em;
+}
+
+/* line 183, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main .copy {
+	font-family: Tahoma;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0 0.25em;
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=35);
+	opacity: 0.35;
+}
+
+/* line 190, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main a {
+	margin-left: 0.5em;
+	color: #D8FF16;
+	-moz-transition: 0.5s;
+	-o-transition: 0.5s;
+	-webkit-transition: 0.5s;
+	transition: 0.5s;
+}
+
+/* line 196, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main a:hover {
+	text-decoration: none;
+	color: #FFF;
+	/* box-shadow:0 0 0 5px rgba(0,0,0,0.2); background:rgba(0,0,0,0.2); */
+}
+
+/* line 200, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+.main a:after {
+	content: "\203A";
+	font-size: 2em;
+	line-height: 0.8;
+	margin-left: -0.5em;
+	vertical-align: top;
+	-moz-pointer-events: none;
+	-webkit-pointer-events: none;
+	-ms-pointer-events: none;
+	pointer-events: none;
+	-moz-transition: 0.25s ease-out;
+	-o-transition: 0.25s ease-out;
+	-webkit-transition: 0.25s ease-out;
+	transition: 0.25s ease-out;
+}
+
+/* line 214, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery {
+	float: right;
+	width: 60%;
+}
+
+/* line 217, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery a {
+	width: 75px;
+	height: 68px;
+	vertical-align: bottom;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.1);
+	-moz-transition: 0.5s ease-out;
+	-o-transition: 0.5s ease-out;
+	-webkit-transition: 0.5s ease-out;
+	transition: 0.5s ease-out;
+	-moz-transform: rotateX(90deg) translate(-50px, -50%);
+	-ms-transform: rotateX(90deg) translate(-50px, -50%);
+	-o-transform: rotateX(90deg) translate(-50px, -50%);
+	-webkit-transform: rotateX(90deg) translate(-50px, -50%);
+	transform: rotateX(90deg) translate(-50px, -50%);
+}
+
+/* line 227, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery a:active, #gallery a:focus {
+	outline: none;
+}
+
+/* line 231, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery a img {
+	min-height: 100%;
+	width: 100%;
+	-moz-transition: 0.5s ease-out;
+	-o-transition: 0.5s ease-out;
+	-webkit-transition: 0.5s ease-out;
+	transition: 0.5s ease-out;
+}
+
+/* line 237, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery .loaded a {
+	-moz-transform: rotateX(0deg) translate(0, 0);
+	-ms-transform: rotateX(0deg) translate(0, 0);
+	-o-transform: rotateX(0deg) translate(0, 0);
+	-webkit-transform: rotateX(0deg) translate(0, 0);
+	transform: rotateX(0deg) translate(0, 0);
+}
+
+/* line 240, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery li {
+	-moz-perspective: 100px;
+	-webkit-perspective: 100px;
+	perspective: 100px;
+	margin: 0.25em;
+	float: right;
+	-moz-transition: 0.16667s;
+	-o-transition: 0.16667s;
+	-webkit-transition: 0.16667s;
+	transition: 0.16667s;
+}
+
+/* line 248, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery li.video:before {
+	content: "\25BA";
+	color: #FFF;
+	font-size: 20px;
+	height: 20px;
+	width: 20px;
+	line-height: 0.9;
+	bottom: 3px;
+	left: 4px;
+	z-index: 1;
+	background: rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.4);
+	-moz-border-radius: 0 0.3em 0 0;
+	-webkit-border-radius: 0;
+	border-radius: 0 0.3em 0 0;
+	-moz-pointer-events: none;
+	-webkit-pointer-events: none;
+	-ms-pointer-events: none;
+	pointer-events: none;
+	-moz-transition: 0.5s 0.2s;
+	-o-transition: 0.5s 0.2s;
+	-webkit-transition: 0.5s 0.2s;
+	transition: 0.5s 0.2s;
+}
+
+/* line 279, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery li.loaded a:hover {
+	-moz-box-shadow: 0 0 0 2px white, 0 0 20px 5px black;
+	-webkit-box-shadow: 0 0 0 2px white, 0 0 20px 5px black;
+	box-shadow: 0 0 0 2px white, 0 0 20px 5px black;
+	-moz-transition: 0.16667s;
+	-o-transition: 0.16667s;
+	-webkit-transition: 0.16667s;
+	transition: 0.16667s;
+}
+
+/* line 284, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery li.loaded:hover {
+	z-index: 2;
+	-moz-transform: scale(1.5, 1.5);
+	-ms-transform: scale(1.5, 1.5);
+	-o-transform: scale(1.5, 1.5);
+	-webkit-transform: scale(1.5, 1.5);
+	transform: scale(1.5, 1.5);
+}
+
+/* line 287, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+#gallery li.loaded:hover img {
+	-moz-transform: scale(1.2, 1.2);
+	-ms-transform: scale(1.2, 1.2);
+	-o-transform: scale(1.2, 1.2);
+	-webkit-transform: scale(1.2, 1.2);
+	transform: scale(1.2, 1.2);
+}
+
+/*------- media queries -----------*/
+@media all and (max-width: 700px) {
+	/* line 297, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	body {
+		background-position: 0 0;
+		background-attachment: inherit;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+
+	/* line 303, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	.main, #gallery {
+		float: none;
+		width: auto;
+		font-size: 0.9em;
+	}
+
+	/* line 309, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	.main h1 {
+		font-size: 5.2em;
+	}
+
+	/* line 313, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	.main h2 {
+		font-size: 1.5em;
+	}
+
+	/* line 317, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	.btn {
+		position: absolute;
+		right: 10px;
+		top: 26px;
+	}
+
+	/* line 323, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	#gallery li {
+		margin: 0;
+	}
+
+	/* line 327, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	#gallery a {
+		width: 55px;
+		height: 50px;
+	}
+
+	/* line 332, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	#gallery li.loaded:hover img, #gallery li.loaded:hover {
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
+		-webkit-transform: none;
+		transform: none;
+	}
+
+	/* line 336, C:/Users/Sean/Documents/GitHub/photobox/demo/sass/styles.scss */
+	.main footer {
+		margin: 0.5em 0;
+	}
+}

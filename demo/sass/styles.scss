@@ -1,0 +1,339 @@
+@import "compass/css3";
+@import "../../sass/partials/_photobox-variables.scss";
+@import "../../sass/partials/_photobox-helpers.scss";
+
+/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. */
+html {
+	color: #000;
+	background: #FFF;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+	@extend %margin-none;
+	@extend %padding-none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+fieldset, img {
+	border: 0;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+
+ol, ul {
+	@extend %no-list-style;
+}
+
+caption, th {
+	text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+q:before, q:after {
+	content: "";
+}
+
+abbr, acronym {
+	border: 0;
+	font-variant: normal;
+}
+
+sup {
+	vertical-align: text-top;
+}
+
+sub {
+	vertical-align: text-bottom;
+}
+
+input, textarea, select {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+input, textarea, select {
+	*font-size: 100%
+}
+
+legend {
+	color: #000;
+}
+
+#yui3-css-stamp.cssreset {
+	display: none;
+}
+
+html {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	@include box-shadow(0 0 0 10px rgba(255, 255, 255, 0.1) inset);
+	min-height: 100%;
+	padding: 0;
+	background: url("bg2.jpg") 50% 50% fixed no-repeat;
+	@include background-size(cover);
+	@include animation(8s bg forwards ease);
+}
+
+@include keyframes("bg") {
+	0% {
+		@include background-size(120% 120%);
+	}
+	100% {
+		@include background-size(100% 100%);
+	}
+}
+
+@font-face {
+	font-family: "Romanesco";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Romanesco"), local("Romanesco-Regular"), url(http://themes.googleusercontent.com/static/fonts/romanesco/v1/ulV2bu0ivcWDuAzM7oh4XT8E0i7KZn-EPnyo3HZu7kw.woff) format("woff");
+}
+
+@font-face {
+	font-family: "Cuprum";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Cuprum"), local("Cuprum-Regular"), url(http://themes.googleusercontent.com/static/fonts/cuprum/v4/sp1_LTSOMWWV0K5VTuZzvQ.woff) format("woff");
+}
+
+a {
+	text-decoration: none;
+}
+
+.btn {
+	@extend %inline;
+	@include box-shadow(0 0 3px 2px rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329B inset, 0 1px 0 rgba(255, 255, 255, 0.3) inset);
+	background: #0088CC;
+	background-repeat: repeat-x;
+	color: #FFF;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	@extend %rounded;
+	padding: $photoBoxPadding $photoBoxPaddingLarge;
+	@include transition($photoBoxTransitionTime);
+	&:hover {
+		background: #0068BA;
+	}
+	&:active {
+		@include box-shadow(0 0 0 0 rgba(0, 0, 0, 0.3), 0 -30px 30px -15px #00329B inset, 0 0 6px #00243F inset);
+	}
+}
+
+#wrap {
+	overflow: hidden;
+	padding: 3%;
+}
+
+#pbOverlay.show ~ #wrap {
+	@include filter(blur(2px) grayscale(.4));
+}
+
+.main {
+	float: left;
+	font-size: 1.1em;
+	width: 36%;
+	color: #FFF;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, .5);
+	font-family: "Cuprum";
+	h1 {
+		line-height: 0.75;
+		font-size: 6.2em;
+		margin: 0;
+		text-indent: 1%;
+		font-family: "Romanesco";
+	}
+	small {
+		color: inherit;
+	}
+	h2 {
+		font-size: 1.7em;
+		color: #FF1668;
+		line-height: 1.2;
+		@extend %margin-none;
+		font-family: "Romanesco";
+	}
+	p {
+		margin: $photoBoxMargin 0;
+	}
+	footer {
+		margin-top: $photoBoxMarginLarge;
+		text-shadow: none;
+		font-size: 0.9em;
+		a:hover::after {
+			@extend %opacity-1;
+			margin-left: $photoBoxMarginMini;
+		}
+	}
+	.copy {
+		font-family: Tahoma;
+		font-size: 1.2em;
+		font-weight: bold;
+		margin: 0 $photoBoxMarginMini;
+		@include opacity(0.35);
+	}
+	a {
+		margin-left: $photoBoxMarginSmall;
+		color: #D8FF16;
+		@extend %rounded;
+		@extend %relative;
+		@include transition($photoBoxTransitionTime);
+		&:hover {
+			text-decoration: none;
+			color: #FFF; /* box-shadow:0 0 0 5px rgba(0,0,0,0.2); background:rgba(0,0,0,0.2); */
+		}
+		&:after {
+			content: "\203A";
+			font-size: 2em;
+			line-height: 0.8;
+			margin-left: -$photoBoxMarginSmall;
+			@extend %inline;
+			vertical-align: top;
+			@extend %opacity-0;
+			@include pointer-events(none);
+			@include transition(($photoBoxTransitionTime / 2) ease-out);
+		}
+	}
+}
+
+#gallery {
+	float: right;
+	width: 60%;
+	a {
+		@extend %block;
+		width: 75px;
+		height: 68px;
+		vertical-align: bottom;
+		overflow: hidden;
+		background: fade-out($photoBoxPrimaryColour, 0.9);
+		@include transition($photoBoxTransitionTime ease-out);
+		@include transform(rotateX(90deg) translate(-50px, -50%));
+
+		&:active, &:focus {
+			outline: none;
+		}
+
+		& img {
+			min-height: 100%;
+			width: 100%;
+			@include transition($photoBoxTransitionTime ease-out);
+		}
+	}
+	.loaded a {
+		@include transform(rotateX(0deg) translate(0, 0));
+	}
+	li {
+		@extend %no-list-style;
+		@include perspective(100px);
+		margin: $photoBoxMarginMini;
+		float: right;
+		@extend %relative;
+		@include transition(($photoBoxTransitionTime / 3));
+		&.video {
+			&:before {
+				content: "\25BA";
+				color: #FFF;
+				font-size: $photoBoxVideoIconSize;
+				height: $photoBoxVideoIconSize;
+				width: $photoBoxVideoIconSize;
+				line-height: 0.9;
+				@extend %absolute;
+				bottom: 3px;
+				left: 4px;
+				z-index: 1;
+				background: fade-out($photoBoxPrimaryColour, 0.6);
+				@include box-shadow(0 0 0 3px fade-out($photoBoxPrimaryColour, 0.6));
+				@include border-radius(0 $photoBoxBorderRadiusSmall 0 0);
+				@include pointer-events(none);
+				@extend %opacity-0;
+				@include transition(.5s 0.2s);
+			}
+		}
+		&.loaded {
+			&.video {
+				&:before {
+					@extend %opacity-1;
+				}
+				&:hover {
+					&:before {
+						@extend %opacity-0;
+					}
+				}
+			}
+			a {
+				&:hover {
+					@include box-shadow(0 0 0 2px #FFF, 0 0 20px 5px #000);
+					@include transition(($photoBoxTransitionTime / 3));
+				}
+			}
+			&:hover {
+				z-index: 2;
+				@include scale(1.5);
+				img {
+					@include scale(1.2);
+				}
+			}
+		}
+	}
+}
+
+/*------- media queries -----------*/
+@media all and (max-width: 700px) {
+	body {
+		background-position: 0 0;
+		background-attachment: inherit;
+		@include box-shadow(none);
+	}
+
+	.main, #gallery {
+		float: none;
+		width: auto;
+		font-size: 0.9em;
+	}
+
+	.main h1 {
+		font-size: 5.2em;
+	}
+
+	.main h2 {
+		font-size: 1.5em;
+	}
+
+	.btn {
+		position: absolute;
+		right: 10px;
+		top: 26px;
+	}
+
+	#gallery li {
+		margin: 0;
+	}
+
+	#gallery a {
+		width: 55px;
+		height: 50px;
+	}
+
+	#gallery li.loaded:hover img, #gallery li.loaded:hover {
+		@include transform(none);
+	}
+
+	.main footer {
+		margin: $photoBoxMarginSmall 0;
+	}
+}

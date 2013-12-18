@@ -14,13 +14,13 @@
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
-	position: fixed;
+	@extend %fixed;
 	z-index: 9999;
 	left: 0;
 	top: 0;
-	background: rgba(0, 0, 0, 0.85);
+	background: $photoBoxOverlayColour;
 	//fallback for IE8-
-	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkFEQ0Y1MjQ1QTg4MTFFMkFCRjFCRDZEQjFDMTJDNDciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkFEQ0Y1MjU1QTg4MTFFMkFCRjFCRDZEQjFDMTJDNDciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQURDRjUyMjVBODgxMUUyQUJGMUJENkRCMUMxMkM0NyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQURDRjUyMzVBODgxMUUyQUJGMUJENkRCMUMxMkM0NyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pj9rBBcAAAASSURBVHjaYmRgYNgMxAwAAQYAA5EAtcchicsAAAAASUVORK5CYII=');
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkFEQ0Y1MjQ1QTg4MTFFMkFCRjFCRDZEQjFDMTJDNDciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkFEQ0Y1MjU1QTg4MTFFMkFCRjFCRDZEQjFDMTJDNDciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQURDRjUyMjVBODgxMUUyQUJGMUJENkRCMUMxMkM0NyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQURDRjUyMzVBODgxMUUyQUJGMUJENkRCMUMxMkM0NyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pj9rBBcAAAASSURBVHjaYmRgYNgMxAwAAQYAA5EAtcchicsAAAAASUVORK5CYII=");
 	@include background(radial-gradient(rgba(0, 0, 0, .6) 0%, rgba(0, 0, 0, .9) 100%));
 
 	/* IE Styles */
@@ -50,7 +50,7 @@
 		.wrapper > * {
 			@include transition(0.3s 0.5s ease-out);
 			@include transform(none);
-			-webkit-backface-visibility: hidden;
+			@include backface-visibility(hidden);
 			@include box-shadow(0 0 20px #000);
 		}
 
@@ -109,10 +109,7 @@
 			&:before {
 				font-size: 22em;
 				text-shadow: 0 0 0 #FFF;
-				-webkit-animation: 2s 1s deadImage infinite linear;
-				-o-animation: 2s 1s deadImage infinite linear;
-				-moz-animation: 2s 1s deadImage infinite linear;
-				animation: 2s 1s deadImage infinite linear;
+				@include animation("deadImage" 2s 1s infinite linear);
 			}
 			img {
 				width: 0;
@@ -129,7 +126,7 @@
 		z-index: 999;
 		top: 50%;
 		left: 50%;
-		margin: -50px 0 0 -50px;
+		margin: -$photoBoxButtonWidthMedium 0 0 -$photoBoxButtonWidthMedium;
 		@extend %centred;
 		@include border-radius(100%);
 		@include box-shadow(15px 32px 60px -20px #FFF inset, 1px 1px 3px 1px #FFF inset, 0 0 20px);
@@ -140,34 +137,31 @@
 		b {
 			@extend %inline;
 			@extend %middle-aligned;
-			margin: 0 2px;
+			margin: 0 $photoBoxMarginMini;
 			width: 8px;
-			height: 60px;
+			height: 4em;
 			@extend %rounded;
 			background: rgba(255, 255, 255, 0.8);
 			@include box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-			-webkit-animation: .9s pbLoaderFrames infinite linear;
-			animation: .9s pbLoaderFrames infinite linear;
+			@include animation(($photoBoxAnimationDuration * 3) pbLoaderFrames infinite linear);
 
 			&:nth-child(2) {
-				-webkit-animation-delay: .3s;
-				animation-delay: .3s;
+				@include animation-delay($photoBoxAnimationDuration);
 			}
 
 			&:nth-child(3) {
-				-webkit-animation-delay: .6s;
-				animation-delay: .6s;
+				@include animation-delay($photoBoxAnimationDuration * 2);
 			}
 		}
 	}
 
 	&.thumbs {
 		.pbLoader {
-			margin-top: -100px;
+			margin-top: -($photoBoxButtonWidthMedium * 2);
 		}
 		.wrapper {
-			margin-top: -50px;
-			padding: 50px 0;
+			margin-top: -$photoBoxButtonWidthMedium;
+			padding: $photoBoxButtonWidthMedium 0;
 		}
 	}
 
@@ -180,7 +174,7 @@
 
 		//ie8+9 hack
 		&:before {
-			content: '\2716';
+			content: "\2716";
 			color: transparent;
 			text-shadow: 0 2px 35px rgba(255, 255, 255, 0);
 			font-size: 0;
@@ -195,7 +189,7 @@
 			height: 351px;
 			@extend %middle-aligned;
 			@extend %rounded;
-			background: rgba(0, 0, 0, 0.5);
+			background: fade-out($photoBoxPrimaryColour, 0.5);
 		}
 		.hide {
 			iframe {
@@ -214,9 +208,7 @@
 		@extend %opacity-1;
 		@extend %middle-aligned;
 		@include transform(scale(0) rotateX(80deg));
-		-ms-transform: scale(0) rotateX(80deg);
-		@include border-radius(6px);
-		border: none;
+		@extend %rounded;
 		max-height: 95%;
 		max-width: 100%;
 	}
@@ -249,7 +241,7 @@
 		.pbThumbs {
 			@extend %block;
 			width: 100%;
-			padding: 5px 0 2px;
+			padding: $photoBoxPaddingMini 0 $photoBoxPaddingMini;
 			overflow: hidden;
 		}
 	}
@@ -261,7 +253,7 @@
 		z-index: 10;
 		height: 100%;
 		width: 35%;
-		padding: 80px 0;
+		padding: ($photoBoxButtonWidth * 2.2) 0;
 		@extend %opacity-0;
 		@extend %border-box;
 		top: 0;
@@ -294,27 +286,27 @@ Buttons
 
 %mediabutton {
 	@extend %absolute;
-	top: -50px;
-	right: -50px;
+	top: -$photoBoxButtonWidthMedium;
+	right: -$photoBoxButtonWidthMedium;
 	z-index: 999;
 	@extend %block;
-	padding: 0 0 20px 20px;
+	padding: 0 0 $photoBoxPaddingLarge $photoBoxPaddingLarge;
 	@extend %centred;
 	cursor: pointer;
 	color: #FFF;
-	@include transition(.3s .3s ease-out);
+	@include transition($photoBoxTransitionTime $photoBoxTransitionTime ease-out);
 
 	&:before {
 		@extend %inline;
-		height: 35px;
-		width: 35px;
-		padding: 8px 8px 12px 12px;
-		font-size: 2em;
-		line-height: .7;
+		height: $photoBoxButtonWidth;
+		width: $photoBoxButtonWidth;
+		padding: $photoBoxPaddingSmall;
+		font-size: $photoBoxFontSizeLarge;
+		line-height: 0.7;
 		@extend %middle-aligned;
 		background: rgba(255, 255, 255, 0.2);
-		@include border-radius(0 0 0 70px);
-		@include transition(0.1s ease-out);
+		@include border-radius(0 0 0 ($photoBoxButtonWidth * 2));
+		@include transition(($photoBoxTransitionTime / 3) ease-out);
 	}
 }
 
@@ -324,14 +316,14 @@ Buttons
 
 #pbCloseBtn {
 	&:before {
-		content: '\00D7';
+		content: $photoBoxCloseIcon;
 		font-weight: bold;
 	}
 
 	&:hover {
 		&:before {
-			padding: $photoBoxPadding 10px 24px 24px;
-			background: rgba(255, 100, 100, .4);
+			padding: $photoBoxPadding $photoBoxPaddingSmall $photoBoxPaddingLarge $photoBoxPaddingLarge;
+			background: rgba(255, 100, 100, 0.4);
 		}
 	}
 }
@@ -339,30 +331,29 @@ Buttons
 #pbAutoplayBtn {
 	@extend %hidden;
 	right: auto;
-	left: -50px;
-	padding: 0;
-	width: 50px;
-	height: 50px;
-	font-size: 13px;
+	left: -$photoBoxButtonWidthMedium;
+	@extend %padding-none;
+	width: $photoBoxButtonWidthMedium;
+	height: $photoBoxButtonWidthMedium;
+	font-size: $photoBoxFontSizeMedium;
 
 	&.play {
 		&:before {
-			content: '\25BA';
+			content: $photoBoxPlayIcon;
 		}
 	}
 	&:hover {
-		width: 60px;
-		height: 60px;
+		padding: $photoBoxPaddingLarge;
 	}
 
 	&:before {
-		content: '\2016';
+		content: $photoBoxAutoPlayIcon;
 		width: 100%;
 		height: 100%;
-		@include border-radius(0 0 70px 0);
+		@include border-radius(0 0 ($photoBoxButtonWidth * 2) 0);
 		font-weight: bold;
 		@extend %padding-none;
-		text-indent: -6px;
+		text-indent: -0.05em;
 		line-height: 1.6;
 	}
 
@@ -378,7 +369,7 @@ Buttons
 		height: 100%;
 		overflow: hidden;
 		@extend %absolute;
-		padding: 6px;
+		padding: $photoBoxPaddingMini;
 		top: 0;
 		left: 0;
 		@extend %opacity-0;
@@ -387,7 +378,7 @@ Buttons
 		@include transition(0.4s);
 
 		&:before {
-			content: '';
+			content: "";
 			@extend %absolute;
 			right: 0;
 			bottom: 0;
@@ -412,7 +403,7 @@ Buttons
 
 		&:before, &:after {
 			display: inline;
-			line-height: .3;
+			line-height: 0.3;
 			font-size: 18em;
 			font-weight: normal;
 			color: #FFF;
@@ -423,13 +414,13 @@ Buttons
 
 #pbPrevBtn {
 	b:before {
-		content: '\2039';
+		content: $photoBoxPreviousIcon;
 	}
 }
 
 #pbNextBtn{
 	b:after {
-		content: '\203A';
+		content: $photoBoxNextIcon;
 	}
 }
 
@@ -482,7 +473,7 @@ Buttons
 %captionText {
 	@extend %inline;
 	color: #FFF;
-	margin: 0 6px;
+	margin: 0 $photoBoxMarginMini;
 }
 
 #pbCaption {
@@ -501,8 +492,8 @@ Buttons
 			@extend %inline;
 			@extend %relative;
 			@extend %no-list-style;
-			height: 80px;
-			padding: 0 5px;
+			height: $photoBoxCaptionHeight;
+			padding: 0 $photoBoxPaddingMini;
 			@extend %margin-none;
 			white-space: pre;
 			@include transition(0.2s);
@@ -513,15 +504,15 @@ Buttons
 		}
 		a {
 			height: 100%;
-			padding: 0 2px;
+			padding: 0 $photoBoxPaddingMini;
 			@extend %block;
 			@extend %user-select-none;
 		}
 
 		img {
-			height: 96%;
+			height: (100% - $photoBoxImageSpacing);
 			min-height: 95.9%;
-			border: 2px solid #FFF;
+			border: $photoBoxBorderWidth $photoBoxBorderStyle $photoBoxBorderColour;
 			max-width: none;
 			@extend %rounded-none;
 			@include transition(0.15s);
@@ -542,24 +533,24 @@ Buttons
 
 			&.active a img {
 				border-color: #D8FF16;
-				min-height: 96%;
+				min-height: (100% - $photoBoxImageSpacing);
 			}
 			&:hover {
 				height: 100%;
 				@extend %opacity-1;
 
 				img {
-					min-height: 96%;
+					min-height: (100% - $photoBoxImageSpacing);
 				}
 			}
 
 			&.video {
 				&:before {
-					content: '\25BA';
-					color: #FFF;
-					font-size: 20px;
-					height: 20px;
-					width: 20px;
+					content: $photoBoxVideoPlayIcon;
+					color: $photoBoxIconColour;
+					font-size: $photoBoxVideoIconSize;
+					height: $photoBoxVideoIconSize;
+					width: $photoBoxVideoIconSize;
 					line-height: 0.9;
 					@extend %absolute;
 					bottom: 4px;
@@ -585,7 +576,7 @@ Buttons
 .pbCaptionText {
 	@include transition(0.3s);
 	font-weight: bold;
-	font-size: .9em;
+	font-size: $photoBoxFontSizeMedium;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 
 	&.change {
