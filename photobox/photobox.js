@@ -43,7 +43,7 @@
         },
 
         // DOM structure
-        overlay = $('<div id="pbOverlay">').append(
+        overlay = $('<div id="pbOverlay" style="display:none">').append(
                     pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
 					prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
                     nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
