@@ -6,7 +6,7 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 ## Benefits
-*    Lightweight! Both script & CSS are no more than 10k each (minified, no gzip)
+*    Lightweight! `jquery.photobox.js` is only 5kb (gziped & minified)
 *    Silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
 *    Support videos via iframe embedding
 *    Stunning UI and user-friendly UX
@@ -16,18 +16,18 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 *    Uses event-delegation on all thumbnails clicks (obviously...)
 *    Uses HTML5 History to update location with the currently viewed image
 *    The only image is a pre-loader animation for old IE. For the rest, no images at all!
-*    Browsers support: IE8+ (graceful degradation), Modren browsers
+*    Browsers support: IE8+ (graceful degradation), Modern browsers
 
 ## Functionality
 *    Images/videos can be zoomed in and out with mousewheel and navigated using mousemove to move around
-*    Bottom row of thumbnails, navigated by mouse movment, can be resized using the mousewheel
+*    Bottom row of thumbnails, navigated by mouse movement, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
 *    Indicate the index of the current viewed image in relation to the total, like so: (36/100)
 *    Touch-friendly swipe left/right to change image. Swipe up/down to toggle the thumbnails stripe
 *    Supports looping after first and last images
 *    Auto-playing of images at a set interval (see "time" in Settings)
 *    Supports keyboard keys for navigation and closing the gallery view
-*    In case there was an error loading an image, a message is showen, which can be configured via CSS
+*    In case there was an error loading an image, a message is shown, which can be configured via CSS
 
 ## Basic use-case example:
     <div id='gallery'>
