@@ -1,5 +1,5 @@
 /*!
-    photobox v1.8.0
+    photobox v1.8.5
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -26,6 +26,8 @@
         closeBtn, image, video, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
 
         defaults = {
+            beforeShow: null,   // Callbacl before showing an image
+            afterClose: null,   // Callbacl after closing the gallery
             loop:       true,   // Allows to navigate between first and last images
             thumb:      null,   // A relative path from the link to the thumbnail (if it's not inside the link)
             thumbs:     true,   // Show gallery thumbnails below the presented photo
@@ -81,7 +83,7 @@
             e.stopPropagation();
         });
 
-        $(doc.body).prepend( $(overlay) );
+        $(doc.body).append( $(overlay) );
 
         // need this for later:
         docElm = doc.documentElement;
@@ -132,9 +134,16 @@
             var that = this;
 
             // only generates the thumbStripe once, and listen for any DOM changes on the selector element, if so, re-generate
-            if( this.options.thumbs )
-                // generate gallery thumbnails every time (cause links might have been changed dynamicly)
+            if( this.options.thumbs ){
+                // generate gallery thumbnails every time (because links might have changed)
                 this.thumbsList = thumbsStripe.generate(this.imageLinks);
+				
+				if( !isMobile ){
+					thumbs.on('mouseenter.photobox', thumbsStripe.calc)
+						  .on('mousemove.photobox', thumbsStripe.move)
+						  .trigger('mouseenter.photobox');
+				}
+			}
 
             this.selector.on('click.photobox', this.target, function(e){
                 e.preventDefault();
@@ -145,26 +154,45 @@
             this.observerTimeout = null;
 
             if( this.selector[0].nodeType == 1 ) // observe normal nodes
-                that.observeDOM( that.selector[0] ,function(){
-                    // use a timeout to prevent more than one DOM change event fireing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
+                that.observeDOM( that.selector[0], function(){
+                    // use a timeout to prevent more than one DOM change event firing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
                     clearTimeout(that.observerTimeout);
                     that.observerTimeout = setTimeout( function(){
                         var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
-							activeIndex = 0;
+                            activeIndex = 0;
 
                         that.imageLinks = filtered[0];
                         that.images = filtered[1];
-						images = that.images;
-						imageLinks = that.imageLinks;
 
-                        that.thumbsList = thumbsStripe.generate(that.imageLinks);
+                        // if photobox is opened
+						if( photobox ){
+                            // if gallery which was changed is the currently viewed one:
+                            if( that.selector == photobox.selector ){
+                                images = that.images;
+                                imageLinks = that.imageLinks;
 
-						thumbs.html( that.thumbsList );
+                                // check if the currently VIEWED photo has been detached from a photobox set
+                                // if so, remove navigation arrows
+                                // TODO: fix the "images" to be an object and not an array.
+                                for( var i = images.length; i--; ){
+                                    if( images[i][0] == activeURL )
+                                        return;
+                                    // if not exits any more
+                                    overlay.removeClass('hasArrows');
+                                }
+                            }
+                        }
 
-						if( activeURL ){
+                        // if this gallery has thumbs
+                        if( that.options.thumbs ){
+                            that.thumbsList = thumbsStripe.generate(that.imageLinks);
+    						thumbs.html( that.thumbsList );
+                        }
+
+						if( that.images.length && activeURL && that.options.thumbs ){
 							activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
 							updateIndexes(activeIndex);
-							thumbsStripe.changeActive(activeIndex, 0);
+                            thumbsStripe.changeActive(activeIndex, 0);
 						}
                     }, 50);
                 });
@@ -200,6 +228,7 @@
                 images = [],
                 caption = {},
                 captionlink;
+
             return [obj.filter(function(i){
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
                 var link = $(this), img = link.find('img')[0] || link.find(that.options.thumb)[0];
@@ -264,12 +293,6 @@
                 thumbs.html( this.thumbsList );
 
                 overlay[options.thumbs ? 'addClass' : 'removeClass']('thumbs');
-
-                if( options.thumbs ){
-                    activeThumb.removeAttr('class');
-                    $(win).on('resize.photobox', thumbsStripe.calc);
-                    thumbsStripe.calc(); // initiate the function for the first time without any window resize
-                }
 
                 // things to hide if there are less than 2 images
                 if( this.images.length < 2 )
@@ -342,69 +365,103 @@
     }
 
     // manage the (bottom) thumbs strip
-    thumbsStripe = {
-        // returns a <ul> element which is populated with all the gallery links and thumbs
-        generate : function(imageLinks){
-            var thumbsList = $('<ul>'), link, elements = [], i, len = imageLinks.size(), title, image, type;
+    thumbsStripe = (function(){
+		var containerWidth   = 0,
+			scrollWidth      = 0,
+			posFromLeft      = 0,    // Stripe position from the left of the screen
+			stripePos        = 0,    // When relative mouse position inside the thumbs stripe
+			animated         = null,
+			padding,  				 // in percentage to the containerWidth 
+			el, $el, ratio, scrollPos, pos;
+		
+		return{
+			// returns a <ul> element which is populated with all the gallery links and thumbs
+			generate : function(imageLinks){
+				var thumbsList = $('<ul>'), link, elements = [], i, len = imageLinks.size(), title, image, type;
 
-            for( i = 0; i < len; i++ ){
-                link = imageLinks[i];
-				image = $(link).find('img');
-                title = image[0].title || image[0].alt || '';
-				type = link.rel ? " class='" + link.rel +"'" : '';
-                elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ image[0].src +'" alt="" title="'+ title +'" /></a></li>');
-            };
+				for( i = 0; i < len; i++ ){
+					link = imageLinks[i];
+					image = $(link).find('img');
+					title = image[0].title || image[0].alt || '';
+					type = link.rel ? " class='" + link.rel +"'" : '';
+					elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ image[0].src +'" alt="" title="'+ title +'" /></a></li>');
+				};
 
-            thumbsList.html( elements.join('') );
-            return thumbsList;
-        },
+				thumbsList.html( elements.join('') );
+				return thumbsList;
+			},
 
-        click : function(e){
-            e.preventDefault();
+			click : function(e){
+				e.preventDefault();
 
-            activeThumb.removeClass('active');
-            activeThumb = $(this).parent().addClass('active');
+				activeThumb.removeClass('active');
+				activeThumb = $(this).parent().addClass('active');
 
-            var imageIndex = $(this.parentNode).index();
-            return changeImage(imageIndex, 0, 1);
-        },
+				var imageIndex = $(this.parentNode).index();
+				return changeImage(imageIndex, 0, 1);
+			},
 
-        changeActiveTimeout : null,
-        /** Highlights the thumb which represents the photo and centers the thumbs viewer on it.
-        **  @thumbClick - if a user clicked on a thumbnail, don't center on it
-        */
-        changeActive : function(index, delay, thumbClick){
-            var lastIndex = activeThumb.index();
-            activeThumb.removeClass('active');
-            activeThumb = thumbs.find('li').eq(index).addClass('active');
-            if( thumbClick ) return;
-            // set the scrollLeft position of the thumbs list to show the active thumb
-            clearTimeout(this.changeActiveTimeout);
-            // give the images time to to settle on their new sizes (because of css transition) and then calculate the center...
-            this.changeActiveTimeout = setTimeout(
-                function(){
-                    var pos = activeThumb[0].offsetLeft + activeThumb[0].clientWidth/2 - docElm.clientWidth/2;
-                    delay ? thumbs.delay(800) : thumbs.stop();
-                    thumbs.animate({scrollLeft: pos}, 500, 'swing');
-                }, 200);
-        },
+			changeActiveTimeout : null,
+			/** Highlights the thumb which represents the photo and centres the thumbs viewer on it.
+			**  @thumbClick - if a user clicked on a thumbnail, don't center on it
+			*/
+			changeActive : function(index, delay, thumbClick){
+				var lastIndex = activeThumb.index();
+				activeThumb.removeClass('active');
+				activeThumb = thumbs.find('li').eq(index).addClass('active');
+				if( thumbClick ) return;
+				// set the scrollLeft position of the thumbs list to show the active thumb
+				clearTimeout(this.changeActiveTimeout);
+				// give the images time to to settle on their new sizes (because of css transition) and then calculate the center...
+				this.changeActiveTimeout = setTimeout(
+					function(){
+						var pos = activeThumb[0].offsetLeft + activeThumb[0].clientWidth/2 - docElm.clientWidth/2;
+						delay ? thumbs.delay(800) : thumbs.stop();
+						thumbs.animate({scrollLeft: pos}, 500, 'swing');
+					}, 200);
+			},
 
-        // calculate the thumbs container width, if the window has been resized
-        calc : function(){
-            thumbsContainerWidth = thumbs[0].clientWidth;
-            thumbsTotalWidth = thumbs[0].firstChild.clientWidth;
+			// calculate the thumbs container width, if the window has been resized
+			calc : function(e){
+				el = thumbs[0];
+				
+				containerWidth       = el.clientWidth;
+				scrollWidth          = el.scrollWidth;
+				padding 			 = 0.15 * containerWidth;
 
-            var state = thumbsTotalWidth > thumbsContainerWidth ? 'on' : 'off';
-            !isMobile && thumbs[state]('mousemove', thumbsStripe.move);
-            return this;
-        },
+				posFromLeft          = thumbs.offset().left;
+				stripePos            = e.pageX - padding - posFromLeft;
+				pos                  = stripePos / (containerWidth - padding*2);
+				scrollPos            = (scrollWidth - containerWidth ) * pos;
 
-        // move the stripe left or right according to mouse position
-        move : function(e){
-            var ratio = thumbsTotalWidth / thumbsContainerWidth;
-            thumbs[0].scrollLeft = e.pageX * ratio - 500;
-        }
-    };
+				thumbs.animate({scrollLeft:scrollPos}, 200);
+
+				clearTimeout(animated);
+				animated = setTimeout(function(){
+					animated = null;
+				}, 200);
+
+				return this;
+			},
+
+			// move the stripe left or right according to mouse position
+			move : function(e){
+				// don't move anything until inital movement on 'mouseenter' has finished
+				if( animated ) return;
+
+				ratio     = scrollWidth / containerWidth;
+				stripePos = e.pageX - padding - posFromLeft; // the mouse X position, "normalized" to the carousel position
+
+				if( stripePos < 0) stripePos = 0; //
+
+				pos       = stripePos / (containerWidth - padding*2); // calculated position between 0 to 1
+				// calculate the percentage of the mouse position within the carousel
+				scrollPos = (scrollWidth - containerWidth ) * pos;
+
+				el.scrollLeft = scrollPos;
+			}
+		}
+    })();
 
     // Autoplay controller
     APControl = {
@@ -486,6 +543,10 @@
     function changeImage(imageIndex, firstTime, thumbClick){
         if( !imageIndex || imageIndex < 0 )
             imageIndex = 0;
+
+        // if there's a callback for this point:
+        if( typeof options.beforeShow == "function")
+            options.beforeShow(imageLinks[imageIndex]);
 
         overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
 
@@ -734,6 +795,9 @@
 
             // fallback if the 'transitionend' event didn't fire
             setTimeout(hide, 500);
+            // callback after closing the gallery
+            if( typeof options.afterClose === 'function' )
+                options.afterClose(overlay);
     }
 
 
