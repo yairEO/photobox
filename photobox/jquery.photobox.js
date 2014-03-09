@@ -83,7 +83,7 @@
             e.stopPropagation();
         });
 
-        $(doc.body).append( $(overlay) );
+        $(doc.body).append(overlay);
 
         // need this for later:
         docElm = doc.documentElement;
@@ -1066,10 +1066,10 @@
 
 	})();
 	
-	//////////////////////////////////
+	////////////// ON DOCUMENT READY /////////////////
 	$(doc).ready(prepareDOM);
 
-	// expose outside
+	// Expose:
 	window._photobox = {
 		history : history
 	};

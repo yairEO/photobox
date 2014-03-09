@@ -60,7 +60,7 @@
 
 	#pbOverlay .wrapper > *, #pbOverlay.hide .wrapper > .prepare{ display:inline-block; opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; max-height:95%; max-width:100%; }
 	#pbOverlay.on .wrapper > *{ transition-delay:0s; -ms-transition-delay:0s; }
-	#pbOverlay .wrapper .zoomable{ transition:.1s; -ms-transition:.1ms; position:relative; z-index:9; }
+	#pbOverlay .wrapper .zoomable{ transition:0s; -ms-transition:0s; position:relative; z-index:9; }
 	#pbOverlay.hide .wrapper > *{  -webkit-transform:scale(1.2); transform:scale(1.2); transform:none\9; opacity:0; -ms-transition:.4s ease-in; transition:.4s ease-in; }
 
 /*-- close button --*/
