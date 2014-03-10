@@ -1,5 +1,5 @@
 /*!
-    photobox v1.8.5
+    photobox v1.9.0
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -83,7 +83,7 @@
             e.stopPropagation();
         });
 
-        $(doc.body).append(overlay);
+        $(doc.body).append( overlay );
 
         // need this for later:
         docElm = doc.documentElement;
@@ -91,28 +91,30 @@
 
     // @param [List of elements to work on, Custom settings, Callback after image is loaded]
     $.fn.photobox = function(target, settings, callback){
-		if( $(this).data('_photobox') ) // don't initiate the plugin more than once on the same element
-			return this;
+        return this.each(function(){
+            var o, pb;
 
-        if( typeof target != 'string' )
-            target = 'a';
+    		if( $(this).data('_photobox') ) // don't initiate the plugin more than once on the same element
+    			return this;
 
-        if( target === 'prepareDOM' ){
-            prepareDOM();
-			return this;
-		}
+            if( typeof target != 'string' )
+                target = 'a';
 
-        var _options = $.extend({}, defaults, settings || {}),
-            pb = new Photobox(_options, this, target);
+            if( target === 'prepareDOM' ){
+                prepareDOM();
+    			return this;
+    		}
 
-        // Saves the insance on the gallery's target element
-        $(this).data('_photobox', pb);
-        // add a callback to the specific gallery
-        pb.callback = callback;
-        // save every created gallery pointer
-        photoboxes.push( pb );
+            o = $.extend({}, defaults, settings || {});
+            pb = new Photobox(o, this, target);
 
-        return this;
+            // Saves the insance on the gallery's target element
+            $(this).data('_photobox', pb);
+            // add a callback to the specific gallery
+            pb.callback = callback;
+            // save every created gallery pointer
+            photoboxes.push( pb );
+        });
     }
 
     Photobox = function(_options, object, target){
@@ -122,7 +124,7 @@
 
         this.thumbsList = null;
         // filter the links which actually HAS an image as a child
-        var filtered = this.imageLinksFilter( object.find(target) );
+        var filtered = this.imageLinksFilter( this.selector.find(target) );
 
         this.imageLinks = filtered[0];  // Array of jQuery links
         this.images = filtered[1];      // 2D Array of image URL & title
@@ -137,12 +139,6 @@
             if( this.options.thumbs ){
                 // generate gallery thumbnails every time (because links might have changed)
                 this.thumbsList = thumbsStripe.generate(this.imageLinks);
-				
-				if( !isMobile ){
-					thumbs.on('mouseenter.photobox', thumbsStripe.calc)
-						  .on('mousemove.photobox', thumbsStripe.move)
-						  .trigger('mouseenter.photobox');
-				}
 			}
 
             this.selector.on('click.photobox', this.target, function(e){
@@ -286,11 +282,23 @@
 
             // a hack to change the image src to nothing, because you can't do that in CHROME
             image[0].src = blankImg;
+
+            // thumbs stuff
+            if( options.thumbs ){
+                if( !isMobile ){
+                    thumbs[fn]('mouseenter.photobox', thumbsStripe.calc)
+                          [fn]('mousemove.photobox', thumbsStripe.move);
+                }
+            }
+
             if( open ){
                 image.css({'transition':'0s'}).removeAttr('style'); // reset any transition that might be on the element (yes it's ugly)
                 overlay.show();
                 // Clean up if another gallery was veiwed before, which had a thumbsList
-                thumbs.html( this.thumbsList );
+                thumbs
+                    .html( this.thumbsList )
+                    .trigger('mouseenter.photobox');
+
 
                 overlay[options.thumbs ? 'addClass' : 'removeClass']('thumbs');
 
@@ -311,17 +319,11 @@
                     else
                         overlay.removeClass('hasAutoplay');
                 }
+
+                options.hideFlash && $('iframe, object, embed').css('visibility', 'hidden');
+
             } else {
                 $(win).off('resize.photobox');
-            }
-
-            if( options.hideFlash ){
-                $.each(["object", "embed"], function(i, val){
-                    $(val).each(function(){
-                        if (open) this._photobox = this.style.visibility;
-                        this.style.visibility = open ? "hidden" : this._photobox;
-                    });
-                });
             }
 
             $(doc).off("keydown.photobox")[fn]({ "keydown.photobox": keyDown });
@@ -335,7 +337,7 @@
                 overlay[fn]({"mousewheel.photobox": scrollZoom });
                 if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
             }
-			
+
 			overlay[fn]({"mousewheel.photobox": wheelNextPrev });
         },
 
@@ -373,9 +375,9 @@
 			posFromLeft      = 0,    // Stripe position from the left of the screen
 			stripePos        = 0,    // When relative mouse position inside the thumbs stripe
 			animated         = null,
-			padding,  				 // in percentage to the containerWidth 
+			padding,  				 // in percentage to the containerWidth
 			el, $el, ratio, scrollPos, pos;
-		
+
 		return{
 			// returns a <ul> element which is populated with all the gallery links and thumbs
 			generate : function(imageLinks){
@@ -426,7 +428,7 @@
 			// calculate the thumbs container width, if the window has been resized
 			calc : function(e){
 				el = thumbs[0];
-				
+
 				containerWidth       = el.clientWidth;
 				scrollWidth          = el.scrollWidth;
 				padding 			 = 0.15 * containerWidth;
@@ -521,7 +523,7 @@
                ok.next.indexOf(code) >= 0 && changeImage(nextImage) ||
                ok.prev.indexOf(code) >= 0 && changeImage(prevImage) || true;
     }
-	
+
 	function wheelNextPrev(e, dY, dX){
 		if( dX == 1 )
 			changeImage(nextImage);
@@ -725,7 +727,7 @@
 
     function scrollZoom(e, deltaY, deltaX){
 		if( deltaX ) return false;
-		
+
 		if( activeType == 'video' ){
 			var zoomLevel = video.data('zoom') || 1;
 			zoomLevel += (deltaY / 10);
@@ -800,8 +802,11 @@
                 if( overlay[0].className == '' ) return; // if already hidden
                 overlay.removeClass('show hide error pbLoading');
                 image.removeAttr('class').removeAttr('style').off().data('zoom',1);
+
                 if(noPointerEvents) // pointer-events lack support in IE, so just hide the overlay
                     setTimeout(function(){ overlay.hide(); }, 200);
+
+                options.hideFlash && $('iframe, object, embed').css('visibility', 'visisble');
             }
 
             // fallback if the 'transitionend' event didn't fire
@@ -1065,7 +1070,7 @@
 		}
 
 	})();
-	
+
 	////////////// ON DOCUMENT READY /////////////////
 	$(doc).ready(prepareDOM);
 
