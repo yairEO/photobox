@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.0
+    photobox v1.8.5
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -26,6 +26,7 @@
         closeBtn, image, video, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
 
         defaults = {
+            single:     false,  // if "true" - gallery will only show a single image, with no way to navigate
             beforeShow: null,   // Callbacl before showing an image
             afterClose: null,   // Callbacl after closing the gallery
             loop:       true,   // Allows to navigate between first and last images
@@ -83,7 +84,7 @@
             e.stopPropagation();
         });
 
-        $(doc.body).append( overlay );
+        $(doc.body).append(overlay);
 
         // need this for later:
         docElm = doc.documentElement;
@@ -303,7 +304,7 @@
                 overlay[options.thumbs ? 'addClass' : 'removeClass']('thumbs');
 
                 // things to hide if there are less than 2 images
-                if( this.images.length < 2 )
+                if( this.images.length < 2 ||  options.single )
                     overlay.removeClass('thumbs hasArrows hasCounter hasAutoplay');
                 else{
                     overlay.addClass('hasArrows hasCounter')
@@ -338,7 +339,8 @@
                 if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
             }
 
-			overlay[fn]({"mousewheel.photobox": wheelNextPrev });
+            if( !options.single )
+			    overlay[fn]({"mousewheel.photobox": wheelNextPrev });
         },
 
         destroy : function(){
@@ -520,8 +522,8 @@
         var code = event.keyCode, ok = options.keys, result;
         // Prevent default keyboard action (like navigating inside the page)
         return ok.close.indexOf(code) >= 0 && close() ||
-               ok.next.indexOf(code) >= 0 && changeImage(nextImage) ||
-               ok.prev.indexOf(code) >= 0 && changeImage(prevImage) || true;
+               ok.next.indexOf(code) >= 0 && !options.single && changeImage(nextImage) ||
+               ok.prev.indexOf(code) >= 0 && !options.single && changeImage(prevImage) || true;
     }
 
 	function wheelNextPrev(e, dY, dX){
