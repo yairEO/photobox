@@ -100,6 +100,7 @@ you can add your own links along with the `title` or `alt` attributes texts, jus
 
 Name        | Info                                                                                                     | Default
 ----------- | -------------------------------------------------------------------------------------------------------- | -----------------------------
+single      | if "true" - gallery will only show a single image, with no way to navigate                               | false
 history     | Enable/disable HTML5 history using hash urls                                                             | true
 time        | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum 1000ms allowed
 autoplay    | should the gallery autoplay on start or not.                                                             | false
