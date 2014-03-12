@@ -93,10 +93,15 @@
     // @param [List of elements to work on, Custom settings, Callback after image is loaded]
     $.fn.photobox = function(target, settings, callback){
         return this.each(function(){
-            var o, pb;
-
-    		if( $(this).data('_photobox') ) // don't initiate the plugin more than once on the same element
-    			return this;
+            var o, pb, 
+				PB_data = $(this).data('_photobox');
+			
+    		if( PB_data ){ // don't initiate the plugin more than once on the same element
+    			if( target === 'destroy')
+					PB_data.destroy();
+					
+				return this;
+			}
 
             if( typeof target != 'string' )
                 target = 'a';
@@ -344,12 +349,12 @@
         },
 
         destroy : function(){
+			options = this.options;
             this.selector
                 .off('click.photobox', this.target)
                 .removeData('_photobox');
 
             close();
-            return this.selector;
         }
     }
 

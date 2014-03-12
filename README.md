@@ -64,7 +64,7 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 		
 		// destroy the plugin on a certain gallery:
 		//-----------------------------------------------
-		$('#gallery').data('_photobox').destroy();
+		$('#gallery').photobox('destroy');
 		
 		// re-initialize the photbox DOM (does what Document ready does)
 		//-----------------------------------------------
