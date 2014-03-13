@@ -27,20 +27,20 @@
 
         defaults = {
             single:     false,  // if "true" - gallery will only show a single image, with no way to navigate
-            beforeShow: null,   // Callbacl before showing an image
-            afterClose: null,   // Callbacl after closing the gallery
+            beforeShow: null,   // Callback before showing an image
+            afterClose: null,   // Callback after closing the gallery
             loop:       true,   // Allows to navigate between first and last images
             thumb:      null,   // A relative path from the link to the thumbnail (if it's not inside the link)
             thumbs:     true,   // Show gallery thumbnails below the presented photo
             counter:    true,   // Counter text (example [24/62])
             title:      true,   // show the original alt or title attribute of the image's thumbnail
             autoplay:   false,  // should autoplay on first time or not
-            time:       3000,   // autoplay interna, in miliseconds (less than 1000 will hide the autoplay button)
+            time:       3000,   // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
             history:    true,   // should use history hashing if possible (HTML5 API)
             hideFlash:  true,   // Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
             zoomable:   true,   // disable/enable mousewheel image zooming
             keys: {
-                close: '27, 88, 67',    // keycodes to close Picbox, default: Esc (27), 'x' (88), 'c' (67)
+                close: '27, 88, 67',    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
                 prev:  '37, 80',        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
                 next:  '39, 78'         // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
             }
@@ -282,7 +282,7 @@
             }
         })(),
 
-        // things that should happend everytime the gallery opens or closes (some messed up code below..)
+        // things that should happen every time the gallery opens or closes (some messed up code below..)
         setup : function (open){
             var fn = open ? "on" : "off";
 
@@ -300,7 +300,7 @@
             if( open ){
                 image.css({'transition':'0s'}).removeAttr('style'); // reset any transition that might be on the element (yes it's ugly)
                 overlay.show();
-                // Clean up if another gallery was veiwed before, which had a thumbsList
+                // Clean up if another gallery was viewed before, which had a thumbsList
                 thumbs
                     .html( this.thumbsList )
                     .trigger('mouseenter.photobox');
@@ -335,7 +335,7 @@
             $(doc).off("keydown.photobox")[fn]({ "keydown.photobox": keyDown });
 
             if( 'ontouchstart' in document.documentElement ){
-                overlay.removeClass('hasArrows'); // no need for Arros on touch-enabled
+                overlay.removeClass('hasArrows'); // no need for Arrows on touch-enabled
                 wrapper[fn]('swipe', onSwipe);
             }
 
@@ -457,7 +457,7 @@
 
 			// move the stripe left or right according to mouse position
 			move : function(e){
-				// don't move anything until inital movement on 'mouseenter' has finished
+				// don't move anything until initial movement on 'mouseenter' has finished
 				if( animated ) return;
 
 				ratio     = scrollWidth / containerWidth;
@@ -816,7 +816,7 @@
                 options.hideFlash && $('iframe, object, embed').css('visibility', 'visisble');
             }
 
-            // fallback if the 'transitionend' event didn't fire
+            // fall-back if the 'transitionend' event didn't fire
             setTimeout(hide, 500);
             // callback after closing the gallery
             if( typeof options.afterClose === 'function' )
