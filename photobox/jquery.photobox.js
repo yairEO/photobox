@@ -1083,6 +1083,7 @@
 
 	// Expose:
 	window._photobox = {
-		history : history
+		history : history,
+		defaults : defaults
 	};
 })(jQuery, document, window);
