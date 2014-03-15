@@ -95,9 +95,9 @@ you can add your own links along with the `title` or `alt` attributes texts, jus
 `data-pb-captionLink='Google website[www.google.com]'`
 
 
-## Over-riding the defaults (without changing source code)
-It is always recommended not changing a the code directly, because then you will have a version which is out-of-sync with future changes, and you might face difficult merges.
-So, if you want to change the defaults, I would recommend creating another file, typically called `jquery.photobox.mod.js`. 
+## Overriding defaults
+It is always recommended not to touch the source code directly, because then you will have a version which is out-of-sync with any future version, and you might face some difficult merges with your own changes.
+So, if you want to change some stuff, I would recommend creating another file, typically called `jquery.photobox.mod.js`. This good practice also applies for the CSS file.
 ### Example:
 ````
 /*!
@@ -118,7 +118,8 @@ So, if you want to change the defaults, I would recommend creating another file,
     window._photobox.defaults.time = 0;
     window._photobox.defaults.beforeShow = photoboxCallbacks.beforeShow;
 
-    // append "userInfo" after DOMReady has been fired (the overlay won't exist in the DOM before then)
+    // append "userInfo" after DOMReady has been fired 
+	// (the overlay won't exist in the DOM before then)
     $(document).ready(function(){
         var overlay = $('#pbOverlay');
 
@@ -138,7 +139,7 @@ Name        | Info                                                              
 ----------- | -------------------------------------------------------------------------------------------------------- | -----------------------------
 single      | if "true" - gallery will only show a single image, with no way to navigate                               | false
 history     | Enable/disable HTML5 history using hash urls                                                             | true
-time        | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum 1000ms allowed
+time        | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum of 1000 allowed
 autoplay    | should the gallery autoplay on start or not.                                                             | false
 loop        | Loop back to last image before the first one and to the first image after last one.                      | true
 thumbs      | Show thumbs of all the images in the gallery at the bottom.                                              | true
