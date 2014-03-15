@@ -32,54 +32,54 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
 ## Basic use-case example:
     <div id='gallery'>
         <a href="http://www.somedomain.com/images/image1_large.jpg">
-        	<img src="http://www.somedomain.com/images/image1_small.jpg" title="photo1 title">
-    	</a>
-    	<a href="http://www.somedomain.com/images/image2_large.jpg">
-    		<img src="http://www.somedomain.com/images/image2_small.jpg" alt="photo2 title">
-    	</a>
-    	<a href="http://www.somedomain.com/images/image3_large.jpg">
-    		<img src="http://www.somedomain.com/images/image3_small.jpg" title="photo3 title">
-    	</a>
-    	<a href="http://www.somedomain.com/images/image4_large.jpg">
-    		<img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
-    	</a>
-		<a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
-			<img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
-		</a>
+            <img src="http://www.somedomain.com/images/image1_small.jpg" title="photo1 title">
+        </a>
+        <a href="http://www.somedomain.com/images/image2_large.jpg">
+            <img src="http://www.somedomain.com/images/image2_small.jpg" alt="photo2 title">
+        </a>
+        <a href="http://www.somedomain.com/images/image3_large.jpg">
+            <img src="http://www.somedomain.com/images/image3_small.jpg" title="photo3 title">
+        </a>
+        <a href="http://www.somedomain.com/images/image4_large.jpg">
+            <img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
+        </a>
+        <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
+            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
+        </a>
     </div>
     ...
     ...
     ...
     <script>
         // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
-		//-----------------------------------------------
-		$('#gallery').photobox('a',{ time:0 });
+        //-----------------------------------------------
+        $('#gallery').photobox('a',{ time:0 });
        
-	    // using a callback and a fancier selector
-		//----------------------------------------------
+        // using a callback and a fancier selector
+        //----------------------------------------------
         $('#gallery').photobox('li > a.family',{ time:0 }), callback);
         function callback(){
            console.log('image has been loaded');
         }
-		
-		// destroy the plugin on a certain gallery:
-		//-----------------------------------------------
-		$('#gallery').photobox('destroy');
-		
-		// re-initialize the photbox DOM (does what Document ready does)
-		//-----------------------------------------------
-		$('#gallery').photobox('prepareDOM');
+        
+        // destroy the plugin on a certain gallery:
+        //-----------------------------------------------
+        $('#gallery').photobox('destroy');
+        
+        // re-initialize the photbox DOM (does what Document ready does)
+        //-----------------------------------------------
+        $('#gallery').photobox('prepareDOM');
     </script>
-	
+    
 ## Videos
     <div id='gallery'>
-		...
-		<a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
-			<img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
-		</a>
-		...
-	</div>
-	
+        ...
+        <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
+            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
+        </a>
+        ...
+    </div>
+    
 A video link must have the `rel` attribute with the value of `video`. The url of the link must be the iframe embed (youtube, vimeo, etc.) And inside you can put a thumbnail of the video (of course)
 
 ## Changing Effects Is Easy!
@@ -95,6 +95,42 @@ you can add your own links along with the `title` or `alt` attributes texts, jus
 `data-pb-captionLink='Google website[www.google.com]'`
 
 
+## Over-riding the defaults (without changing source code)
+It is always recommended not changing a the code directly, because then you will have a version which is out-of-sync with future changes, and you might face difficult merges.
+So, if you want to change the defaults, I would recommend creating another file, typically called `jquery.photobox.mod.js`. 
+### Example:
+````
+/*!
+    photobox modifications,
+    after it has been loaded
+*/
+
+(function(){
+    "use strict";
+    // adding a "userInfo" HTML to the overlay container:
+    var userInfo = $('<div class="userInfo"><img><span></span></div>');
+
+    var photoboxCallbacks = (function(){
+        // do something
+    })();
+
+    // change defaults:
+    window._photobox.defaults.time = 0;
+    window._photobox.defaults.beforeShow = photoboxCallbacks.beforeShow;
+
+    // append "userInfo" after DOMReady has been fired (the overlay won't exist in the DOM before then)
+    $(document).ready(function(){
+        var overlay = $('#pbOverlay');
+
+        // add class to the default close button
+        $('#pbCloseBtn').addClass('btn');
+
+        // append user info DOM structure
+        overlay.append(userInfo);
+    });
+})();
+````
+
 ## Settings
 
 
@@ -106,7 +142,7 @@ time        | The time in milliseconds when autoplaying a gallery. Set as '0' to
 autoplay    | should the gallery autoplay on start or not.                                                             | false
 loop        | Loop back to last image before the first one and to the first image after last one.                      | true
 thumbs      | Show thumbs of all the images in the gallery at the bottom.                                              | true
-counter     | Show the current image index position relative to the whole. Example (3,11)                              | true
+counter     | Show the current image index position relative to the whole.                                             | (A/B)
 zoomable    | Enable/Disable mousewheel zooming over images                                                            | true
 hideFlash   | Hide flash instances when viewing an image in the gallery                                                | true
 keys.close  | Key codes which close the gallery                                                                        | "27, 88, 67"

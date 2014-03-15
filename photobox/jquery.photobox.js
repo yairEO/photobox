@@ -32,7 +32,7 @@
             loop:       true,   // Allows to navigate between first and last images
             thumb:      null,   // A relative path from the link to the thumbnail (if it's not inside the link)
             thumbs:     true,   // Show gallery thumbnails below the presented photo
-            counter:    true,   // Counter text (example [24/62])
+            counter:    "(A/B)",   // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
             title:      true,   // show the original alt or title attribute of the image's thumbnail
             autoplay:   false,  // should autoplay on first time or not
             time:       3000,   // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
@@ -48,6 +48,7 @@
 
         // DOM structure
         overlay =   $('<div id="pbOverlay">').append(
+						'<input type="checkbox" id="pbThumbsToggler" checked hidden>',
                         pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
                         prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
                         nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
@@ -60,6 +61,7 @@
                             $('<div class="pbProgress">')
                         ),
                         caption = $('<div id="pbCaption">').append(
+							'<label for="pbThumbsToggler" title="thumbnails on/off"></label>',
                             captionText = $('<div class="pbCaptionText">').append('<div class="title"></div><div class="counter">'),
                             thumbs = $('<div>').addClass('pbThumbs')
                         )
@@ -309,6 +311,7 @@
                 overlay[options.thumbs ? 'addClass' : 'removeClass']('thumbs');
 
                 // things to hide if there are less than 2 images
+				console.log(this.images.length < 2 , options.single);
                 if( this.images.length < 2 ||  options.single )
                     overlay.removeClass('thumbs hasArrows hasCounter hasAutoplay');
                 else{
@@ -625,7 +628,10 @@
 	function captionTextChange(){
 		captionText.off(transitionend).removeClass('change');
 		// change caption's text
-		options.counter && caption.find('.counter').text('(' + (activeImage + 1) + ' / ' + images.length + ')');
+		if( options.counter ){
+			var value = options.counter.replace('A', activeImage + 1).replace('B', images.length);
+			caption.find('.counter').text(value);
+		}
 		options.title && caption.find('.title').html( images[activeImage][1] );
 	}
 
