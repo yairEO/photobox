@@ -164,7 +164,11 @@
                     that.observerTimeout = setTimeout( function(){
                         var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
                             activeIndex = 0;
-
+							
+						// Make sure that ONLY DOM changes in the photobox number of items will trigger a change
+                        if(that.imageLinks.length == filtered[0].length)
+                            return;
+							
                         that.imageLinks = filtered[0];
                         that.images = filtered[1];
 
@@ -182,8 +186,8 @@
                                     if( images[i][0] == activeURL )
                                         return;
                                     // if not exits any more
-                                    overlay.removeClass('hasArrows');
                                 }
+                                overlay.removeClass('hasArrows');
                             }
                         }
 
