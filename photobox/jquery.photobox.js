@@ -311,7 +311,6 @@
                 overlay[options.thumbs ? 'addClass' : 'removeClass']('thumbs');
 
                 // things to hide if there are less than 2 images
-				console.log(this.images.length < 2 , options.single);
                 if( this.images.length < 2 ||  options.single )
                     overlay.removeClass('thumbs hasArrows hasCounter hasAutoplay');
                 else{
@@ -629,7 +628,14 @@
 		captionText.off(transitionend).removeClass('change');
 		// change caption's text
 		if( options.counter ){
-			var value = options.counter.replace('A', activeImage + 1).replace('B', images.length);
+			try{
+				var value = options.counter.replace('A', activeImage + 1).replace('B', images.length);
+			}
+			// if, for some reason, the above has failed from a bad "counter" value, reset and retry
+			catch(err){
+				options.counter = '(A/B)';
+				captionTextChange();
+			}
 			caption.find('.counter').text(value);
 		}
 		options.title && caption.find('.title').html( images[activeImage][1] );
