@@ -1,5 +1,5 @@
 /*!
-    photobox v1.8.5
+    photobox v1.8.6
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -14,7 +14,7 @@
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
         noPointerEvents = (function(){ var el = $('<p>')[0]; el.style.cssText = 'pointer-events:auto'; return !el.style.pointerEvents})(),
-        isMobile = 'ontouchend' in doc,
+        isMobile = 'ontouchend' in doc, // should be updated to something that detects the lack of a mouse
         thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
         blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
         transformOrigin = getPrefixed('transformOrigin'),
@@ -23,7 +23,7 @@
         // Preload images
         preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
         // DOM elements
-        closeBtn, image, video, prevBtn, nextBtn, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
+        closeBtn, image, video, prevBtn, nextBtn, thumbsToggler, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
 
         defaults = {
             single:     false,  // if "true" - gallery will only show a single image, with no way to navigate
@@ -48,7 +48,7 @@
 
         // DOM structure
         overlay =   $('<div id="pbOverlay">').append(
-						'<input type="checkbox" id="pbThumbsToggler" checked hidden>',
+						thumbsToggler = $('<input type="checkbox" id="pbThumbsToggler" checked hidden>'),
                         pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
                         prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
                         nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
@@ -70,18 +70,17 @@
         Initialization (on DOM ready)
     */
     function prepareDOM(){
-        // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
-        isOldIE && overlay.addClass('msie');
-
         noPointerEvents && overlay.hide();
 
         autoplayBtn.off().on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
         thumbs.off().on('click', 'a', thumbsStripe.click);
-        // enable scrolling gesture on mobile
+		// if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
+        isOldIE && overlay.addClass('msie');
+		isMobile && overlay.addClass('mobile');
         isMobile && thumbs.css('overflow', 'auto');
 
-        // cancel prppogation up to the overlay container so it won't close
+        // cancel prorogation up to the overlay container so it won't close
         overlay.off().on('click', 'img', function(e){
             e.stopPropagation();
         });
@@ -340,7 +339,7 @@
 
             $(doc).off("keydown.photobox")[fn]({ "keydown.photobox": keyDown });
 
-            if( 'ontouchstart' in document.documentElement ){
+            if( isMobile ){
                 overlay.removeClass('hasArrows'); // no need for Arrows on touch-enabled
                 wrapper[fn]('swipe', onSwipe);
             }
@@ -367,18 +366,18 @@
     // on touch-devices only
     function onSwipe(e, Dx, Dy){
         if( Dx == 1 ){
-            image.css({transform:'translateX(25%)', transition:'.7s', opacity:0});
+            image.css({transform:'translateX(25%)', transition:'.2s', opacity:0});
             setTimeout(function(){ changeImage(prevImage) }, 200);
         }
         else if( Dx == -1 ){
-            image.css({transform:'translateX(-25%)', transition:'.7s', opacity:0});
+            image.css({transform:'translateX(-25%)', transition:'.2s', opacity:0});
             setTimeout(function(){ changeImage(nextImage) }, 200);
         }
 
         if( Dy == 1 )
-            thumbs.addClass('show');
+            thumbsToggler.prop('checked', true);
         else if( Dy == -1 )
-            thumbs.removeClass('show');
+            thumbsToggler.prop('checked', false);
     }
 
     // manage the (bottom) thumbs strip
@@ -840,43 +839,62 @@
     }
 
 
-    /*! Copyright (c) 2011 Brandon Aaron (http://brandonaaron.net)
-     * Licensed under the MIT License (LICENSE.txt).
-     *
-     * Version: 3.0.6
-     */
-    var types = ['DOMMouseScroll', 'mousewheel'];
-
-    if ($.event.fixHooks){
-        for ( var i=types.length; i; )
-            $.event.fixHooks[ types[--i] ] = $.event.mouseHooks;
-    }
-
-    $.event.special.mousewheel = {
+	/**
+	* jQuery Plugin to add basic "swipe" support on touch-enabled devices
+	*
+	* @author Yair Even Or
+	* @version 1.0.0 (March 20, 2013)
+	*/
+    $.event.special.swipe = {
         setup: function(){
-            if( this.addEventListener ){
-                for ( var i=types.length; i; )
-                    this.addEventListener( types[--i], handler, false );
-            }else
-                this.onmousewheel = handler;
+            $(this).bind('touchstart', $.event.special.swipe.handler);
         },
+
         teardown: function(){
-            if ( this.removeEventListener ){
-                for ( var i=types.length; i; )
-                    this.removeEventListener( types[--i], handler, false );
-            }else
-                this.onmousewheel = null;
+            $(this).unbind('touchstart', $.event.special.swipe.handler);
+        },
+
+        handler: function(event){
+            var args = [].slice.call( arguments, 1 ), // clone arguments array, remove original event from cloned array
+                touches = event.originalEvent.touches,
+                startX, startY,
+                deltaX = 0, deltaY = 0,
+                that = this;
+
+            event = $.event.fix(event);
+
+            if( touches.length == 1 ){
+                startX = touches[0].pageX;
+                startY = touches[0].pageY;
+                this.addEventListener('touchmove', onTouchMove, false);
+            }
+
+            function cancelTouch(){
+                that.removeEventListener('touchmove', onTouchMove);
+                startX = startY = null;
+            }
+
+            function onTouchMove(e){
+                e.preventDefault();
+
+                var Dx = startX - e.touches[0].pageX,
+                    Dy = startY - e.touches[0].pageY;
+
+                if( Math.abs(Dx) >= 20 ){
+                    cancelTouch();
+                    deltaX = (Dx > 0) ? -1 : 1;
+                }
+                else if( Math.abs(Dy) >= 20 ){
+                    cancelTouch();
+                    deltaY = (Dy > 0) ? 1 : -1;
+                }
+
+                event.type = 'swipe';
+                args.unshift(event, deltaX, deltaY); // add back the new event to the front of the arguments with the delatas
+                return ($.event.dispatch || $.event.handle).apply(that, args);
+            }
         }
     };
-
-    $.fn.extend({
-        mousewheel: function(fn){
-            return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
-        },
-        unmousewheel: function(fn){
-            return this.unbind("mousewheel", fn);
-        }
-    });
 
 
     function handler(event){
