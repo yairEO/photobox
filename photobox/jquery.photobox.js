@@ -33,7 +33,7 @@
             thumb:      null,   // A relative path from the link to the thumbnail (if it's not inside the link)
             thumbs:     true,   // Show gallery thumbnails below the presented photo
             counter:    "(A/B)",   // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
-            title:      true,   // show the original alt or title attribute of the image's thumbnail
+            title:      true,   // show the original alt or title attribute of the image's thumbnail.
             autoplay:   false,  // should autoplay on first time or not
             time:       3000,   // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
             history:    true,   // should use history hashing if possible (HTML5 API)
@@ -94,13 +94,13 @@
     // @param [List of elements to work on, Custom settings, Callback after image is loaded]
     $.fn.photobox = function(target, settings, callback){
         return this.each(function(){
-            var o, pb, 
+            var o, pb,
 				PB_data = $(this).data('_photobox');
-			
+
     		if( PB_data ){ // don't initiate the plugin more than once on the same element
     			if( target === 'destroy')
 					PB_data.destroy();
-					
+
 				return this;
 			}
 
@@ -145,7 +145,7 @@
             // only generates the thumbStripe once, and listen for any DOM changes on the selector element, if so, re-generate
             if( this.options.thumbs ){
                 // generate gallery thumbnails every time (because links might have changed)
-                this.thumbsList = thumbsStripe.generate(this.imageLinks);
+                this.thumbsList = thumbsStripe.generate.apply(this);
 			}
 
             this.selector.on('click.photobox', this.target, function(e){
@@ -163,11 +163,11 @@
                     that.observerTimeout = setTimeout( function(){
                         var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
                             activeIndex = 0;
-							
+
 						// Make sure that ONLY DOM changes in the photobox number of items will trigger a change
                         if(that.imageLinks.length == filtered[0].length)
                             return;
-							
+
                         that.imageLinks = filtered[0];
                         that.images = filtered[1];
 
@@ -192,7 +192,7 @@
 
                         // if this gallery has thumbs
                         if( that.options.thumbs ){
-                            that.thumbsList = thumbsStripe.generate(that.imageLinks);
+                            that.thumbsList = thumbsStripe.generate.apply(that);
     						thumbs.html( that.thumbsList );
                         }
 
@@ -238,12 +238,20 @@
 
             return [obj.filter(function(i){
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
-                var link = $(this), img = link.find('img')[0] || link.find(that.options.thumb)[0];
+                var link = $(this),
+                    img;
+
+                if( that.options.thumb )
+                    img = link.find(that.options.thumb)[0];
+                else
+                    img = link.find('img')[0];
+
                 // if no img child found in the link
                 if( img )
-				    captionlink = img.getAttribute('data-pb-captionlink')
+				    captionlink = img.getAttribute('data-pb-captionlink');
 
-                caption.content = "<span>" +( img.getAttribute('alt') || img.getAttribute('title') || '') + "</span>";
+                caption.content = ( img.getAttribute('alt') || img.getAttribute('title') || '');
+
                 // if there is a caption link to be added:
 				if( captionlink ){
 					captionlink = captionlink.split('[');
@@ -259,7 +267,7 @@
 					caption.content += ' <a href="'+ caption.linkHref +'">' + caption.linkText + '</a>';
 				}
 
-                images.push([link[0].href, caption.content]);
+                images.push( [link[0].href, caption.content, img.getAttribute('src')] );
 
                 return true;
             }), images];
@@ -310,8 +318,13 @@
                     .html( this.thumbsList )
                     .trigger('mouseenter.photobox');
 
-
-                overlay[options.thumbs ? 'addClass' : 'removeClass']('thumbs');
+                if( options.thumbs ){
+                    overlay.addClass('thumbs');
+                }
+                else{
+                    thumbsToggler.prop('checked', false);
+                    overlay.removeClass('thumbs');
+                }
 
                 // things to hide if there are less than 2 images
                 if( this.images.length < 2 ||  options.single )
@@ -392,17 +405,24 @@
 
 		return{
 			// returns a <ul> element which is populated with all the gallery links and thumbs
-			generate : function(imageLinks){
-				var thumbsList = $('<ul>'), link, elements = [], i, len = imageLinks.size(), title, image, type;
+			generate : function(){
+				var thumbsList = $('<ul>'),
+                    elements   = [],
+                    len        = this.imageLinks.size(),
+                    title, thumbSrc, link, type, i;
 
-				for( i = 0; i < len; i++ ){
-					link = imageLinks[i];
-					image = $(link).find('img');
-					title = image[0].title || image[0].alt || '';
+                for( i = 0; i < len; i++ ){
+					link = this.imageLinks[i];
+
+                    thumbSrc = this.images[i][2];
+                    // continue if has thumb
+                    if( !thumbSrc )
+                        continue;
+
+					title = this.images[i][1];
 					type = link.rel ? " class='" + link.rel +"'" : '';
-					elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ image[0].src +'" alt="" title="'+ title +'" /></a></li>');
+					elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ thumbSrc +'" alt="" title="'+ title +'" /></a></li>');
 				};
-
 				thumbsList.html( elements.join('') );
 				return thumbsList;
 			},
@@ -425,7 +445,8 @@
 				var lastIndex = activeThumb.index();
 				activeThumb.removeClass('active');
 				activeThumb = thumbs.find('li').eq(index).addClass('active');
-				if( thumbClick ) return;
+
+				if( thumbClick || !activeThumb[0] ) return;
 				// set the scrollLeft position of the thumbs list to show the active thumb
 				clearTimeout(this.changeActiveTimeout);
 				// give the images time to to settle on their new sizes (because of css transition) and then calculate the center...
@@ -641,7 +662,8 @@
 			}
 			caption.find('.counter').text(value);
 		}
-		options.title && caption.find('.title').html( images[activeImage][1] );
+		if( options.title )
+            caption.find('.title').html('<span>' + images[activeImage][1] + '</span>');
 	}
 
     // Handles the history states when changing images
