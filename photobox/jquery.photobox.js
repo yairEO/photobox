@@ -1,5 +1,5 @@
 /*!
-    photobox v1.8.6
+    photobox v1.8.7
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     Uses jQuery-mousewheel Version: 3.0.6 by:
@@ -33,7 +33,7 @@
             thumb:      null,   // A relative path from the link to the thumbnail (if it's not inside the link)
             thumbs:     true,   // Show gallery thumbnails below the presented photo
             counter:    "(A/B)",   // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
-            title:      true,   // show the original alt or title attribute of the image's thumbnail.
+            title:      true,   // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
             autoplay:   false,  // should autoplay on first time or not
             time:       3000,   // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
             history:    true,   // should use history hashing if possible (HTML5 API)
@@ -198,7 +198,11 @@
 
 						if( that.images.length && activeURL && that.options.thumbs ){
 							activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
-							updateIndexes(activeIndex);
+
+                            if( activeIndex == -1 )
+                                activeIndex = 0;
+
+                            updateIndexes(activeIndex);
                             thumbsStripe.changeActive(activeIndex, 0);
 						}
                     }, 50);
@@ -239,18 +243,20 @@
             return [obj.filter(function(i){
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
                 var link = $(this),
-                    img;
+                    thumbImg;
 
                 if( that.options.thumb )
-                    img = link.find(that.options.thumb)[0];
-                else
-                    img = link.find('img')[0];
+                    thumbImg = link.find(that.options.thumb)[0];
+
+                // try a direct child lookup
+                if( !that.options.thumb || !thumbImg )
+                    thumbImg = link.find('img')[0];
 
                 // if no img child found in the link
-                if( img )
-				    captionlink = img.getAttribute('data-pb-captionlink');
+                if( thumbImg )
+				    captionlink = thumbImg.getAttribute('data-pb-captionlink');
 
-                caption.content = ( img.getAttribute('alt') || img.getAttribute('title') || '');
+                caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
 
                 // if there is a caption link to be added:
 				if( captionlink ){
@@ -267,7 +273,7 @@
 					caption.content += ' <a href="'+ caption.linkHref +'">' + caption.linkText + '</a>';
 				}
 
-                images.push( [link[0].href, caption.content, img.getAttribute('src')] );
+                images.push( [link[0].href, caption.content, thumbImg.getAttribute('src')] );
 
                 return true;
             }), images];
