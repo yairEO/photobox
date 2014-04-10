@@ -37,7 +37,7 @@ a{ text-decoration:none; }
 	.main p{ margin:15px 0; }
 	
 	.main ul li{ padding-left:25px; position:relative; margin:0.2em 0; }
-		.main ul li:before{ content:'\26AB'; color:#FFF; position:absolute; left:0; top:-2px; opacity:0.5; transition:0.3s; }
+		.main ul li:before{ content:'●'; color:#FFF; position:absolute; left:0; top:-2px; opacity:0.5; transition:0.3s; }
 		.main ul li:hover:before{ opacity:1; text-shadow:0 0 4px #FFF; transition:.1s; }
 		
 		.main footer{ margin-top:50px; text-shadow:none; font-size:0.9em; }

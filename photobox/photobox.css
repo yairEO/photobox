@@ -22,7 +22,7 @@
 	#pbOverlay .pbLoader b:nth-child(3){ -webkit-animation-delay:.6s; animation-delay:.6s; }
 
 #pbOverlay.mobile.pbLoading .pbLoader{ transform:none; transition:0s; }
-	
+
 #pbOverlay .wrapper:after,
 #pbCaption .pbThumbs ul:after,
 #pbOverlay .prevNext:after,
@@ -57,7 +57,7 @@
 		-webkit-backface-visibility:hidden;
 		box-shadow:0 0 20px #000;
 	}
-	
+
 	/* FOR MOBILE */
 	#pbOverlay.mobile.show .wrapper > *{
 		transition:0s;
@@ -92,7 +92,8 @@
 
 #pbCaption, .hide #pbCaption{ position:absolute; z-index:999; margin-bottom:5px; bottom:-120px; width:100%; overflow:hidden; transition:.4s; }
 .show.on #pbCaption{ bottom:0; transition-delay:.5s; }
-	#pbCaption label{ position:relative; z-index:1; top:-5px; float:right; width:60px; margin-right:10px; color:#FFF; opacity:0.3; transition:0.2s; cursor:pointer; }
+	#pbOverlay.thumbs #pbCaption label{ display:block; }
+	#pbCaption label{ display:none; position:relative; z-index:1; top:-5px; float:right; width:60px; margin-right:10px; color:#FFF; opacity:0.3; transition:0.2s; cursor:pointer; }
 	#pbCaption label:after{ content:'\2589'; text-align:right; letter-spacing:2px; text-shadow:-1em 0 0 rgba(255,255,255,0.5), 1em 0 0 rgba(255,255,255,0.5); }
 	#pbCaption label:hover{ opacity:1; }
 	#pbCaption .title, #pbCaption .counter{ display:inline-block; color:#FFF; margin:0 6px; }
@@ -103,7 +104,7 @@
 
 #pbOverlay.mobile #pbCaption label{ display:none; z-index:-1; color:red; }
 #pbOverlay.mobile .pbCaptionText{ padding:0; }
-	
+
 /* hide thumbnails */
 #pbOverlay #pbThumbsToggler:checked ~ #pbCaption .pbThumbs{ margin:0; }
 #pbOverlay #pbThumbsToggler:checked ~ .wrapper{ margin-top:-50px; padding:50px 0; }
