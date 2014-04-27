@@ -142,6 +142,7 @@ history     | Enable/disable HTML5 history using hash urls                      
 time        | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum of 1000 allowed
 autoplay    | should the gallery autoplay on start or not.                                                             | false
 loop        | Loop back to last image before the first one and to the first image after last one.                      | true
+thumb       | A relative path from the link to the thumbnail (if it's not inside the link)                             | null
 thumbs      | Show thumbs of all the images in the gallery at the bottom.                                              | true
 counter     | Show the current image index position relative to the whole.                                             | (A/B)
 zoomable    | Enable/Disable mousewheel zooming over images                                                            | true
