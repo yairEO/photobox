@@ -114,6 +114,7 @@
 
 .pbThumbs{ display:none; transition:0.35s; -webkit-overflow-scrolling:touch; }
 .thumbs .pbThumbs{ display:block; width:100%; padding:5px 0 2px; margin-bottom:-100px; overflow:hidden; }
+.mobile .pbThumbs{ overflow:auto; }
 .pbThumbs:hover{ clear:both; }
 	.pbThumbs ul{ display:inline-block; position:relative; list-style:none; height:80px; padding:0 5px; margin:0; white-space:pre; transition:.2s; }
 	.pbThumbs ul:after{ vertical-align:bottom; }

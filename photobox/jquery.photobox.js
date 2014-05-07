@@ -75,7 +75,6 @@
         // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
         isMobile && overlay.addClass('mobile');
-        isMobile && thumbs.css('overflow', 'auto');
 
         // cancel prorogation up to the overlay container so it won't close
         overlay.off().on('click', 'img', function(e){
@@ -427,7 +426,6 @@
                     type = link.rel ? " class='" + link.rel +"'" : '';
                     elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ thumbSrc +'" alt="" title="'+ title +'" /></a></li>');
                 };
-				console.log(elements);
                 thumbsList.html( elements.join('') );
                 return thumbsList;
             },
@@ -558,17 +556,17 @@
         var code = event.keyCode, ok = options.keys, result;
         // Prevent default keyboard action (like navigating inside the page)
         return ok.close.indexOf(code) >= 0 && close() ||
-               ok.next.indexOf(code) >= 0 && !options.single && changeImage(nextImage) ||
-               ok.prev.indexOf(code) >= 0 && !options.single && changeImage(prevImage) || true;
+               ok.next.indexOf(code) >= 0 && !options.single && loophole(nextImage) ||
+               ok.prev.indexOf(code) >= 0 && !options.single && loophole(prevImage) || true;
     }
 
     function wheelNextPrev(e, dY, dX){
-		console.log(dY, dX);
         if( dX == 1 )
-            changeImage(nextImage);
+            loophole(nextImage);
         else if( dX == -1 )
-            changeImage(prevImage);
+            loophole(prevImage);
     }
+	
 
     // serves as a callback for pbPrevBtn / pbNextBtn buttons but also is called on keypress events
     function next_prev(){
@@ -576,9 +574,9 @@
         //if( !image.hasClass('zoomable') )
         //  return false;
 
-        var img = (this.id == 'pbPrevBtn') ? prevImage : nextImage;
-
-        changeImage(img);
+        var idx = (this.id == 'pbPrevBtn') ? prevImage : nextImage;
+	
+        loophole(idx);
         return false;
     }
 
@@ -589,10 +587,30 @@
         prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
         nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
     }
+	
+	// check if looping is allowed before changing image/video.
+	// A pre-changeImage function, only for linear changes
+	function loophole(idx){
+		if( !options.loop ){
+			var afterLast = activeImage == images.length-1 && idx == nextImage,
+				beforeFirst = activeImage == 0 && idx == prevImage;
+				
+			if( afterLast || beforeFirst )
+				return;
+		}
+		
+		changeImage(idx);
+	}
 
     function changeImage(imageIndex, firstTime, thumbClick){
         if( !imageIndex || imageIndex < 0 )
             imageIndex = 0;
+			
+		// hide/show next-prev buttons
+		if( !options.loop ){
+			nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
+			prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
+		}
 
         // if there's a callback for this point:
         if( typeof options.beforeShow == "function")
@@ -609,7 +627,7 @@
         image.add(video).data('zoom', 1);
 
         activeType = imageLinks[imageIndex].rel == 'video' ? 'video' : 'image';
-
+		
         // check if current link is a video
         if( activeType == 'video' ){
             video.html( newVideo() ).addClass('hide');
@@ -619,12 +637,6 @@
             // give a tiny delay to the preloader, so it won't be showed when images load very quickly
             var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); }, 50);
 			
-            // hide/show next-prev buttons
-            if( !options.loop ){
-                nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
-                prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
-            }
-
             if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old IE display the preloader
 
             options.autoplay && APControl.progress.reset();
