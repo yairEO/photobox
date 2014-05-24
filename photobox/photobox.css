@@ -33,7 +33,7 @@
 @-webkit-keyframes deadImage{ 50%{ text-shadow:0 0 25px rgba(255,255,255,.5); -webkit-transform:scale(0.85); } }
 
 .pbWrapper{ -moz-box-sizing:border-box; box-sizing:border-box; vertical-align:middle; height:100%; perspective:1200px; -webkit-perspective:1200px; position:relative; transition:0.2s; }
-.video .pbWrapper{ z-index:11; display:inline-block; }
+.video > .pbWrapper{ z-index:11; display:inline-block; }
 	/*#pbOverlay.error .pbWrapper{ display:inline-block; width:100%; }*/
 	.pbLoading .pbWrapper{ display:inline-block\9; width:100%; } /* ie8+9 hack */
 	.pbWrapper:before{ content:'\2716'; color:transparent; text-shadow:0 2px 35px rgba(255,255,255,0); font-size:0; vertical-align:middle; cursor:default; transition:text-shadow .7s ease-out; }
@@ -42,7 +42,7 @@
 	.error .pbWrapperr img{ width:0; }
 
 	.pbWrapper > div{ display:none; width:624px; height:351px; vertical-align:middle; border-radius:5px; background:rgba(0,0,0,0.5); }
-	.video .pbWrapper > div{ display:inline-block; }
+	.video > .pbWrapper > div{ display:inline-block; }
 	#pbOverlay iframe, #pbOverlay embed, #pbOverlay object{ display:block; width:100%; height:100%; opacity:1; transition:0.5s; }
 	.pbWrapper .hide iframe{ opacity:0; }
 
