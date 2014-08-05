@@ -28,7 +28,7 @@
 		
     // Get some photos from Flickr for the demo
     $.ajax({
-        url: 'http://api.flickr.com/services/rest/',
+        url: 'https://api.flickr.com/services/rest/',
         data: {
             format: 'json',
             method: 'flickr.interestingness.getList',

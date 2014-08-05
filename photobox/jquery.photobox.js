@@ -147,9 +147,8 @@
 
             // only generates the thumbStripe once, and listen for any DOM changes on the selector element, if so, re-generate
             // This is done on "mouseenter" so images will not get called unless it's liekly that they would be needed
-            this.selector.on('mouseenter.photobox', this.target, function(e){
+            this.selector.one('mouseenter.photobox', this.target, function(e){
                 that.thumbsList = thumbsStripe.generate.apply(that);
-                that.selector.off('mouseenter.photobox');
             });
 
             this.selector.on('click.photobox', this.target, function(e){
@@ -166,7 +165,9 @@
                     clearTimeout(that.observerTimeout);
                     that.observerTimeout = setTimeout( function(){
                         var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
-                            activeIndex = 0;
+                            activeIndex = 0,
+                            isActiveUrl = false,
+                            i;
 
                         // Make sure that ONLY DOM changes in the photobox number of items will trigger a change
                         if(that.imageLinks.length == filtered[0].length)
@@ -181,24 +182,24 @@
                             if( that.selector == photobox.selector ){
                                 images = that.images;
                                 imageLinks = that.imageLinks;
-
-                                // check if the currently VIEWED photo has been detached from a photobox set
+                                // check if the currently VIEWED photo has been de-tached from a photobox set
                                 // if so, remove navigation arrows
                                 // TODO: fix the "images" to be an object and not an array.
-                                for( var i = images.length; i--; ){
+                                for( i = images.length; i--; ){
                                     if( images[i][0] == activeURL )
-                                        return;
+                                        isActiveUrl = true;
                                     // if not exits any more
                                 }
-                                overlay.removeClass('hasArrows');
+                                if( isActiveUrl )
+                                    overlay.removeClass('hasArrows');
                             }
                         }
 
                         // if this gallery has thumbs
-                        if( that.options.thumbs ){
+                        //if( that.options.thumbs ){
                             that.thumbsList = thumbsStripe.generate.apply(that);
                             thumbs.html( that.thumbsList );
-                        }
+                        //}
 
                         if( that.images.length && activeURL && that.options.thumbs ){
                             activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
@@ -888,6 +889,8 @@
 
             image.on(transitionend, hide);
             isOldIE && hide();
+
+            photobox = undefined;
 
             function hide(){
                 if( overlay[0].className == '' ) return; // if already hidden
