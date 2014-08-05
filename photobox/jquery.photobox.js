@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9
+    photobox v1.9.1
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -7,6 +7,7 @@
 
 (function($, doc, win){
     "use strict";
+
     var Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl,
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
@@ -16,6 +17,12 @@
         blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
         transformOrigin = getPrefixed('transformOrigin'),
         transition = getPrefixed('transition'),
+          // Normalize rAF
+        raf = window.requestAnimationFrame
+           || window.webkitRequestAnimationFrame
+           || window.mozRequestAnimationFrame
+           || window.msRequestAnimationFrame
+           || function(cb) { return window.setTimeout(cb, 1000 / 60); },
 
         // Preload images
         preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
@@ -499,7 +506,9 @@
                 // calculate the percentage of the mouse position within the carousel
                 scrollPos = (scrollWidth - containerWidth ) * pos;
 
-                el.scrollLeft = scrollPos;
+                raf(function(){
+                    el.scrollLeft = scrollPos;
+                });
             }
         }
     })();
@@ -820,9 +829,11 @@
             if( zoomLevel < 0.1 )
                 zoomLevel = 0.1;
 
-            image.data('zoom', zoomLevel).css({'transform':'scale('+ zoomLevel +')'});
+            raf(function() {
+                image.data('zoom', zoomLevel).css({'transform':'scale('+ zoomLevel +')'});
+            });
 
-            // check if dragging should take effect (if image is larger than the window
+            // check if image (by mouse) movement should take effect (if image is larger than the window
             if( getSize.height > docElm.clientHeight || getSize.width > docElm.clientWidth ){
                 $(doc).on('mousemove.photobox', imageReposition);
             }
@@ -852,7 +863,9 @@
             xDelta = e.clientX / docElm.clientWidth * 100,
             origin = xDelta.toFixed(2)+'% ' + yDelta.toFixed(2) +'%';
 
-        image[0].style[transformOrigin] = origin;
+        raf(function() {
+            image[0].style[transformOrigin] = origin;
+        });
     }
 
     function stop(){
