@@ -139,10 +139,11 @@
             var that = this;
 
             // only generates the thumbStripe once, and listen for any DOM changes on the selector element, if so, re-generate
-            if( this.options.thumbs ){
-                // generate gallery thumbnails every time (because links might have changed)
-                this.thumbsList = thumbsStripe.generate.apply(this);
-            }
+            // This is done on "mouseenter" so images will not get called unless it's liekly that they would be needed
+            this.selector.on('mouseenter.photobox', this.target, function(e){
+                that.thumbsList = thumbsStripe.generate.apply(that);
+                that.selector.off('mouseenter.photobox');
+            });
 
             this.selector.on('click.photobox', this.target, function(e){
                 e.preventDefault();
@@ -566,7 +567,7 @@
         else if( dX == -1 )
             loophole(prevImage);
     }
-	
+
 
     // serves as a callback for pbPrevBtn / pbNextBtn buttons but also is called on keypress events
     function next_prev(){
@@ -575,7 +576,7 @@
         //  return false;
 
         var idx = (this.id == 'pbPrevBtn') ? prevImage : nextImage;
-	
+
         loophole(idx);
         return false;
     }
@@ -587,25 +588,25 @@
         prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
         nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
     }
-	
+
 	// check if looping is allowed before changing image/video.
 	// A pre-changeImage function, only for linear changes
 	function loophole(idx){
 		if( !options.loop ){
 			var afterLast = activeImage == images.length-1 && idx == nextImage,
 				beforeFirst = activeImage == 0 && idx == prevImage;
-				
+
 			if( afterLast || beforeFirst )
 				return;
 		}
-		
+
 		changeImage(idx);
 	}
 
     function changeImage(imageIndex, firstTime, thumbClick){
         if( !imageIndex || imageIndex < 0 )
             imageIndex = 0;
-			
+
 		// hide/show next-prev buttons
 		if( !options.loop ){
 			nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
@@ -627,7 +628,7 @@
         image.add(video).data('zoom', 1);
 
         activeType = imageLinks[imageIndex].rel == 'video' ? 'video' : 'image';
-		
+
         // check if current link is a video
         if( activeType == 'video' ){
             video.html( newVideo() ).addClass('hide');
@@ -636,7 +637,7 @@
         else{
             // give a tiny delay to the preloader, so it won't be showed when images load very quickly
             var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); }, 50);
-			
+
             if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old IE display the preloader
 
             options.autoplay && APControl.progress.reset();
@@ -746,7 +747,7 @@
 			pbLoader.removeAttr('style');
 		});
         overlay.addClass('hide');
-		
+
         image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 
         // check which element needs to transition-out:
@@ -862,6 +863,9 @@
     }
 
     function close(){
+            if( !overlay.hasClass('show') )
+                return false;
+
             stop();
             video.find('iframe').prop('src','').empty();
             Photobox.prototype.setup();
@@ -876,11 +880,12 @@
                 if( overlay[0].className == '' ) return; // if already hidden
                 overlay.removeClass('show hide error pbLoading');
                 image.removeAttr('class').removeAttr('style').off().data('zoom',1);
+                caption.find('.title').empty();
 
                 if(noPointerEvents) // pointer-events lack support in IE, so just hide the overlay
                     setTimeout(function(){ overlay.hide(); }, 200);
 
-                options.hideFlash && $('iframe, object, embed').css('visibility', 'visisble');
+                options.hideFlash && $('iframe, object, embed').css('visibility', 'visible');
             }
 
             // fall-back if the 'transitionend' event didn't fire
@@ -962,7 +967,8 @@
 
     // Expose:
     window._photobox = {
-        history : history,
+        close    : close,
+        history  : history,
         defaults : defaults
     };
 })(jQuery, document, window);
