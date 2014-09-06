@@ -32,7 +32,7 @@
 @keyframes deadImage{ 50%{ text-shadow:0 0 25px rgba(255,255,255,.5); transform:scale(0.85); } }
 @-webkit-keyframes deadImage{ 50%{ text-shadow:0 0 25px rgba(255,255,255,.5); -webkit-transform:scale(0.85); } }
 
-.pbWrapper{ -moz-box-sizing:border-box; box-sizing:border-box; vertical-align:middle; height:100%; perspective:1200px; -webkit-perspective:1200px; position:relative; transition:0.2s; }
+.pbWrapper{ -moz-box-sizing:border-box; box-sizing:border-box; transform:rotate(0deg); vertical-align:middle; height:100%; perspective:1200px; -webkit-perspective:1200px; position:relative; transition:0.2s; }
 .video > .pbWrapper{ z-index:11; display:inline-block; }
 	/*#pbOverlay.error .pbWrapper{ display:inline-block; width:100%; }*/
 	.pbLoading .pbWrapper{ display:inline-block\9; width:100%; } /* ie8+9 hack */
@@ -66,7 +66,7 @@
 	}
 
 	
-	.pbWrapper > *, .hide .pbWrapper > .prepare{ display:inline-block; opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; max-height:95%; max-width:100%; }
+	.pbWrapper > *, .hide .pbWrapper > .prepare{ opacity:1; vertical-align:middle; transform:scale(0) rotateX(80deg); -webkit-transform:scale(0) rotateX(80deg); -ms-transform:scale(0) rotateX(80deg); border-radius:6px; border:none; max-height:95%; max-width:100%; }
 	.on .pbWrapper > *{ transition-delay:0s; -ms-transition-delay:0s; }
 	.pbWrapper .zoomable{ -ms-transition:0s; -webkit-transition:0s; transition:0s; position:relative; z-index:9; }
 	.hide .pbWrapper > *{ -webkit-transform:scale(1.2); transform:scale(1.2); transform:none\9; opacity:0; -ms-transition:.4s ease-in; transition:.4s ease-in; }
