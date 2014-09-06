@@ -57,7 +57,7 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
        
         // using a callback and a fancier selector
         //----------------------------------------------
-        $('#gallery').photobox('li > a.family',{ time:0 }), callback);
+        $('#gallery').photobox('li > a.family',{ time:0 }, callback);
         function callback(){
            console.log('image has been loaded');
         }
