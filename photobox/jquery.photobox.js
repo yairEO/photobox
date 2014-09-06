@@ -248,7 +248,10 @@
             return [obj.filter(function(i){
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
                 var link = $(this),
-                    thumbImg;
+                    thumbImg, 
+					thumbSrc = '';
+					
+				caption.content = link[0].getAttribute('title') || '';
 
                 if( that.options.thumb )
                     thumbImg = link.find(that.options.thumb)[0];
@@ -258,10 +261,13 @@
                     thumbImg = link.find('img')[0];
 
                 // if no img child found in the link
-                if( thumbImg )
+                if( thumbImg ){
                     captionlink = thumbImg.getAttribute('data-pb-captionlink');
+					thumbSrc = thumbImg.getAttribute('src');
 
-                caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
+					caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
+				} 
+				
 
                 // if there is a caption link to be added:
                 if( captionlink ){
@@ -278,7 +284,7 @@
                     caption.content += ' <a href="'+ caption.linkHref +'">' + caption.linkText + '</a>';
                 }
 
-                images.push( [link[0].href, caption.content, thumbImg.getAttribute('src')] );
+                images.push( [link[0].href, caption.content, thumbSrc] );
 
                 return true;
             }), images];
