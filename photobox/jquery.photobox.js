@@ -498,12 +498,13 @@
                 // don't move anything until initial movement on 'mouseenter' has finished
                 if( animated ) return;
 
-                ratio     = scrollWidth / containerWidth;
-                stripePos = e.pageX - padding - posFromLeft; // the mouse X position, "normalized" to the carousel position
+                var ratio     = scrollWidth / containerWidth,
+					stripePos = e.pageX - padding - posFromLeft, // the mouse X position, "normalized" to the carousel position
+					pos, scrollPos;
 
                 if( stripePos < 0) stripePos = 0; //
 
-                pos       = stripePos / (containerWidth - padding*2); // calculated position between 0 to 1
+                pos = stripePos / (containerWidth - padding*2); // calculated position between 0 to 1
                 // calculate the percentage of the mouse position within the carousel
                 scrollPos = (scrollWidth - containerWidth ) * pos;
 
@@ -849,12 +850,12 @@
     function thumbsResize(e, delta){
         e.preventDefault();
         e.stopPropagation(); // stop the event from bubbling up to the Overlay and enlarge the content itself
-        var thumbList = photobox.thumbsList;
+        var thumbList = photobox.thumbsList, h;
         thumbList.css('height', thumbList[0].clientHeight + (delta * 10) );
-        var h = caption[0].clientHeight / 2;
+        h = caption[0].clientHeight / 2;
         wrapper[0].style.cssText = "margin-top: -"+ h +"px; padding: "+ h +"px 0;";
         thumbs.hide().show(0);
-        thumbsStripe.calc();
+		//thumbs.trigger('mouseenter').trigger('mousemove');
     }
 
     // moves the image around during zoom mode on mousemove event
