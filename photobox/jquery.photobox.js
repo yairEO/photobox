@@ -249,9 +249,9 @@
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
                 var link = $(this),
                     thumbImg, 
-					thumbSrc = '';
-					
-				caption.content = link[0].getAttribute('title') || '';
+                    thumbSrc = '';
+                    
+                caption.content = link[0].getAttribute('title') || '';
 
                 if( that.options.thumb )
                     thumbImg = link.find(that.options.thumb)[0];
@@ -263,11 +263,11 @@
                 // if no img child found in the link
                 if( thumbImg ){
                     captionlink = thumbImg.getAttribute('data-pb-captionlink');
-					thumbSrc = thumbImg.getAttribute('src');
+                    thumbSrc = thumbImg.getAttribute('src');
 
-					caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
-				} 
-				
+                    caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
+                } 
+                
 
                 // if there is a caption link to be added:
                 if( captionlink ){
@@ -505,8 +505,8 @@
                 if( animated ) return;
 
                 var ratio     = scrollWidth / containerWidth,
-					stripePos = e.pageX - padding - posFromLeft, // the mouse X position, "normalized" to the carousel position
-					pos, scrollPos;
+                    stripePos = e.pageX - padding - posFromLeft, // the mouse X position, "normalized" to the carousel position
+                    pos, scrollPos;
 
                 if( stripePos < 0) stripePos = 0; //
 
@@ -606,29 +606,29 @@
         nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
     }
 
-	// check if looping is allowed before changing image/video.
-	// A pre-changeImage function, only for linear changes
-	function loophole(idx){
-		if( !options.loop ){
-			var afterLast = activeImage == images.length-1 && idx == nextImage,
-				beforeFirst = activeImage == 0 && idx == prevImage;
+    // check if looping is allowed before changing image/video.
+    // A pre-changeImage function, only for linear changes
+    function loophole(idx){
+        if( !options.loop ){
+            var afterLast = activeImage == images.length-1 && idx == nextImage,
+                beforeFirst = activeImage == 0 && idx == prevImage;
 
-			if( afterLast || beforeFirst )
-				return;
-		}
+            if( afterLast || beforeFirst )
+                return;
+        }
 
-		changeImage(idx);
-	}
+        changeImage(idx);
+    }
 
     function changeImage(imageIndex, firstTime, thumbClick){
         if( !imageIndex || imageIndex < 0 )
             imageIndex = 0;
 
-		// hide/show next-prev buttons
-		if( !options.loop ){
-			nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
-			prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
-		}
+        // hide/show next-prev buttons
+        if( !options.loop ){
+            nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
+            prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
+        }
 
         // if there's a callback for this point:
         if( typeof options.beforeShow == "function")
@@ -758,11 +758,11 @@
         var out, showSaftyTimer;
         showSaftyTimer = setTimeout(show, 2000);
 
-		// hides the current image and prepare ground for an image change
-		pbLoader.fadeOut(300, function(){
-			overlay.removeClass("pbLoading");
-			pbLoader.removeAttr('style');
-		});
+        // hides the current image and prepare ground for an image change
+        pbLoader.fadeOut(300, function(){
+            overlay.removeClass("pbLoading");
+            pbLoader.removeAttr('style');
+        });
         overlay.addClass('hide');
 
         image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
@@ -861,7 +861,7 @@
         h = caption[0].clientHeight / 2;
         wrapper[0].style.cssText = "margin-top: -"+ h +"px; padding: "+ h +"px 0;";
         thumbs.hide().show(0);
-		//thumbs.trigger('mouseenter').trigger('mousemove');
+        //thumbs.trigger('mouseenter').trigger('mousemove');
     }
 
     // moves the image around during zoom mode on mousemove event
@@ -977,13 +977,13 @@
     };
 
     /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
-	 * Licensed under the MIT License (LICENSE.txt).
-	 *
-	 * Version: 3.1.11
-	 *
-	 * Requires: jQuery 1.2.2+
-	 */
-	!function(a){"function"==typeof define&&define.amd?define(["jquery"],a):"object"==typeof exports?module.exports=a:a(jQuery)}(function(a){function b(b){var g=b||window.event,h=i.call(arguments,1),j=0,l=0,m=0,n=0,o=0,p=0;if(b=a.event.fix(g),b.type="mousewheel","detail"in g&&(m=-1*g.detail),"wheelDelta"in g&&(m=g.wheelDelta),"wheelDeltaY"in g&&(m=g.wheelDeltaY),"wheelDeltaX"in g&&(l=-1*g.wheelDeltaX),"axis"in g&&g.axis===g.HORIZONTAL_AXIS&&(l=-1*m,m=0),j=0===m?l:m,"deltaY"in g&&(m=-1*g.deltaY,j=m),"deltaX"in g&&(l=g.deltaX,0===m&&(j=-1*l)),0!==m||0!==l){if(1===g.deltaMode){var q=a.data(this,"mousewheel-line-height");j*=q,m*=q,l*=q}else if(2===g.deltaMode){var r=a.data(this,"mousewheel-page-height");j*=r,m*=r,l*=r}if(n=Math.max(Math.abs(m),Math.abs(l)),(!f||f>n)&&(f=n,d(g,n)&&(f/=40)),d(g,n)&&(j/=40,l/=40,m/=40),j=Math[j>=1?"floor":"ceil"](j/f),l=Math[l>=1?"floor":"ceil"](l/f),m=Math[m>=1?"floor":"ceil"](m/f),k.settings.normalizeOffset&&this.getBoundingClientRect){var s=this.getBoundingClientRect();o=b.clientX-s.left,p=b.clientY-s.top}return b.deltaX=l,b.deltaY=m,b.deltaFactor=f,b.offsetX=o,b.offsetY=p,b.deltaMode=0,h.unshift(b,j,l,m),e&&clearTimeout(e),e=setTimeout(c,200),(a.event.dispatch||a.event.handle).apply(this,h)}}function c(){f=null}function d(a,b){return k.settings.adjustOldDeltas&&"mousewheel"===a.type&&b%120===0}var e,f,g=["wheel","mousewheel","DOMMouseScroll","MozMousePixelScroll"],h="onwheel"in document||document.documentMode>=9?["wheel"]:["mousewheel","DomMouseScroll","MozMousePixelScroll"],i=Array.prototype.slice;if(a.event.fixHooks)for(var j=g.length;j;)a.event.fixHooks[g[--j]]=a.event.mouseHooks;var k=a.event.special.mousewheel={version:"3.1.11",setup:function(){if(this.addEventListener)for(var c=h.length;c;)this.addEventListener(h[--c],b,!1);else this.onmousewheel=b;a.data(this,"mousewheel-line-height",k.getLineHeight(this)),a.data(this,"mousewheel-page-height",k.getPageHeight(this))},teardown:function(){if(this.removeEventListener)for(var c=h.length;c;)this.removeEventListener(h[--c],b,!1);else this.onmousewheel=null;a.removeData(this,"mousewheel-line-height"),a.removeData(this,"mousewheel-page-height")},getLineHeight:function(b){var c=a(b)["offsetParent"in a.fn?"offsetParent":"parent"]();return c.length||(c=a("body")),parseInt(c.css("fontSize"),10)},getPageHeight:function(b){return a(b).height()},settings:{adjustOldDeltas:!0,normalizeOffset:!0}};a.fn.extend({mousewheel:function(a){return a?this.bind("mousewheel",a):this.trigger("mousewheel")},unmousewheel:function(a){return this.unbind("mousewheel",a)}})});
+     * Licensed under the MIT License (LICENSE.txt).
+     *
+     * Version: 3.1.11
+     *
+     * Requires: jQuery 1.2.2+
+     */
+    !function(a){"function"==typeof define&&define.amd?define(["jquery"],a):"object"==typeof exports?module.exports=a:a(jQuery)}(function(a){function b(b){var g=b||window.event,h=i.call(arguments,1),j=0,l=0,m=0,n=0,o=0,p=0;if(b=a.event.fix(g),b.type="mousewheel","detail"in g&&(m=-1*g.detail),"wheelDelta"in g&&(m=g.wheelDelta),"wheelDeltaY"in g&&(m=g.wheelDeltaY),"wheelDeltaX"in g&&(l=-1*g.wheelDeltaX),"axis"in g&&g.axis===g.HORIZONTAL_AXIS&&(l=-1*m,m=0),j=0===m?l:m,"deltaY"in g&&(m=-1*g.deltaY,j=m),"deltaX"in g&&(l=g.deltaX,0===m&&(j=-1*l)),0!==m||0!==l){if(1===g.deltaMode){var q=a.data(this,"mousewheel-line-height");j*=q,m*=q,l*=q}else if(2===g.deltaMode){var r=a.data(this,"mousewheel-page-height");j*=r,m*=r,l*=r}if(n=Math.max(Math.abs(m),Math.abs(l)),(!f||f>n)&&(f=n,d(g,n)&&(f/=40)),d(g,n)&&(j/=40,l/=40,m/=40),j=Math[j>=1?"floor":"ceil"](j/f),l=Math[l>=1?"floor":"ceil"](l/f),m=Math[m>=1?"floor":"ceil"](m/f),k.settings.normalizeOffset&&this.getBoundingClientRect){var s=this.getBoundingClientRect();o=b.clientX-s.left,p=b.clientY-s.top}return b.deltaX=l,b.deltaY=m,b.deltaFactor=f,b.offsetX=o,b.offsetY=p,b.deltaMode=0,h.unshift(b,j,l,m),e&&clearTimeout(e),e=setTimeout(c,200),(a.event.dispatch||a.event.handle).apply(this,h)}}function c(){f=null}function d(a,b){return k.settings.adjustOldDeltas&&"mousewheel"===a.type&&b%120===0}var e,f,g=["wheel","mousewheel","DOMMouseScroll","MozMousePixelScroll"],h="onwheel"in document||document.documentMode>=9?["wheel"]:["mousewheel","DomMouseScroll","MozMousePixelScroll"],i=Array.prototype.slice;if(a.event.fixHooks)for(var j=g.length;j;)a.event.fixHooks[g[--j]]=a.event.mouseHooks;var k=a.event.special.mousewheel={version:"3.1.11",setup:function(){if(this.addEventListener)for(var c=h.length;c;)this.addEventListener(h[--c],b,!1);else this.onmousewheel=b;a.data(this,"mousewheel-line-height",k.getLineHeight(this)),a.data(this,"mousewheel-page-height",k.getPageHeight(this))},teardown:function(){if(this.removeEventListener)for(var c=h.length;c;)this.removeEventListener(h[--c],b,!1);else this.onmousewheel=null;a.removeData(this,"mousewheel-line-height"),a.removeData(this,"mousewheel-page-height")},getLineHeight:function(b){var c=a(b)["offsetParent"in a.fn?"offsetParent":"parent"]();return c.length||(c=a("body")),parseInt(c.css("fontSize"),10)},getPageHeight:function(b){return a(b).height()},settings:{adjustOldDeltas:!0,normalizeOffset:!0}};a.fn.extend({mousewheel:function(a){return a?this.bind("mousewheel",a):this.trigger("mousewheel")},unmousewheel:function(a){return this.unbind("mousewheel",a)}})});
 
     ////////////// ON DOCUMENT READY /////////////////
     $(doc).ready(prepareDOM);
