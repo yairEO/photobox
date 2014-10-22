@@ -54,23 +54,23 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
         // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
         //-----------------------------------------------
         $('#gallery').photobox('a',{ time:0 });
-       
+
         // using a callback and a fancier selector
         //----------------------------------------------
         $('#gallery').photobox('li > a.family',{ time:0 }, callback);
         function callback(){
            console.log('image has been loaded');
         }
-        
+
         // destroy the plugin on a certain gallery:
         //-----------------------------------------------
         $('#gallery').photobox('destroy');
-        
+
         // re-initialize the photbox DOM (does what Document ready does)
         //-----------------------------------------------
         $('#gallery').photobox('prepareDOM');
     </script>
-    
+
 ## Videos
     <div id='gallery'>
         ...
@@ -79,12 +79,12 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
         </a>
         ...
     </div>
-    
+
 A video link must have the `rel` attribute with the value of `video`. The url of the link must be the iframe embed (youtube, vimeo, etc.) And inside you can put a thumbnail of the video (of course)
 
 ## Changing Effects Is Easy!
 Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
-    
+
     #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
     #pbOverlay.hide .imageWrap img{ transform:rotateX(-90deg); -webkit-transform:rotateX(-90deg); transform:none\9; opacity:.6; }
 
@@ -118,8 +118,8 @@ So, if you want to change some stuff, I would recommend creating another file, t
     window._photobox.defaults.time = 0;
     window._photobox.defaults.beforeShow = photoboxCallbacks.beforeShow;
 
-    // append "userInfo" after DOMReady has been fired 
-	// (the overlay won't exist in the DOM before then)
+    // append "userInfo" after DOMReady has been fired
+    // (the overlay won't exist in the DOM before then)
     $(document).ready(function(){
         var overlay = $('#pbOverlay');
 
@@ -135,20 +135,21 @@ So, if you want to change some stuff, I would recommend creating another file, t
 ## Settings
 
 
-Name        | Info                                                                                                     | Default
------------ | -------------------------------------------------------------------------------------------------------- | -----------------------------
-single      | if "true" - gallery will only show a single image, with no way to navigate                               | false
-history     | Enable/disable HTML5 history using hash urls                                                             | true
-time        | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum of 1000 allowed
-autoplay    | should the gallery autoplay on start or not.                                                             | false
-loop        | Loop back to last image before the first one and to the first image after last one.                      | true
-thumb       | A relative path from the link to the thumbnail (if it's not inside the link)                             | null
-thumbs      | Show thumbs of all the images in the gallery at the bottom.                                              | true
-counter     | Show the current image index position relative to the whole.                                             | (A/B)
-zoomable    | Enable/Disable mousewheel zooming over images                                                            | true
-hideFlash   | Hide flash instances when viewing an image in the gallery                                                | true
-keys.close  | Key codes which close the gallery                                                                        | "27, 88, 67"
-keys.prev   | Key codes which change to the previous image                                                             | "37, 80"
-keys.next   | Key codes which change to the next image                                                                 | "39, 78"
-   
+Name          | Info                                                                                                     | Default
+------------- | -------------------------------------------------------------------------------------------------------- | -----------------------------
+single        | if "true" - gallery will only show a single image, with no way to navigate                               | false
+history       | Enable/disable HTML5 history using hash urls                                                             | true
+time          | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum of 1000 allowed
+autoplay      | should the gallery autoplay on start or not.                                                             | false
+loop          | Loop back to last image before the first one and to the first image after last one.                      | true
+thumb         | A relative path from the link to the thumbnail (if it's not inside the link)                             | null
+thumbs        | Show thumbs of all the images in the gallery at the bottom.                                              | true
+counter       | Show the current image index position relative to the whole.                                             | (A/B)
+zoomable      | Enable/Disable mousewheel zooming over images                                                            | true
+hideFlash     | Hide flash instances when viewing an image in the gallery                                                | true
+wheelNextPrev | change image using mousewheel left/right                                                                 | true
+keys.close    | Key codes which close the gallery                                                                        | "27, 88, 67"
+keys.prev     | Key codes which change to the previous image                                                             | "37, 80"
+keys.next     | Key codes which change to the next image                                                                 | "39, 78"
+
 
