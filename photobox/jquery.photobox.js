@@ -8,7 +8,7 @@
 (function($, doc, win){
     "use strict";
 
-    var Photobox, photoboxes = [], photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl,
+    var Photobox, photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl,
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
         noPointerEvents = (function(){ var el = $('<p>')[0]; el.style.cssText = 'pointer-events:auto'; return !el.style.pointerEvents})(),
@@ -30,23 +30,24 @@
         closeBtn, image, video, prevBtn, nextBtn, thumbsToggler, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
 
         defaults = {
-            single:     false,   // if "true" - gallery will only show a single image, with no way to navigate
-            beforeShow: null,    // Callback before showing an image
-            afterClose: null,    // Callback after closing the gallery
-            loop:       true,    // Allows to navigate between first and last images
-            thumb:      null,    // A relative path from the link to the thumbnail (if it's not inside the link)
-            thumbs:     true,    // Show gallery thumbnails below the presented photo
-            counter:    "(A/B)", // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
-            title:      true,    // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
-            autoplay:   false,   // should autoplay on first time or not
-            time:       3000,    // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
-            history:    true,    // should use history hashing if possible (HTML5 API)
-            hideFlash:  true,    // Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
-            zoomable:   true,    // disable/enable mousewheel image zooming
-            keys: {
-                close: '27, 88, 67',    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
-                prev:  '37, 80',        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
-                next:  '39, 78'         // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
+            single        : false,   // if "true" - gallery will only show a single image, with no way to navigate
+            beforeShow    : null,    // Callback before showing an image
+            afterClose    : null,    // Callback after closing the gallery
+            loop          : true,    // Allows to navigate between first and last images
+            thumb         : null,    // A relative path from the link to the thumbnail (if it's not inside the link)
+            thumbs        : true,    // Show gallery thumbnails below the presented photo
+            counter       : "(A/B)", // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
+            title         : true,    // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
+            autoplay      : false,   // should autoplay on first time or not
+            time          : 3000,    // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
+            history       : true,    // should use history hashing if possible (HTML5 API)
+            hideFlash     : true,    // Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
+            zoomable      : true,    // disable/enable mousewheel image zooming
+            wheelNextPrev : true,    // change image using mousewheel left/right
+            keys          : {
+                close : '27, 88, 67',    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
+                prev  : '37, 80',        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+                next  : '39, 78'         // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
             }
         },
 
@@ -97,7 +98,7 @@
     // @param [List of elements to work on, Custom settings, Callback after image is loaded]
     $.fn.photobox = function(target, settings, callback){
         return this.each(function(){
-            var o, pb,
+            var o,
                 PB_data = $(this).data('_photobox');
 
             if( PB_data ){ // don't initiate the plugin more than once on the same element
@@ -116,14 +117,12 @@
             }
 
             o = $.extend({}, defaults, settings || {});
-            pb = new Photobox(o, this, target);
+            photobox = new Photobox(o, this, target);
 
             // Saves the insance on the gallery's target element
-            $(this).data('_photobox', pb);
+            $(this).data('_photobox', photobox);
             // add a callback to the specific gallery
-            pb.callback = callback;
-            // save every created gallery pointer
-            photoboxes.push( pb );
+            photobox.callback = callback;
         });
     }
 
@@ -248,9 +247,9 @@
             return [obj.filter(function(i){
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
                 var link = $(this),
-                    thumbImg, 
+                    thumbImg,
                     thumbSrc = '';
-                    
+
                 caption.content = link[0].getAttribute('title') || '';
 
                 if( that.options.thumb )
@@ -266,8 +265,8 @@
                     thumbSrc = thumbImg.getAttribute('src');
 
                     caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
-                } 
-                
+                }
+
 
                 // if there is a caption link to be added:
                 if( captionlink ){
@@ -379,7 +378,7 @@
                 if( !isOldIE) thumbs[fn]({"mousewheel.photobox": thumbsResize });
             }
 
-            if( !options.single ){
+            if( !options.single && options.wheelNextPrev ){
                 overlay[fn]({"mousewheel.photobox": wheelNextPrev });
             }
         },
@@ -721,14 +720,6 @@
             var hash = decodeURIComponent( window.location.hash.slice(1) ), i, j;
             if( !hash && overlay.hasClass('show') )
                 close();
-            else
-            // Scan all galleries for the image link (open the first gallery that has the link's image)
-                for( i = 0; i < photoboxes.length; i++ )
-                    for( j in photoboxes[i].images )
-                        if( photoboxes[i].images[j][0] == hash ){
-                            photoboxes[i].open( photoboxes[i].imageLinks[j] );
-                            return true;
-                        }
         },
         clear : function(){
             if( options.history && 'pushState' in window.history )
@@ -897,7 +888,10 @@
             image.on(transitionend, hide);
             isOldIE && hide();
 
-            photobox = undefined;
+            // the "photobox" instance might be needed for async transitionEnd functions, so give it some time before clearing it
+            setTimeout(function(){
+                photobox = null;
+            },1000);
 
             function hide(){
                 if( overlay[0].className == '' ) return; // if already hidden
