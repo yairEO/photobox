@@ -85,8 +85,8 @@ A video link must have the `rel` attribute with the value of `video`. The url of
 ## Changing Effects Is Easy!
 Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
 
-    #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
-    #pbOverlay.hide .imageWrap img{ transform:rotateX(-90deg); -webkit-transform:rotateX(-90deg); transform:none\9; opacity:.6; }
+    #pbOverlay .pbWrapper img, #pbOverlay.hide .pbWrapper img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
+    #pbOverlay.hide .pbWrapper img{ transform:rotateX(-90deg); -webkit-transform:rotateX(-90deg); transform:none\9; opacity:.6; }
 
 Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
