@@ -8,7 +8,7 @@
 (function($, doc, win){
     "use strict";
 
-    var Photobox, photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl,
+    var Photobox, photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl, changeImage,
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
         noPointerEvents = (function(){ var el = $('<p>')[0]; el.style.cssText = 'pointer-events:auto'; return !el.style.pointerEvents})(),
@@ -619,67 +619,79 @@
         changeImage(idx);
     }
 
-    function changeImage(imageIndex, firstTime, thumbClick){
-        if( !imageIndex || imageIndex < 0 )
-            imageIndex = 0;
+    changeImage = (function(){
+        var timer;
 
-        // hide/show next-prev buttons
-        if( !options.loop ){
-            nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
-            prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
-        }
+        return function(imageIndex, firstTime, thumbClick){
+            // throttle mechanism
+            if( timer )
+                return;
 
-        // if there's a callback for this point:
-        if( typeof options.beforeShow == "function")
-            options.beforeShow(imageLinks[imageIndex]);
+            timer = setTimeout(function(){
+                timer = null;
+            }, 150);
 
-        overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
+            if( !imageIndex || imageIndex < 0 )
+                imageIndex = 0;
 
-        updateIndexes(imageIndex);
+            // hide/show next-prev buttons
+            if( !options.loop ){
+                nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
+                prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
+            }
 
-        // reset things
-        stop();
-        video.empty();
-        preload.onerror = null;
-        image.add(video).data('zoom', 1);
+            // if there's a callback for this point:
+            if( typeof options.beforeShow == "function")
+                options.beforeShow(imageLinks[imageIndex]);
 
-        activeType = imageLinks[imageIndex].rel == 'video' ? 'video' : 'image';
+            overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
 
-        // check if current link is a video
-        if( activeType == 'video' ){
-            video.html( newVideo() ).addClass('hide');
-            showContent(firstTime);
-        }
-        else{
-            // give a tiny delay to the preloader, so it won't be showed when images load very quickly
-            var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); }, 50);
+            updateIndexes(imageIndex);
 
-            if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old IE display the preloader
+            // reset things
+            stop();
+            video.empty();
+            preload.onerror = null;
+            image.add(video).data('zoom', 1);
 
-            options.autoplay && APControl.progress.reset();
-            preload = new Image();
-            preload.onload = function(){
-                preload.onload = null;
+            activeType = imageLinks[imageIndex].rel == 'video' ? 'video' : 'image';
 
-                if( prevImage >= 0 ) preloadPrev.src = images[prevImage][0];
-                if( nextImage >= 0 ) preloadNext.src = images[nextImage][0];
-
-                clearTimeout(loaderTimeout);
+            // check if current link is a video
+            if( activeType == 'video' ){
+                video.html( newVideo() ).addClass('hide');
                 showContent(firstTime);
-            };
-            preload.onerror = imageError;
-            preload.src = activeURL;
+            }
+            else{
+                // give a tiny delay to the preloader, so it won't be showed when images load very quickly
+                var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); }, 50);
+
+                if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old IE display the preloader
+
+                options.autoplay && APControl.progress.reset();
+                preload = new Image();
+                preload.onload = function(){
+                    preload.onload = null;
+
+                    if( prevImage >= 0 ) preloadPrev.src = images[prevImage][0];
+                    if( nextImage >= 0 ) preloadNext.src = images[nextImage][0];
+
+                    clearTimeout(loaderTimeout);
+                    showContent(firstTime);
+                };
+                preload.onerror = imageError;
+                preload.src = activeURL;
+            }
+
+            // Show Caption text
+            captionText.on(transitionend, captionTextChange).addClass('change');
+            if( firstTime || isOldIE ) captionTextChange();
+
+            if( options.thumbs )
+                thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
+            // Save url hash for current image
+            history.save();
         }
-
-        // Show Caption text
-        captionText.on(transitionend, captionTextChange).addClass('change');
-        if( firstTime || isOldIE ) captionTextChange();
-
-        if( options.thumbs )
-            thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
-        // Save url hash for current image
-        history.save();
-    }
+    })();
 
     function newVideo(){
         var url = images[activeImage][0],
@@ -759,6 +771,7 @@
         image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 
         // check which element needs to transition-out:
+		console.log( firstTime, lastActive, imageLinks[lastActive] );
         if( !firstTime && imageLinks[lastActive].rel == 'video' ){
             out = video;
             image.addClass('prepare');
