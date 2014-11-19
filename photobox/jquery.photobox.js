@@ -5,6 +5,8 @@
     MIT-style license.
 */
 
+
+
 (function($, doc, win){
     "use strict";
 
@@ -815,8 +817,9 @@
         image.add(video).off(transitionend).addClass('zoomable');
         if( activeType == 'video' )
             video.removeClass('hide');
-        else
+        else{
             autoplayBtn && options.autoplay && APControl.play();
+		}
         if( typeof photobox.callback == 'function' )
             photobox.callback.apply(imageLinks[activeImage]);
     }
