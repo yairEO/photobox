@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.1
+    photobox v1.9.5
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -14,7 +14,7 @@
         transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
         noPointerEvents = (function(){ var el = $('<p>')[0]; el.style.cssText = 'pointer-events:auto'; return !el.style.pointerEvents})(),
-        isMobile = 'ontouchend' in doc, // should be updated to something that detects the lack of a mouse
+        isTouchDevice = false, // assume "false" unless there's a touch
         thumbsContainerWidth, thumbsTotalWidth, activeThumb = $(),
         blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
         transformOrigin = getPrefixed('transformOrigin'),
@@ -78,13 +78,18 @@
     */
     function prepareDOM(){
         noPointerEvents && overlay.hide();
+		
+		$(doc).on('touchstart.testMouse', function(){
+			$(doc).off('touchstart.testMouse');
+			isTouchDevice = true;
+			overlay.addClass('mobile');
+		});
 
         autoplayBtn.off().on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
         thumbs.off().on('click', 'a', thumbsStripe.click);
         // if useragent is IE < 10 (user deserves a slap on the face, but I gotta support them still...)
         isOldIE && overlay.addClass('msie');
-        isMobile && overlay.addClass('mobile');
 
         // cancel prorogation up to the overlay container so it won't close
         overlay.off().on('click', 'img', function(e){
@@ -322,7 +327,7 @@
 
             // thumbs stuff
             if( options.thumbs ){
-                if( !isMobile ){
+                if( !isTouchDevice ){
                     thumbs[fn]('mouseenter.photobox', thumbsStripe.calc)
                           [fn]('mousemove.photobox', thumbsStripe.move);
                 }
@@ -370,7 +375,7 @@
 
             $(doc).off("keydown.photobox")[fn]({ "keydown.photobox": keyDown });
 
-            if( isMobile ){
+            if( isTouchDevice ){
                 overlay.removeClass('hasArrows'); // no need for Arrows on touch-enabled
                 wrapper[fn]('swipe', onSwipe);
             }
@@ -734,6 +739,8 @@
             var hash = decodeURIComponent( window.location.hash.slice(1) ), i, j;
             if( !hash && overlay.hasClass('show') )
                 close();
+				
+			$('a[href="' + hash + '"]').trigger('click.photobox');
         },
         clear : function(){
             if( options.history && 'pushState' in window.history )
@@ -773,7 +780,6 @@
         image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 
         // check which element needs to transition-out:
-		console.log( firstTime, lastActive, imageLinks[lastActive] );
         if( !firstTime && imageLinks[lastActive].rel == 'video' ){
             out = video;
             image.addClass('prepare');

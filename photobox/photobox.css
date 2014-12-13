@@ -98,7 +98,7 @@
 .show.on #pbCaption{ bottom:0; transition-delay:.5s; }
 	#pbOverlay.thumbs #pbCaption label{ display:block; }
 	#pbCaption label{ display:none; position:relative; z-index:1; top:-5px; float:right; width:60px; margin-right:10px; color:#FFF; opacity:0.3; transition:0.2s; cursor:pointer; }
-	#pbCaption label:after{ content:'\2589'; text-align:right; letter-spacing:2px; text-shadow:-1em 0 0 rgba(255,255,255,0.5), 1em 0 0 rgba(255,255,255,0.5); }
+	#pbCaption label:after{ background:#FFF; box-shadow:12px 0 #FFF, -12px 0 #FFF; content:""; display:inline-block; height:0; padding:10px 5px; text-align:right; vertical-align:top; width:0; }
 	#pbCaption label:hover{ opacity:1; }
 	#pbCaption .title, #pbCaption .counter{ display:inline-block; color:#FFF; margin:0 6px; }
 	#pbCaption .counter{ display:none; opacity:.55; }
