@@ -78,7 +78,7 @@
     */
     function prepareDOM(){
         noPointerEvents && overlay.hide();
-		
+
 		$(doc).on('touchstart.testMouse', function(){
 			$(doc).off('touchstart.testMouse');
 			isTouchDevice = true;
@@ -739,7 +739,7 @@
             var hash = decodeURIComponent( window.location.hash.slice(1) ), i, j;
             if( !hash && overlay.hasClass('show') )
                 close();
-				
+
 			$('a[href="' + hash + '"]').trigger('click.photobox');
         },
         clear : function(){
@@ -1006,6 +1006,9 @@
 
     // Expose:
     window._photobox = {
+        DOM        : {
+            overlay : overlay
+        },
         close    : close,
         history  : history,
         defaults : defaults
