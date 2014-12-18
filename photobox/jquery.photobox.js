@@ -73,9 +73,24 @@
                             thumbs = $('<div>').addClass('pbThumbs')
                         )
                     );
-    /*---------------------------------------------------------------
-        Initialization (on DOM ready)
-    */
+
+    ///////////////////////////////////////////////
+    // Should remove this and use underscore/lodash if possible
+
+    function throttle(callback, duration){
+        var wait = false;
+        return function(){
+            if( !wait ){
+                callback.call();
+                wait = true;
+                setTimeout(function(){wait = false; }, duration);
+            }
+        }
+    }
+
+    ///////////////////////////////////////////////
+    // Initialization (on DOM ready)
+
     function prepareDOM(){
         noPointerEvents && overlay.hide();
 
@@ -386,7 +401,7 @@
             }
 
             if( !options.single && options.wheelNextPrev ){
-                overlay[fn]({"mousewheel.photobox": wheelNextPrev });
+                overlay[fn]({"mousewheel.photobox": throttle(wheelNextPrev,1000) });
             }
         },
 
