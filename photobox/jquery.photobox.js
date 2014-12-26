@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.5
+    photobox v1.9.8
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -181,58 +181,62 @@
             this.observerTimeout = null;
 
             if( this.selector[0].nodeType == 1 ) // observe normal nodes
-                that.observeDOM( that.selector[0], function(){
-                    // use a timeout to prevent more than one DOM change event firing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
-                    clearTimeout(that.observerTimeout);
-                    that.observerTimeout = setTimeout( function(){
-                        var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
-                            activeIndex = 0,
-                            isActiveUrl = false,
-                            i;
+                that.observeDOM( that.selector[0], this.onDOMchanges.bind(this));
+        },
 
-                        // Make sure that ONLY DOM changes in the photobox number of items will trigger a change
-                        if(that.imageLinks.length == filtered[0].length)
-                            return;
+        onDOMchanges : function(scope){
+            var that = scope;
+             // use a timeout to prevent more than one DOM change event firing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
+            clearTimeout(this.observerTimeout);
+            that.observerTimeout = setTimeout( function(){
+                var filtered = that.imageLinksFilter( that.selector.find(that.target) ),
+                    activeIndex = 0,
+                    isActiveUrl = false,
+                    i;
 
-                        that.imageLinks = filtered[0];
-                        that.images = filtered[1];
+                // Make sure that ONLY DOM changes in the photobox number of items will trigger a change
+                if(that.imageLinks.length == filtered[0].length)
+                    return;
 
-                        // if photobox is opened
-                        if( photobox ){
-                            // if gallery which was changed is the currently viewed one:
-                            if( that.selector == photobox.selector ){
-                                images = that.images;
-                                imageLinks = that.imageLinks;
-                                // check if the currently VIEWED photo has been de-tached from a photobox set
-                                // if so, remove navigation arrows
-                                // TODO: fix the "images" to be an object and not an array.
-                                for( i = images.length; i--; ){
-                                    if( images[i][0] == activeURL )
-                                        isActiveUrl = true;
-                                    // if not exits any more
-                                }
-                                if( isActiveUrl )
-                                    overlay.removeClass('hasArrows');
-                            }
+                that.imageLinks = filtered[0];
+                that.images = filtered[1];
+
+                // if photobox is opened
+                if( photobox ){
+                    // if gallery which was changed is the currently viewed one:
+                    if( that.selector == photobox.selector ){
+                        images = that.images;
+                        imageLinks = that.imageLinks;
+                        // check if the currently VIEWED photo has been detached from a photobox set
+                        // if so, remove navigation arrows
+                        // TODO: fix the "images" to be an object and not an array.
+                        for( i = images.length; i--; ){
+                            if( images[i][0] == activeURL )
+                                isActiveUrl = true;
+                            // if not exits any more
                         }
+                       // if( isActiveUrl ){
+                       //     overlay.removeClass('hasArrows');
+                       // }
+                    }
+                }
 
-                        // if this gallery has thumbs
-                        //if( that.options.thumbs ){
-                            that.thumbsList = thumbsStripe.generate.apply(that);
-                            thumbs.html( that.thumbsList );
-                        //}
+                // if this gallery has thumbs
+                //if( that.options.thumbs ){
+                    that.thumbsList = thumbsStripe.generate.apply(that);
+                    thumbs.html( that.thumbsList );
+                //}
 
-                        if( that.images.length && activeURL && that.options.thumbs ){
-                            activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
+                if( that.images.length && activeURL && that.options.thumbs ){
+                    activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
 
-                            if( activeIndex == -1 )
-                                activeIndex = 0;
+                    if( activeIndex == -1 )
+                        activeIndex = 0;
 
-                            updateIndexes(activeIndex);
-                            thumbsStripe.changeActive(activeIndex, 0);
-                        }
-                    }, 50);
-                });
+                    // updateIndexes(activeIndex);
+                    thumbsStripe.changeActive(activeIndex, 0);
+                }
+            }, 50);
         },
 
         open : function(link){
@@ -318,12 +322,13 @@
 
             return function(obj, callback){
                 if( MutationObserver ){
+                    var that = this;
                     // define a new observer
                     var obs = new MutationObserver(function(mutations, observer){
                         if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
-                            callback();
+                            callback(that);
                     });
-                    // have the observer observe foo for changes in children
+                    // have the observer observe for changes in children
                     obs.observe( obj, { childList:true, subtree:true });
                 }
                 else if( eventListenerSupported ){
