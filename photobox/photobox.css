@@ -13,7 +13,7 @@
 	-moz-user-select:none;
 	background:rgba(0,0,0,0.90);
 	/* PICBOX FIXES FOR IE8*/
-	#pbOverlay{ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6000000', endColorstr='#e6000000'); }
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e2000000', endColorstr='#e2000000');
 	/* background:radial-gradient(rgba(0,0,0,.6) 0%, rgba(0,0,0,.9) 100%); */
 	-webkit-transform:translate3d(0px, 0px, 0px);
 	-ms-transition:opacity 300ms ease;
@@ -21,7 +21,7 @@
 }
 
 :root #pbOverlay{
-	filter: none\9;
+	/*filter: none\9;*/
 }
 
 #pbOverlay.msie{ background-color:rgba(0,0,0,.6); }
