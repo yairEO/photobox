@@ -9,7 +9,6 @@
     "main": [
         "photobox/jquery.photobox.js",
         "photobox/photobox.css",
-        "photobox/photobox.ie.css",
         "images/loading.gif"
     ],
     "keywords": [

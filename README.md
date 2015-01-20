@@ -41,17 +41,20 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
             <img src="http://www.somedomain.com/images/image3_small.jpg" title="photo3 title">
         </a>
         <a href="http://www.somedomain.com/images/image4_large.jpg">
-            <img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
+            <img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title"
+                    data-pb-captionLink='Google website[www.google.com]'>
         </a>
         <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
-            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
+            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg"
+                    title="PEOPLE ARE AWESOME 2013 FULL HD ">
         </a>
     </div>
     ...
     ...
     ...
     <script>
-        // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
+        // applying photobox on a `gallery` element which has lots of thumbnails links.
+        // Passing options object as well:
         //-----------------------------------------------
         $('#gallery').photobox('a',{ time:0 });
 
@@ -75,7 +78,8 @@ A lightweight CSS3 image & video gallery that is pretty to look and and easy to 
     <div id='gallery'>
         ...
         <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
-            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
+            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg"
+                    title="PEOPLE ARE AWESOME 2013 FULL HD ">
         </a>
         ...
     </div>
@@ -85,8 +89,17 @@ A video link must have the `rel` attribute with the value of `video`. The url of
 ## Changing Effects Is Easy!
 Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
 
-    #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
-    #pbOverlay.hide .imageWrap img{ transform:rotateX(-90deg); -webkit-transform:rotateX(-90deg); transform:none\9; opacity:.6; }
+    #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{
+        -webkit-transform:rotateX(90deg);
+        -ms-transform:rotateX(90deg);
+        transform:rotateX(90deg);
+    }
+    #pbOverlay.hide .imageWrap img{
+        -webkit-transform:rotateX(-90deg);
+        transform:rotateX(-90deg);
+        transform:none\9;
+        opacity:.6;
+    }
 
 Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
