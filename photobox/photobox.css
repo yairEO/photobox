@@ -143,7 +143,7 @@
 #pbOverlay.hasArrows .prevNext{ display:block; }
 #pbOverlay .prevNext.hide{ display:none; }
 #pbOverlay.on .prevNext:hover{ opacity:.5; }
-#pbOverlay.on .prevNext:active{ transition:80ms; opacity:1; text-shadow:0 0 16px #FFF, 0 0 10px #000; }
+#pbOverlay.on .prevNext:hover:active{ transition:80ms; opacity:1; text-shadow:0 0 16px #FFF, 0 0 10px #000; }
 	.prevNext b{ display:inline-block; vertical-align:middle; transition:.2s ease-in; }
 	.prevNext:hover b{ transition:.2s cubic-bezier(0.095, 0.870, 0.485, 0.985); }
 	#pbPrevBtn b{ transform:scale(.4) translateX(350px); -webkit-transform:scale(.4) translateX(350px); }

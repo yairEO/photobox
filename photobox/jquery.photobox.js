@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.8
+    photobox v1.9.9
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -46,9 +46,9 @@
             zoomable      : true,    // disable/enable mousewheel image zooming
             wheelNextPrev : true,    // change image using mousewheel left/right
             keys          : {
-                close : '27, 88, 67',    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
-                prev  : '37, 80',        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
-                next  : '39, 78'         // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
+                close : [27, 88, 67],    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
+                prev  : [37, 80],        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+                next  : [39, 78]         // keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
             }
         },
 
@@ -180,11 +180,11 @@
             this.observerTimeout = null;
 
             if( this.selector[0].nodeType == 1 ) // observe normal nodes
-                that.observeDOM( that.selector[0], this.onDOMchanges.bind(this));
+                this.observeDOM( this.selector[0], this.onDOMchanges.bind(this));
         },
 
-        onDOMchanges : function(scope){
-            var that = scope;
+        onDOMchanges : function(){
+            var that = this;
              // use a timeout to prevent more than one DOM change event firing at once, and also to overcome the fact that IE's DOMNodeRemoved is fired BEFORE elements were actually removed
             clearTimeout(this.observerTimeout);
             that.observerTimeout = setTimeout( function(){
@@ -331,8 +331,8 @@
                     obs.observe( obj, { childList:true, subtree:true });
                 }
                 else if( eventListenerSupported ){
-                    obj.addEventListener('DOMNodeInserted', callback, false);
-                    obj.addEventListener('DOMNodeRemoved', callback, false);
+                    obj.addEventListener('DOMNodeInserted', callback.bind(that), false);
+                    obj.addEventListener('DOMNodeRemoved', callback.bind(that), false);
                 }
             }
         })(),
@@ -598,9 +598,9 @@
     function keyDown(event){
         var code = event.keyCode, ok = options.keys, result;
         // Prevent default keyboard action (like navigating inside the page)
-        return ok.close.indexOf(code) >= 0 && close() ||
-               ok.next.indexOf(code) >= 0 && !options.single && loophole(nextImage) ||
-               ok.prev.indexOf(code) >= 0 && !options.single && loophole(prevImage) || true;
+        return $.inArray(code, ok.close) >= 0 && close() ||
+               $.inArray(code, ok.next) >= 0 && !options.single && loophole(nextImage) ||
+               $.inArray(code, ok.prev) >= 0 && !options.single && loophole(prevImage) || true;
     }
 
     function wheelNextPrev(e, dY, dX){
