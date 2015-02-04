@@ -6,7 +6,7 @@
 */
 
 
-(function($, doc, win){
+;(function($, doc, win){
     "use strict";
 
     var Photobox, photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl, changeImage,
@@ -485,6 +485,9 @@
             **  @thumbClick - if a user clicked on a thumbnail, don't center on it
             */
             changeActive : function(index, delay, thumbClick){
+                if( !options.thumbs )
+                    return;
+
                 var lastIndex = activeThumb.index();
                 activeThumb.removeClass('active');
                 activeThumb = thumbs.find('li').eq(index).addClass('active');
@@ -712,8 +715,8 @@
             captionText.on(transitionend, captionTextChange).addClass('change');
             if( firstTime || isOldIE ) captionTextChange();
 
-            if( options.thumbs )
-                thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
+
+            thumbsStripe.changeActive(imageIndex, firstTime, thumbClick);
             // Save url hash for current image
             history.save();
         }
