@@ -36,6 +36,7 @@
             afterClose    : null,    // Callback after closing the gallery
             loop          : true,    // Allows to navigate between first and last images
             thumb         : null,    // A relative path from the link to the thumbnail (if it's not inside the link)
+            thumbAttr     : 'src',   // Attribute to get the image for the thumbnail from
             thumbs        : true,    // Show gallery thumbnails below the presented photo
             counter       : "(A/B)", // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
             title         : true,    // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
@@ -287,7 +288,7 @@
                 // if no img child found in the link
                 if( thumbImg ){
                     captionlink = thumbImg.getAttribute('data-pb-captionlink');
-                    thumbSrc = thumbImg.getAttribute('src');
+                    thumbSrc = thumbImg.getAttribute(that.options.thumbAttr);
 
                     caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
                 }
