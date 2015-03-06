@@ -143,6 +143,7 @@ time          | The time in milliseconds when autoplaying a gallery. Set as '0' 
 autoplay      | should the gallery autoplay on start or not.                                                             | false
 loop          | Loop back to last image before the first one and to the first image after last one.                      | true
 thumb         | A relative path from the link to the thumbnail (if it's not inside the link)                             | null
+thumbAttr     | A custom Attribute for the source of the thumbnail (for lazy-loaded thumbs)                              | 'data-src'
 thumbs        | Show thumbs of all the images in the gallery at the bottom.                                              | true
 counter       | Show the current image index position relative to the whole.                                             | (A/B)
 zoomable      | Enable/Disable mousewheel zooming over images                                                            | true

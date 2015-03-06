@@ -31,20 +31,21 @@
         closeBtn, image, video, prevBtn, nextBtn, thumbsToggler, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
 
         defaults = {
-            single        : false,   // if "true" - gallery will only show a single image, with no way to navigate
-            beforeShow    : null,    // Callback before showing an image
-            afterClose    : null,    // Callback after closing the gallery
-            loop          : true,    // Allows to navigate between first and last images
-            thumb         : null,    // A relative path from the link to the thumbnail (if it's not inside the link)
-            thumbs        : true,    // Show gallery thumbnails below the presented photo
-            counter       : "(A/B)", // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
-            title         : true,    // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
-            autoplay      : false,   // should autoplay on first time or not
-            time          : 3000,    // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
-            history       : false,   // should use history hashing if possible (HTML5 API)
-            hideFlash     : true,    // Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
-            zoomable      : true,    // disable/enable mousewheel image zooming
-            wheelNextPrev : true,    // change image using mousewheel left/right
+            single        : false,        // if "true" - gallery will only show a single image, with no way to navigate
+            beforeShow    : null,         // Callback before showing an image
+            afterClose    : null,         // Callback after closing the gallery
+            loop          : true,         // Allows to navigate between first and last images
+            thumb         : null,         // A relative path from the link to the thumbnail (if it's not inside the link)
+            thumbs        : true,         // Show gallery thumbnails below the presented photo
+            thumbAttr     : 'data-src',   // Attribute to get the image for the thumbnail from
+            counter       : "(A/B)",      // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
+            title         : true,         // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
+            autoplay      : false,        // should autoplay on first time or not
+            time          : 3000,         // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
+            history       : false,        // should use history hashing if possible (HTML5 API)
+            hideFlash     : true,         // Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
+            zoomable      : true,         // disable/enable mousewheel image zooming
+            wheelNextPrev : true,         // change image using mousewheel left/right
             keys          : {
                 close : [27, 88, 67],    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
                 prev  : [37, 80],        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
@@ -287,7 +288,7 @@
                 // if no img child found in the link
                 if( thumbImg ){
                     captionlink = thumbImg.getAttribute('data-pb-captionlink');
-                    thumbSrc = thumbImg.getAttribute('src');
+                    thumbSrc = thumbImg.getAttribute(that.options.thumbAttr) || thumbImg.getAttribute('src');
 
                     caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
                 }
