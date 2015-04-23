@@ -1,9 +1,10 @@
 photobox
 ========
 
-A lightweight CSS3 image & video gallery that is pretty to look and and easy to use.
+A lightweight CSS3 image & video viewer that is pretty to look and and easy to use.
 
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
+
 
 ## Benefits
 *    Lightweight! `jquery.photobox.js` is only 5kb (gziped & minified)
