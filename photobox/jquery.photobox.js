@@ -666,8 +666,8 @@
 
             // hide/show next-prev buttons
             if( !options.loop ){
-                nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('hide');
-                prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('hide');
+                nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('pbHide');
+                prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('pbHide');
             }
 
             // if there's a callback for this point:
@@ -688,14 +688,14 @@
 
             // check if current link is a video
             if( activeType == 'video' ){
-                video.html( newVideo() ).addClass('hide');
+                video.html( newVideo() ).addClass('pbHide');
                 showContent(firstTime);
             }
             else{
                 // give a tiny delay to the preloader, so it won't be showed when images load very quickly
                 var loaderTimeout = setTimeout(function(){ overlay.addClass('pbLoading'); }, 50);
 
-                if( isOldIE ) overlay.addClass('hide'); // should wait for the image onload. just hide the image while old IE display the preloader
+                if( isOldIE ) overlay.addClass('pbHide'); // should wait for the image onload. just hide the image while old IE display the preloader
 
                 options.autoplay && APControl.progress.reset();
                 preload = new Image();
@@ -798,7 +798,7 @@
             overlay.removeClass("pbLoading");
             pbLoader.removeAttr('style');
         });
-        overlay.addClass('hide');
+        overlay.addClass('pbHide');
 
         image.add(video).removeAttr('style').removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 
@@ -832,7 +832,7 @@
             // filthy hack for the transitionend event, but cannot work without it:
             setTimeout(function(){
                 image.add(video).removeAttr('style').removeClass('prepare');
-                overlay.removeClass('hide next prev');
+                overlay.removeClass('pbHide next prev');
                 setTimeout(function(){
                     image.add(video).on(transitionend, showDone);
                     if(isOldIE) showDone(); // IE9 and below don't support transitionEnd...
@@ -845,7 +845,7 @@
     function showDone(){
         image.add(video).off(transitionend).addClass('zoomable');
         if( activeType == 'video' )
-            video.removeClass('hide');
+            video.removeClass('pbHide');
         else{
             autoplayBtn && options.autoplay && APControl.play();
 		}
@@ -928,7 +928,7 @@
             Photobox.prototype.setup();
             history.clear();
 
-            overlay.removeClass('on video').addClass('hide');
+            overlay.removeClass('on video').addClass('pbHide');
 
             image.on(transitionend, hide);
             isOldIE && hide();
@@ -940,7 +940,7 @@
 
             function hide(){
                 if( overlay[0].className == '' ) return; // if already hidden
-                overlay.removeClass('show hide error pbLoading');
+                overlay.removeClass('show pbHide error pbLoading');
                 image.removeAttr('class').removeAttr('style').off().data('zoom',1);
                 caption.find('.title').empty();
 
