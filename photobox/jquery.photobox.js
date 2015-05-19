@@ -56,7 +56,7 @@
         // DOM structure
         overlay =   $('<div id="pbOverlay">').append(
                         thumbsToggler = $('<input type="checkbox" id="pbThumbsToggler" checked hidden>'),
-                        pbLoader = $('<div class="pbLoader"><b></b><b></b><b></b></div>'),
+                        pbLoader = $('<div id="pbLoader"><b></b><b></b><b></b></div>'),
                         prevBtn = $('<div id="pbPrevBtn" class="prevNext"><b></b></div>').on('click', next_prev),
                         nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
                         wrapper = $('<div class="pbWrapper">').append(  // gives Perspective
@@ -355,6 +355,7 @@
 
             if( open ){
                 image.css({'transition':'0s'}).removeAttr('style'); // reset any transition that might be on the element (yes it's ugly)
+                $("#pbLoader").addClass('pbLoader');
                 overlay.show();
                 // Clean up if another gallery was viewed before, which had a thumbsList
                 thumbs
@@ -391,6 +392,7 @@
 
             } else {
                 $(win).off('resize.photobox');
+                $("#pbLoader").removeClass('pbLoader');
             }
 
             $(doc).off("keydown.photobox")[fn]({ "keydown.photobox": keyDown });
