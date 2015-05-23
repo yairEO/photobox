@@ -3,10 +3,12 @@ photobox
 
 A lightweight CSS3 image & video viewer that is pretty to look and and easy to use.
 
+
 ##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
 
 
 ## Benefits
+
 *    Lightweight! `jquery.photobox.js` is only 5kb (gziped & minified)
 *    Silky-smooth, hardware accelerated, CSS3 transitions and animations (for better performance)
 *    Support videos via iframe embedding
@@ -19,7 +21,9 @@ A lightweight CSS3 image & video viewer that is pretty to look and and easy to u
 *    The only image is a pre-loader animation for old IE. For the rest, no images at all!
 *    Browsers support: IE8+ (graceful degradation), Modern browsers
 
+
 ## Functionality
+
 *    Images/videos can be zoomed in and out with mousewheel and navigated using mousemove to move around
 *    Bottom row of thumbnails, navigated by mouse movement, can be resized using the mousewheel
 *    Shows the image's 'alt' or 'title' attribute text at the bottom
@@ -30,77 +34,112 @@ A lightweight CSS3 image & video viewer that is pretty to look and and easy to u
 *    Supports keyboard keys for navigation and closing the gallery view
 *    In case there was an error loading an image, a message is shown, which can be configured via CSS
 
+
 ## Basic use-case example:
-    <div id='gallery'>
-        <a href="http://www.somedomain.com/images/image1_large.jpg">
-            <img src="http://www.somedomain.com/images/image1_small.jpg" title="photo1 title">
-        </a>
-        <a href="http://www.somedomain.com/images/image2_large.jpg">
-            <img src="http://www.somedomain.com/images/image2_small.jpg" alt="photo2 title">
-        </a>
-        <a href="http://www.somedomain.com/images/image3_large.jpg">
-            <img src="http://www.somedomain.com/images/image3_small.jpg" title="photo3 title">
-        </a>
-        <a href="http://www.somedomain.com/images/image4_large.jpg">
-            <img src="http://www.somedomain.com/images/image4_small.jpg" alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
-        </a>
-        <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
-            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
-        </a>
-    </div>
-    ...
-    ...
-    ...
-    <script>
-        // applying photobox on a `gallery` element which has lots of thumbnails links. Passing options object as well:
-        //-----------------------------------------------
-        $('#gallery').photobox('a',{ time:0 });
 
-        // using a callback and a fancier selector
-        //----------------------------------------------
-        $('#gallery').photobox('li > a.family',{ time:0 }, callback);
-        function callback(){
-           console.log('image has been loaded');
-        }
+```html
+<div id='gallery'>
+    <a href="http://www.somedomain.com/images/image1_large.jpg">
+        <img src="http://www.somedomain.com/images/image1_small.jpg"
+            title="photo1 title">
+    </a>
+    <a href="http://www.somedomain.com/images/image2_large.jpg">
+        <img src="http://www.somedomain.com/images/image2_small.jpg"
+            alt="photo2 title">
+    </a>
+    <a href="http://www.somedomain.com/images/image3_large.jpg">
+        <img src="http://www.somedomain.com/images/image3_small.jpg"
+            title="photo3 title">
+    </a>
+    <a href="http://www.somedomain.com/images/image4_large.jpg">
+        <img src="http://www.somedomain.com/images/image4_small.jpg"
+            alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
+    </a>
+    <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
+        <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg"
+            title="PEOPLE ARE AWESOME 2013 FULL HD ">
+    </a>
+</div>
+...
+...
+...
+<script>
+    // applying photobox on a `gallery` element which has lots of thumbnails links.
+    // Passing options object as well:
+    //-----------------------------------------------
+    $('#gallery').photobox('a',{ time:0 });
 
-        // destroy the plugin on a certain gallery:
-        //-----------------------------------------------
-        $('#gallery').photobox('destroy');
+    // using a callback and a fancier selector
+    //----------------------------------------------
+    $('#gallery').photobox('li > a.family',{ time:0 }, callback);
+    function callback(){
+       console.log('image has been loaded');
+    }
 
-        // re-initialize the photbox DOM (does what Document ready does)
-        //-----------------------------------------------
-        $('#gallery').photobox('prepareDOM');
-    </script>
+    // destroy the plugin on a certain gallery:
+    //-----------------------------------------------
+    $('#gallery').photobox('destroy');
+
+    // re-initialize the photbox DOM (does what Document ready does)
+    //-----------------------------------------------
+    $('#gallery').photobox('prepareDOM');
+</script>
+```
+
 
 ## Videos
-    <div id='gallery'>
-        ...
-        <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
-            <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg" title="PEOPLE ARE AWESOME 2013 FULL HD ">
-        </a>
-        ...
-    </div>
+
+```html
+<div id='gallery'>
+    ...
+    <a href="http://www.youtube.com/embed/W3OQgh_h4U4" rel="video">
+        <img src="http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg"
+            title="PEOPLE ARE AWESOME 2013 FULL HD ">
+    </a>
+    ...
+</div>
+```
 
 A video link must have the `rel` attribute with the value of `video`. The url of the link must be the iframe embed (youtube, vimeo, etc.) And inside you can put a thumbnail of the video (of course)
 
+
 ## Changing Effects Is Easy!
+
 Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
 
-    #pbOverlay .imageWrap img, #pbOverlay.hide .imageWrap img.prepare{ transform:rotateX(90deg); -webkit-transform:rotateX(90deg); -ms-transform:rotateX(90deg); }
-    #pbOverlay.hide .imageWrap img{ transform:rotateX(-90deg); -webkit-transform:rotateX(-90deg); transform:none\9; opacity:.6; }
+```css
+#pbOverlay .imageWrap img,
+#pbOverlay.hide .imageWrap img.prepare{
+    -webkit-transform:rotateX(90deg);
+    -ms-transform:rotateX(90deg);
+    transform:rotateX(90deg);
+}
+#pbOverlay.hide .imageWrap img{
+    -webkit-transform:rotateX(-90deg);
+    transform:rotateX(-90deg);
+    transform:none\9;
+    opacity:.6;
+}
+```
 
 Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
 
+
 ## Custom Caption Links
-you can add your own links along with the `title` or `alt` attributes texts, just add `data-pb-captionLink` to the image thumbnail:<br>
+
+you can add your own links along with the `title` or `alt` attributes texts, just add `data-pb-captionLink` to the image thumbnail:
+
 `data-pb-captionLink='Google website[www.google.com]'`
 
 
 ## Overriding defaults
+
 It is always recommended not to touch the source code directly, because then you will have a version which is out-of-sync with any future version, and you might face some difficult merges with your own changes.
 So, if you want to change some stuff, I would recommend creating another file, typically called `jquery.photobox.mod.js`. This good practice also applies for the CSS file.
+
 ### Example:
-````
+
+```js
 /*!
     photobox modifications,
     after it has been loaded
@@ -131,10 +170,10 @@ So, if you want to change some stuff, I would recommend creating another file, t
         overlay.append(userInfo);
     });
 })();
-````
+```
+
 
 ## Settings
-
 
 Name          | Info                                                                                                     | Default
 ------------- | -------------------------------------------------------------------------------------------------------- | -----------------------------
