@@ -180,7 +180,7 @@
             // if any node was added or removed from the Selector of the gallery
             this.observerTimeout = null;
 
-            if( this.selector[0].nodeType == 1 ) // observe normal nodes
+            if( !isOldIE && this.selector[0].nodeType == 1 ) // observe normal nodes
                 this.observeDOM( this.selector[0], this.onDOMchanges.bind(this));
         },
 
@@ -341,9 +341,6 @@
         // things that should happen every time the gallery opens or closes (some messed up code below..)
         setup : function (open){
             var fn = open ? "on" : "off";
-
-            // a hack to change the image src to nothing, because you can't do that in CHROME
-            image[0].src = blankImg;
 
             // thumbs stuff
             if( options.thumbs ){
@@ -851,7 +848,7 @@
         else{
             autoplayBtn && options.autoplay && APControl.play();
 		}
-        if( typeof photobox.callback == 'function' )
+        if( photobox && typeof photobox.callback == 'function' )
             photobox.callback.apply(imageLinks[activeImage]);
     }
 
@@ -932,6 +929,7 @@
 
             overlay.removeClass('on video').addClass('pbHide');
 
+
             image.on(transitionend, hide);
             isOldIE && hide();
 
@@ -944,6 +942,9 @@
                 if( overlay[0].className == '' ) return; // if already hidden
                 overlay.removeClass('show pbHide error pbLoading');
                 image.removeAttr('class').removeAttr('style').off().data('zoom',1);
+                // a hack to change the image src to nothing, because you can't do that in CHROME
+                image[0].src = blankImg;
+
                 caption.find('.title').empty();
 
                 if(noPointerEvents) // pointer-events lack support in IE, so just hide the overlay
