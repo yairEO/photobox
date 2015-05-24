@@ -123,10 +123,12 @@ like the images are moving to the sides, depending on the direction, for example
     opacity: 1;
 }
 
-/* when going to the next slide */
+/*** when going to the next slide ***/
+/* prepare next slide which will be shown */
 .pbWrapper > *,
-.pbHide.next .pbWrapper > .prepare{ transform:translatex(40%); } /* prepare next slide which will be shown */
-.pbHide.next .pbWrapper > *{ transform:translatex(-40%);  } /* prepare current slide which will "go away" */
+.pbHide.next .pbWrapper > .prepare{ transform:translatex(40%); }
+/* prepare current slide which will "go away" */
+.pbHide.next .pbWrapper > *{ transform:translatex(-40%);  }
 
 /* when going to the previous slide */
 .pbWrapper > *,
