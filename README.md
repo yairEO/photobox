@@ -4,7 +4,7 @@ photobox
 A lightweight CSS3 image & video viewer that is pretty to look and and easy to use.
 
 
-##[Demo page](http://dropthebit.com/demos/photobox/), [Blog post](http://dropthebit.com/500/photobox-css3-image-gallery-jquery-plugin/)
+##[Demo page](http://dropthebit.com/demos/photobox/), [Live on GuruShots](http://gurushots.com/)
 
 
 ## Benefits
@@ -105,24 +105,34 @@ A video link must have the `rel` attribute with the value of `video`. The url of
 
 ## Changing Effects Is Easy!
 
-Advanced CSS users would know this, but for rest, you can just copy the below example code at the end of the photobox.css file:
+I designed Photobox (as an image viewer) to only show a single item at a time (image or video), and so, the changing between images works is that first the current image must transition itself "out",
+and the javascript code will "listen" to that transition, and when it's over, the code will reset some things to their initial state, replace the item with the new one, and will trantision that new item
+into view. The effects are done via CSS and are very easy to change!
+
+The default transition is the the current image "grows" and fades out of view, and when it is completely gone, the new image will appear to grow, rotate until it is "flat" (a bit) and fade-in.
+Every time there's an image change that is either next or previous, the `pbOverlay` element will have a class for that change 'next' or 'prev', so you can work with those to achieve an effect
+like the images are moving to the sides, depending on the direction, for example, you can use this CSS snippet to achieve that:
 
 ```css
-#pbOverlay .imageWrap img,
-#pbOverlay.hide .imageWrap img.prepare{
-    -webkit-transform:rotateX(90deg);
-    -ms-transform:rotateX(90deg);
-    transform:rotateX(90deg);
-}
-#pbOverlay.hide .imageWrap img{
-    -webkit-transform:rotateX(-90deg);
-    transform:rotateX(-90deg);
-    transform:none\9;
-    opacity:.6;
-}
-```
+.pbHide .pbWrapper > *,
+.pbHide .pbWrapper > .prepare{ opacity:0; transition:.2s ease-in; }
 
-Basicly, I'm just playing with the image's style state; before it's appearance and during hiding, so you can do whatever here really.
+.pbWrapper > div,
+.pbWrapper > img{
+    transition:.2s ease-out;
+    opacity: 1;
+}
+
+/* when going to the next slide */
+.pbWrapper > *,
+.pbHide.next .pbWrapper > .prepare{ transform:translatex(40%); } /* prepare next slide which will be shown */
+.pbHide.next .pbWrapper > *{ transform:translatex(-40%);  } /* prepare current slide which will "go away" */
+
+/* when going to the previous slide */
+.pbWrapper > *,
+.pbHide.prev .pbWrapper > .prepare{ transform:translatex(-40%); }
+.pbHide.prev .pbWrapper > *{ transform:translatex(40%); }
+```
 
 
 ## Custom Caption Links

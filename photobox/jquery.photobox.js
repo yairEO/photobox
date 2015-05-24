@@ -10,7 +10,6 @@
     "use strict";
 
     var Photobox, photobox, options, images=[], imageLinks, activeImage = -1, activeURL, lastActive, activeType, prevImage, nextImage, thumbsStripe, docElm, APControl, changeImage,
-        transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
         isOldIE = !('placeholder' in doc.createElement('input')),
         noPointerEvents = (function(){ var el = $('<p>')[0]; el.style.cssText = 'pointer-events:auto'; return !el.style.pointerEvents})(),
         isTouchDevice = false, // assume "false" unless there's a touch
@@ -18,6 +17,7 @@
         blankImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
         transformOrigin = getPrefixed('transformOrigin'),
         transition = getPrefixed('transition'),
+        transitionend = "transitionend webkitTransitionEnd oTransitionEnd otransitionend",
           // Normalize rAF
         raf = window.requestAnimationFrame
            || window.webkitRequestAnimationFrame
@@ -673,7 +673,10 @@
             if( typeof options.beforeShow == "function")
                 options.beforeShow(imageLinks[imageIndex]);
 
-            overlay.removeClass('error').addClass( imageIndex > activeImage ? 'next' : 'prev' );
+            overlay.removeClass('error');
+
+            if( activeImage >= 0 )
+                overlay.addClass( imageIndex > activeImage ? 'next' : 'prev' );
 
             updateIndexes(imageIndex);
 
@@ -928,7 +931,7 @@
             history.clear();
 
             overlay.removeClass('on video').addClass('pbHide');
-
+            activeImage = -1;
 
             image.on(transitionend, hide);
             isOldIE && hide();
