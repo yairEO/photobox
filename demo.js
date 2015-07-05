@@ -15,9 +15,9 @@
 				thumb: "http://b.vimeocdn.com/ts/432/699/43269900_100.jpg"
 			},
 			{
-				title: "PEOPLE ARE AWESOME 2013 FULL HD ",
-				url: "http://www.youtube.com/embed/W3OQgh_h4U4",
-				thumb: "http://img.youtube.com/vi/W3OQgh_h4U4/0.jpg"
+				title: "PEOPLE ARE AWESOME 2014",
+				url: "https://www.youtube.com/watch?v=LVn8ei8d4iU",
+				thumb: "http://img.youtube.com/vi/LVn8ei8d4iU/0.jpg"
 			},
 			{
 				title: "Biting Elbows - 'Bad Motherfucker' Official Music Video",
