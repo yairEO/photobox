@@ -94,11 +94,11 @@
     function prepareDOM(){
         noPointerEvents && overlay.hide();
 
-		$(doc).on('touchstart.testMouse', function(){
-			$(doc).off('touchstart.testMouse');
-			isTouchDevice = true;
-			overlay.addClass('mobile');
-		});
+        $(doc).on('touchstart.testMouse', function(){
+            $(doc).off('touchstart.testMouse');
+            isTouchDevice = true;
+            overlay.addClass('mobile');
+        });
 
         autoplayBtn.off().on('click', APControl.toggle);
         // attach a delegated event on the thumbs container
@@ -289,7 +289,6 @@
                 if( thumbImg ){
                     captionlink = thumbImg.getAttribute('data-pb-captionlink');
                     thumbSrc = thumbImg.getAttribute(that.options.thumbAttr) || thumbImg.getAttribute('src');
-
                     caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
                 }
 
@@ -322,12 +321,12 @@
 
             return function(obj, callback){
                 if( MutationObserver ){
-                    var that = this;
-                    // define a new observer
-                    var obs = new MutationObserver(function(mutations, observer){
-                        if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
-                            callback(that);
-                    });
+                    var that = this,
+                        // define a new observer
+                        obs = new MutationObserver(function(mutations, observer){
+                            if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
+                                callback(that);
+                        });
                     // have the observer observe for changes in children
                     obs.observe( obj, { childList:true, subtree:true });
                 }
@@ -436,11 +435,11 @@
 
     // manage the (bottom) thumbs strip
     thumbsStripe = (function(){
-        var containerWidth   = 0,
-            scrollWidth      = 0,
-            posFromLeft      = 0,    // Stripe position from the left of the screen
-            stripePos        = 0,    // When relative mouse position inside the thumbs stripe
-            animated         = null,
+        var containerWidth = 0,
+            scrollWidth    = 0,
+            posFromLeft    = 0,    // Stripe position from the left of the screen
+            stripePos      = 0,    // When relative mouse position inside the thumbs stripe
+            animated       = null,
             padding,                 // in percentage to the containerWidth
             el, $el, ratio, scrollPos, pos;
 
@@ -765,7 +764,7 @@
             if( !hash && overlay.hasClass('show') )
                 close();
 
-			$('a[href="' + hash + '"]').trigger('click.photobox');
+            $('a[href="' + hash + '"]').trigger('click.photobox');
         },
         clear : function(){
             if( options.history && 'pushState' in window.history )
@@ -850,7 +849,7 @@
             video.removeClass('pbHide');
         else{
             autoplayBtn && options.autoplay && APControl.play();
-		}
+        }
         if( photobox && typeof photobox.callback == 'function' )
             photobox.callback.apply(imageLinks[activeImage]);
     }
@@ -922,45 +921,45 @@
     }
 
     function close(){
-            if( !overlay.hasClass('show') )
-                return false;
+        if( !overlay.hasClass('show') )
+            return false;
 
-            stop();
-            video.find('iframe').prop('src','').empty();
-            Photobox.prototype.setup();
-            history.clear();
+        stop();
+        video.find('iframe').prop('src','').empty();
+        Photobox.prototype.setup();
+        history.clear();
 
-            overlay.removeClass('on video').addClass('pbHide');
-            activeImage = -1;
+        overlay.removeClass('on video').addClass('pbHide');
+        activeImage = -1;
 
-            image.on(transitionend, hide);
-            isOldIE && hide();
+        image.on(transitionend, hide);
+        isOldIE && hide();
 
-            // the "photobox" instance might be needed for async transitionEnd functions, so give it some time before clearing it
-            setTimeout(function(){
-                photobox = null;
-            },1000);
+        // the "photobox" instance might be needed for async transitionEnd functions, so give it some time before clearing it
+        setTimeout(function(){
+            photobox = null;
+        },1000);
 
-            function hide(){
-                if( overlay[0].className == '' ) return; // if already hidden
-                overlay.removeClass('show pbHide error pbLoading');
-                image.removeAttr('class').removeAttr('style').off().data('zoom',1);
-                // a hack to change the image src to nothing, because you can't do that in CHROME
-                image[0].src = blankImg;
+        function hide(){
+            if( overlay[0].className == '' ) return; // if already hidden
+            overlay.removeClass('show pbHide error pbLoading');
+            image.removeAttr('class').removeAttr('style').off().data('zoom',1);
+            // a hack to change the image src to nothing, because you can't do that in CHROME
+            image[0].src = blankImg;
 
-                caption.find('.title').empty();
+            caption.find('.title').empty();
 
-                if(noPointerEvents) // pointer-events lack support in IE, so just hide the overlay
-                    setTimeout(function(){ overlay.hide(); }, 200);
+            if(noPointerEvents) // pointer-events lack support in IE, so just hide the overlay
+                setTimeout(function(){ overlay.hide(); }, 200);
 
-                options.hideFlash && $('iframe, object, embed').css('visibility', 'visible');
-            }
+            options.hideFlash && $('iframe, object, embed').css('visibility', 'visible');
+        }
 
-            // fall-back if the 'transitionend' event didn't fire
-            setTimeout(hide, 500);
-            // callback after closing the gallery
-            if( typeof options.afterClose === 'function' )
-                options.afterClose(overlay);
+        // fall-back if the 'transitionend' event didn't fire
+        setTimeout(hide, 500);
+        // callback after closing the gallery
+        if( typeof options.afterClose === 'function' )
+            options.afterClose(overlay);
     }
 
 
@@ -1021,7 +1020,8 @@
         }
     };
 
-    /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
+    /* MouseWheel plugin
+     * ! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
      * Licensed under the MIT License (LICENSE.txt).
      *
      * Version: 3.1.11
@@ -1035,7 +1035,7 @@
 
     // Expose:
     window._photobox = {
-        DOM        : {
+        DOM      : {
             overlay : overlay
         },
         close    : close,
