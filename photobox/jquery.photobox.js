@@ -754,8 +754,15 @@
             }
             caption.find('.counter').text(value);
         }
-        if( options.title )
-            caption.find('.title').html('<span>' + images[activeImage][1] + '</span>');
+        if( options.title ){
+            var link = images[activeImage][1];
+            var matches = link.match(/<a(.+?)>(.+?)<\/a>/i);
+            if (matches) {
+                link = '<a' + matches[1] + ' target="_blank">' + matches[2] + '</a>';
+            }
+
+            caption.find('.title').html('<span>' + link + '</span>');
+        }
     }
 
     // Handles the history states when changing images
