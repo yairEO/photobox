@@ -291,7 +291,9 @@
                     thumbSrc = thumbImg.getAttribute(that.options.thumbAttr) || thumbImg.getAttribute('src');
                     caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
                 }
-
+                else{
+                    captionlink = '';
+                }
 
                 // if there is a caption link to be added:
                 if( captionlink ){
