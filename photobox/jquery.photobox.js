@@ -291,7 +291,9 @@
                     thumbSrc = thumbImg.getAttribute(that.options.thumbAttr) || thumbImg.getAttribute('src');
                     caption.content = ( thumbImg.getAttribute('alt') || thumbImg.getAttribute('title') || '');
                 }
-
+                else{
+                    captionlink = '';
+                }
 
                 // if there is a caption link to be added:
                 if( captionlink ){
@@ -460,6 +462,12 @@
                         continue;
 
                     title = this.images[i][1];
+
+                    var matches = title.match(/<a.+?>(.+?)<\/a>/i);
+                    if (matches) {
+                        title = matches[1];
+                    }
+
                     type = link.rel ? " class='" + link.rel +"'" : '';
                     elements.push('<li'+ type +'><a href="'+ link.href +'"><img src="'+ thumbSrc +'" alt="" title="'+ title +'" /></a></li>');
                 };
@@ -746,8 +754,15 @@
             }
             caption.find('.counter').text(value);
         }
-        if( options.title )
-            caption.find('.title').html('<span>' + images[activeImage][1] + '</span>');
+        if( options.title ){
+            var link = images[activeImage][1];
+            var matches = link.match(/<a(.+?)>(.+?)<\/a>/i);
+            if (matches) {
+                link = '<a' + matches[1] + ' target="_blank">' + matches[2] + '</a>';
+            }
+
+            caption.find('.title').html('<span>' + link + '</span>');
+        }
     }
 
     // Handles the history states when changing images
