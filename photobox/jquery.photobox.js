@@ -744,10 +744,10 @@
                 options.counter = '(A/B)';
                 captionTextChange();
             }
-            caption.find('.counter').text(value);
+            captionText.find('.counter').text(value);
         }
         if( options.title )
-            caption.find('.title').html('<span>' + images[activeImage][1] + '</span>');
+            captionText.find('.title').html('<span>' + images[activeImage][1] + '</span>');
     }
 
     // Handles the history states when changing images
