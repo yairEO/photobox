@@ -61,7 +61,7 @@
                         nextBtn = $('<div id="pbNextBtn" class="prevNext"><b></b></div>').on('click', next_prev),
                         wrapper = $('<div class="pbWrapper">').append(  // gives Perspective
                             image = $('<img>'),
-                            video = $('<div>')
+                            video = $('<div class="pbVideo">')
                         ),
                         closeBtn = $('<div id="pbCloseBtn">').on('click', close)[0],
                         autoplayBtn = $('<div id="pbAutoplayBtn">').append(
