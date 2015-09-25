@@ -180,7 +180,7 @@
             // if any node was added or removed from the Selector of the gallery
             this.observerTimeout = null;
 
-            if( !isOldIE && this.selector[0].nodeType == 1 ) // observe normal nodes
+            if( !isOldIE && this.selector[0].nodeType == 1 && Function.prototype.bind) // observe normal nodes
                 this.observeDOM( this.selector[0], this.onDOMchanges.bind(this));
         },
 
@@ -320,17 +320,17 @@
                 eventListenerSupported = win.addEventListener;
 
             return function(obj, callback){
+                var that = this;
                 if( MutationObserver ){
-                    var that = this,
                         // define a new observer
-                        obs = new MutationObserver(function(mutations, observer){
+                        var obs = new MutationObserver(function(mutations, observer){
                             if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
                                 callback(that);
                         });
                     // have the observer observe for changes in children
                     obs.observe( obj, { childList:true, subtree:true });
                 }
-                else if( eventListenerSupported ){
+                else if( eventListenerSupported && Function.prototype.bind){
                     obj.addEventListener('DOMNodeInserted', callback.bind(that), false);
                     obj.addEventListener('DOMNodeRemoved', callback.bind(that), false);
                 }
