@@ -4,7 +4,7 @@ photobox
 A lightweight CSS3 image & video viewer that is pretty to look and and easy to use.
 
 
-##[Demo page](http://dropthebit.com/demos/photobox/), [Live on GuruShots](http://gurushots.com/)
+##[Demo page](http://yaireo.github.io/photobox/), [Live on GuruShots](http://gurushots.com/)
 
 
 ## Benefits
