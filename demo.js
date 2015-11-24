@@ -16,7 +16,7 @@
 			},
 			{
 				title: "PEOPLE ARE AWESOME 2014",
-				url: "https://www.youtube.com/watch?v=LVn8ei8d4iU",
+				url: "https://www.youtube.com/embed/LVn8ei8d4iU",
 				thumb: "http://img.youtube.com/vi/LVn8ei8d4iU/0.jpg"
 			},
 			{
@@ -53,8 +53,10 @@
 			// lazy show the photos one by one
 			img.onload = function(e){
 				img.onload = null;
+				
 				var link = document.createElement('a'),
-				li = document.createElement('li')
+					li = document.createElement('li');
+					
 				link.href = this.largeUrl;
 
 				link.appendChild(this);
