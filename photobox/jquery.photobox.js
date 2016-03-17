@@ -823,6 +823,7 @@
             overlay.removeClass('video');
 
             if( activeType == 'video' ){
+                image.attr('src', blankImg);
                 out.off(transitionend).css({'transition':'none'});
                 video.addClass('prepare');
                 overlay.addClass('video');
