@@ -41,7 +41,7 @@
 @keyframes deadImage{ 50%{ text-shadow:0 0 25px rgba(255,255,255,.5); transform:scale(.85); } }
 @-webkit-keyframes deadImage{ 50%{ text-shadow:0 0 25px rgba(255,255,255,.5); -webkit-transform:scale(.85); } }
 
-.pbWrapper{ -moz-box-sizing:border-box; box-sizing:border-box; transform:rotate(0deg); vertical-align:middle; height:100%; perspective:1200px; position:relative; transition:.2s; }
+.pbWrapper{ -moz-box-sizing:border-box; box-sizing:border-box; transform:rotate(0deg); vertical-align:middle; height:100%; perspective:1200px; position:relative;  }
 .video > .pbWrapper{ z-index:11; display:inline-block; }
 	/*#pbOverlay.error .pbWrapper{ display:inline-block; width:100%; }*/
 	.pbLoading .pbWrapper{ display:inline-block\9; width:100%; } /* ie8+9 hack */
