@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.9
+    photobox v1.9.10
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -820,25 +820,24 @@
         // after hiding the last seen image, show the new one
         function show(){
             clearTimeout(showSaftyTimer);
-            out.off(transitionend).css({'transition':'none'});
             overlay.removeClass('video');
+
             if( activeType == 'video' ){
-                image[0].src = blankImg;
+                out.off(transitionend).css({'transition':'none'});
                 video.addClass('prepare');
                 overlay.addClass('video');
             }
-            else
-                image.prop({ 'src':activeURL, 'class':'prepare' });
+            else{
+                // create a new image element (cannot modify the same image SRC due to google chrome stupid bugs showing the previous image even after the SRC had changed)
+                image.replaceWith( image = $('<img src="'+ activeURL +'" class="prepare">') )
+            }
 
             // filthy hack for the transitionend event, but cannot work without it:
             setTimeout(function(){
-                image.add(video).removeAttr('style').removeClass('prepare');
                 overlay.removeClass('pbHide next prev');
-                setTimeout(function(){
-                    image.add(video).on(transitionend, showDone);
-                    if(isOldIE) showDone(); // IE9 and below don't support transitionEnd...
-                }, 0);
-            },50);
+                image.add(video).removeAttr('style').removeClass('prepare').on(transitionend, showDone);
+                if(isOldIE) showDone();
+            }, 50);
         }
     }
 
