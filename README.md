@@ -197,7 +197,7 @@ loop          | Loop back to last image before the first one and to the first im
 thumb         | A relative path from the link to the thumbnail (if it's not inside the link)                             | null
 thumbAttr     | A custom Attribute for the source of the thumbnail (for lazy-loaded thumbs)                              | 'data-src'
 thumbs        | Show thumbs of all the images in the gallery at the bottom.                                              | true
-counter       | Show the current image index position relative to the whole.                                             | (A/B)
+captionTmpl   | A string which is the template of the photo caption                                                      | *long string*
 zoomable      | Enable/Disable mousewheel zooming over images                                                            | true
 hideFlash     | Hide flash instances when viewing an image in the gallery                                                | true
 wheelNextPrev | change image using mousewheel left/right                                                                 | true

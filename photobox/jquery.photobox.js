@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.10
+    photobox v1.9.11
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -38,8 +38,7 @@
             thumb         : null,         // A relative path from the link to the thumbnail (if it's not inside the link)
             thumbs        : true,         // Show gallery thumbnails below the presented photo
             thumbAttr     : 'data-src',   // Attribute to get the image for the thumbnail from
-            counter       : "(A/B)",      // Counts which piece of content is being viewed, relative to the total count of items in the photobox set. ["false","String"]
-            title         : true,         // show the original alt or title attribute of the image's thumbnail. (path to image, relative to the element which triggers photobox)
+            captionTmpl   : '<div class="title">{title}</div><div class="counter">({currentImageIdx}/{totalImagesCount})</div>',
             autoplay      : false,        // should autoplay on first time or not
             time          : 3000,         // autoplay interval, in miliseconds (less than 1000 will hide the autoplay button)
             history       : false,        // should use history hashing if possible (HTML5 API)
@@ -69,7 +68,7 @@
                         ),
                         caption = $('<div id="pbCaption">').append(
                             '<label for="pbThumbsToggler" title="thumbnails on/off"></label>',
-                            captionText = $('<div class="pbCaptionText">').append('<div class="title"></div><div class="counter">'),
+                            captionText = $('<div class="pbCaptionText">'),
                             thumbs = $('<div>').addClass('pbThumbs')
                         )
                     );
@@ -264,13 +263,13 @@
             return false;
         },
 
-        imageLinksFilter : function(obj){
+        imageLinksFilter : function(linksObj){
             var that = this,
                 images = [],
                 caption = {},
                 captionlink;
 
-            return [obj.filter(function(i){
+            function linksObjFiler(i){
                 // search for the thumb inside the link, if not found then see if there's a 'that.settings.thumb' pointer to the thumbnail
                 var link = $(this),
                     thumbImg,
@@ -311,7 +310,9 @@
                 images.push( [link[0].href, caption.content, thumbSrc] );
 
                 return true;
-            }), images];
+            }
+
+            return [linksObj.filter(linksObjFiler), images];
         },
 
         //check if DOM nodes were added or removed, to re-build the imageLinks and thumbnails
@@ -734,20 +735,15 @@
     // show the item's Title & Counter
     function captionTextChange(){
         captionText.off(transitionend).removeClass('change');
-        // change caption's text
-        if( options.counter ){
-            try{
-                var value = options.counter.replace('A', activeImage + 1).replace('B', images.length);
-            }
-            // if, for some reason, the above has failed from a bad "counter" value, reset and retry
-            catch(err){
-                options.counter = '(A/B)';
-                captionTextChange();
-            }
-            caption.find('.counter').text(value);
+
+        if( options.captionTmpl ){
+            options.captionTmpl = options.captionTmpl
+                                    .replace(/{title}/g, images[activeImage][1])
+                                    .replace(/{currentImageIdx}/g, activeImage + 1)
+                                    .replace(/{totalImagesCount}/g, images.length);
+
+            captionText.html(options.captionTmpl);
         }
-        if( options.title )
-            caption.find('.title').html('<span>' + images[activeImage][1] + '</span>');
     }
 
     // Handles the history states when changing images
