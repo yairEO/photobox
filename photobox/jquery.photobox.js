@@ -1,5 +1,5 @@
 /*!
-    photobox v1.9.11
+    photobox v1.9.12
     (c) 2013 Yair Even Or <http://dropthebit.com>
 
     MIT-style license.
@@ -180,7 +180,7 @@
             this.observerTimeout = null;
 
             if( !isOldIE && this.selector[0].nodeType == 1 ) // observe normal nodes
-                this.observeDOM( this.selector[0], this.onDOMchanges.bind(this));
+                this.observeDOM( this.selector[0], $.proxy( this.onDOMchanges, this ));
         },
 
         onDOMchanges : function(){
@@ -332,8 +332,8 @@
                     obs.observe( obj, { childList:true, subtree:true });
                 }
                 else if( eventListenerSupported ){
-                    obj.addEventListener('DOMNodeInserted', callback.bind(that), false);
-                    obj.addEventListener('DOMNodeRemoved', callback.bind(that), false);
+                    obj.addEventListener('DOMNodeInserted', $.proxy( callback, that ), false);
+                    obj.addEventListener('DOMNodeRemoved', $.proxy( callback, that ), false);
                 }
             }
         })(),
@@ -734,15 +734,16 @@
 
     // show the item's Title & Counter
     function captionTextChange(){
+        var tmpl;
         captionText.off(transitionend).removeClass('change');
 
         if( options.captionTmpl ){
-            options.captionTmpl = options.captionTmpl
-                                    .replace(/{title}/g, images[activeImage][1])
-                                    .replace(/{currentImageIdx}/g, activeImage + 1)
-                                    .replace(/{totalImagesCount}/g, images.length);
+            tmpl = options.captionTmpl
+                        .replace(/{title}/g, images[activeImage][1])
+                        .replace(/{currentImageIdx}/g, activeImage + 1)
+                        .replace(/{totalImagesCount}/g, images.length);
 
-            captionText.html(options.captionTmpl);
+            captionText.html(tmpl);
         }
     }
 
