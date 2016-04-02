@@ -847,8 +847,9 @@
         else{
             autoplayBtn && options.autoplay && APControl.play();
         }
-        if( photobox && typeof photobox.callback == 'function' )
-            photobox.callback.apply(imageLinks[activeImage]);
+        if( photobox && typeof photobox.callback == 'function' ){
+            photobox.callback(imageLinks[activeImage]);
+        }
     }
 
     function scrollZoom(e, deltaY, deltaX){
