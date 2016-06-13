@@ -14,12 +14,6 @@
 		"email": "vsync.design@gmail.com"
 	}
 	],
-	"licenses": [
-	{
-		"type": "MIT",
-		"url": "http://opensource.org/licenses/MIT"
-	}
-	],
 	"bugs": "https://github.com/yairEO/photobox/issues",
 	"homepage": "https://github.com/yairEO/photobox",
 	"docs": "https://github.com/yairEO/photobox",

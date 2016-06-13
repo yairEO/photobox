@@ -20,7 +20,6 @@
         "effects",
         "flipping"
     ],
-    "license": "MIT",
     "ignore": [
         "**/.*",
         "node_modules",
