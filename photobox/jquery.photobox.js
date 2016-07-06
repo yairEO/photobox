@@ -28,7 +28,7 @@
         // Preload images
         preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
         // DOM elements
-        closeBtn, image, video, prevBtn, nextBtn, thumbsToggler, caption, captionText, pbLoader, autoplayBtn, thumbs, wrapper,
+        closeBtn, image, video, prevBtn, nextBtn, thumbsToggler, caption, captionText, captionRotate, pbLoader, autoplayBtn, thumbs, wrapper, leftRotateBtn, rightRotateBtn, 
 
         defaults = {
             single        : false,        // if "true" - gallery will only show a single image, with no way to navigate
@@ -45,6 +45,7 @@
             hideFlash     : true,         // Hides flash elements on the page when photobox is activated. NOTE: flash elements must have wmode parameter set to "opaque" or "transparent" if this is set to false
             zoomable      : true,         // disable/enable mousewheel image zooming
             wheelNextPrev : true,         // change image using mousewheel left/right
+            canRotate     : true,
             keys          : {
                 close : [27, 88, 67],    // keycodes to close photobox, default: esc (27), 'x' (88), 'c' (67)
                 prev  : [37, 80],        // keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
@@ -69,6 +70,11 @@
                         caption = $('<div id="pbCaption">').append(
                             '<label for="pbThumbsToggler" title="thumbnails on/off"></label>',
                             captionText = $('<div class="pbCaptionText">'),
+                            captionRotate = $('<div class="pbCaptionText">').append(
+                              leftRotateBtn = $('<a href="javascript:void(0)" class="fa fa-rotate-left">×ó×ª</a>'),
+                              '<span>&nbsp;&nbsp;&nbsp;</span>',
+                              rightRotateBtn = $('<a class="fa fa-rotate-right" href="javascript:void(0)">ÓÒ×ª</a>')
+                            ),
                             thumbs = $('<div>').addClass('pbThumbs')
                         )
                     );
@@ -405,6 +411,13 @@
             if( !options.single && options.wheelNextPrev ){
                 overlay[fn]({"mousewheel.photobox": throttle(wheelNextPrev,1000) });
             }
+
+            if( options.canRotate ){
+            	leftRotateBtn.click(left_rotate);
+            	rightRotateBtn.click(right_rotate);
+            }else{
+				captionRotate.html('')
+			}
         },
 
         destroy : function(){
@@ -869,11 +882,14 @@
 
             zoomLevel += (deltaY / 10);
 
-            if( zoomLevel < 0.1 )
+            if( zoomLevel < 0.1 ){
                 zoomLevel = 0.1;
+            }
 
             raf(function() {
-                image.data('zoom', zoomLevel).css({'transform':'scale('+ zoomLevel +')'});
+                image.data('zoom', zoomLevel);
+                setTransform();
+                //image.data('zoom', zoomLevel).css({'transform':'scale('+ zoomLevel +')'});
             });
 
             // check if image (by mouse) movement should take effect (if image is larger than the window
@@ -886,6 +902,39 @@
             }
         }
         return false;
+    }
+    
+    function left_rotate() {
+        var value = image.data('rotate') || 0 ;
+        if ( value > 360 ){
+            value = value - 360;
+        }
+        if ( value < -360 ){
+            value = value + 360;
+        }
+
+        value -= 90;
+        image.data('rotate', value);
+        setTransform();
+    }
+    function right_rotate() {
+        var value = image.data('rotate') || 0 ;
+        if ( value > 360 ){
+            value = value - 360;
+        }
+        if ( value < -360 ){
+            value = value + 360;
+        }
+
+        value += 90;
+        image.data('rotate', value);
+        setTransform();
+    }
+    function setTransform(){
+        var rotateValue = image.data('rotate') || 0 ;
+        var zoomLevel = image.data('zoom') || 1 ;
+        
+        image.css({'transform':'scale('+ zoomLevel +') rotate('+ rotateValue +'deg)'});
     }
 
     function thumbsResize(e, delta){
