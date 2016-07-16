@@ -1,8 +1,8 @@
 /*!
-    photobox v1.9.12
-    (c) 2013 Yair Even Or <http://dropthebit.com>
+    photobox v1.9.2
+    (c) 2012 Yair Even Or
 
-    MIT-style license.
+    Do not sell this software or use it as part of a package which is sold
 */
 
 
