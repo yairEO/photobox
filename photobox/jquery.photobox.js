@@ -97,7 +97,7 @@
 
     function prepareDOM( force ){
         // do not procceed if already called, unless forced to
-        if( document.contains(overlay[0]) && !force )
+        if( document.body.contains(overlay[0]) && !force )
             return;
 
         noPointerEvents && overlay.hide();
