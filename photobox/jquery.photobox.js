@@ -279,7 +279,7 @@
         {
             var result={};
             $.each(this.imageLinks, function(index, item){
-                if (item.image==link) {
+                if (item.image.replace(" ", "%20")==link) {
                     result=item;
                     return false;
                 }
