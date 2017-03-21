@@ -126,7 +126,7 @@
     }
 
     // @param [List of elements to work on, Custom settings, Callback after image is loaded]
-    $.fn.photobox = function(target, settings, callback){
+    $.fn.photobox = function(target, settings, callback, jsonUrl){
         prepareDOM();
 
         return this.each(function(){
@@ -151,7 +151,7 @@
             settings = $.extend({}, defaults, settings || {});
 
             // create an instance og Photobox
-            photobox = new Photobox(settings, this, target);
+            photobox = new Photobox(settings, this, target, jsonUrl);
 
             // Saves the insance on the gallery's target element
             $(this).data('_photobox', photobox);
@@ -161,10 +161,13 @@
         });
     }
 
-    Photobox = function(_options, object, target){
+    Photobox = function(_options, object, target, jsonUrl){
         this.options = $.extend({}, _options);
         this.target = target;
         this.selector = $(object || doc);
+
+        if (!jsonUrl) this.jsonLoaded=true;
+        else this.jsonUrl=jsonUrl;
 
         this.thumbsList = null;
         // filter the links which actually HAS an image as a child
@@ -243,6 +246,45 @@
                 overlay.trigger('MSTransitionEnd');
 
             return false;
+        },
+
+        openJson : function(link){
+            var that=this;
+            if (!this.jsonLoaded) {
+                $.ajax({
+                    type: 'GET',
+                    url: this.jsonUrl,
+                    dataType: 'json'
+                })
+                .done(function (data){
+                    //that.imageLinks=$([]);
+                    that.imageLinks=[];
+                    that.images=[];
+                    
+                    $.each(data.images, function(index, item){
+                        that.imageLinks.push(item);
+                        that.images.push( [item.image, item.title, item.thumb] );
+                    });
+                    
+                    if( that.options.thumbs )
+                        that.thumbsList = thumbsStripe.generate.apply(that);
+                    that.jsonLoaded=true;
+                    that.open(that.searchInImageLinks(link.pathname));
+                });
+            } else that.open(that.searchInImageLinks(link.pathname));
+            
+        },
+
+        searchInImageLinks : function(link)
+        {
+            var result={};
+            $.each(this.imageLinks, function(index, item){
+                if (item.image.replace(" ", "%20")==link) {
+                    result=item;
+                    return false;
+                }
+            });
+            return result;
         },
 
         imageLinksFilter : function(linksObj){
@@ -387,7 +429,8 @@
 
                 this.selector.on('click.photobox', this.target, function(e){
                     e.preventDefault();
-                    that.open(this);
+                    if (that.jsonUrl) that.openJson(this);
+                    else that.open(this);
                 });
 
                 if( !isOldIE && this.selector[0].nodeType == 1 ) // observe normal nodes
