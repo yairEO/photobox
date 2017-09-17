@@ -544,11 +544,11 @@
     function onSwipe(e, Dx, Dy){
         if( Dx == 1 ){
             image.css({transform:'translateX(25%)', transition:'.2s', opacity:0});
-            setTimeout(function(){ changeImage(prevImage) }, 200);
+            changeImage(prevImage);
         }
         else if( Dx == -1 ){
             image.css({transform:'translateX(-25%)', transition:'.2s', opacity:0});
-            setTimeout(function(){ changeImage(nextImage) }, 200);
+            changeImage(nextImage);
         }
 
         if( Dy == 1 )
