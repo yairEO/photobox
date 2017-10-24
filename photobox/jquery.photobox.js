@@ -542,19 +542,29 @@
 
     // on touch-devices only
     function onSwipe(e, Dx, Dy){
+        var changeToImage,
+            styles = {
+                transform  : 'translateX(25%)',
+                transition : '.2s',
+                opacity    : 0
+            }
+
+        // X-axis swipe
         if( Dx == 1 ){
-            image.css({transform:'translateX(25%)', transition:'.2s', opacity:0});
-            setTimeout(function(){ changeImage(prevImage) }, 200);
+            changeToImage = prevImage;
         }
         else if( Dx == -1 ){
-            image.css({transform:'translateX(-25%)', transition:'.2s', opacity:0});
-            setTimeout(function(){ changeImage(nextImage) }, 200);
+            styles.transform = 'translateX(-25%)';
+            changeToImage = nextImage;
         }
 
-        if( Dy == 1 )
-            thumbsToggler.prop('checked', true);
-        else if( Dy == -1 )
-            thumbsToggler.prop('checked', false);
+        if( changeToImage ){
+            image.css(styles);
+            setTimeout(function(){ changeImage(changeToImage) }, 200);
+        }
+
+        // Y-axis swipe
+        thumbsToggler.prop('checked', Dy == 1 );
     }
 
     // manage the (bottom) thumbs strip
@@ -1068,6 +1078,10 @@
                 startX = touches[0].pageX;
                 startY = touches[0].pageY;
                 this.addEventListener('touchmove', onTouchMove, false);
+            }
+
+            else if( touches.length > 1 ){
+                // ..do not allow "onSwipe" function to work if page was zoomed
             }
 
             function cancelTouch(){
