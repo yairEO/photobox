@@ -222,7 +222,7 @@
         open : function(link){
             var startImage = $.inArray(link, this.imageLinks);
             // if image link does not exist in the imageLinks array (probably means it's not a valid part of the gallery)
-            if( startImage == -1 )
+            if( startImage === -1 )
                 return false;
 
             // load the right gallery selector...
@@ -277,7 +277,7 @@
                 if( captionlink ){
                     captionlink = captionlink.split('[');
                     // parse complex links: text[www.site.com]
-                    if( captionlink.length == 2 ){
+                    if( captionlink.length === 2 ){
                         caption.linkText = captionlink[0];
                         caption.linkHref = captionlink[1].slice(0,-1);
                     }
@@ -389,7 +389,7 @@
                     that.open(this);
                 });
 
-                if( !isOldIE && this.selector[0].nodeType == 1 ) // observe normal nodes
+                if( !isOldIE && this.selector[0].nodeType === 1 ) // observe normal nodes
                     this.observeDOM( this.selector[0], $.proxy( this.events.callbacks.onDOMchanges, this ));
 
                 this.DOM.rotateBtn.on('click', this.events.callbacks.onRotateBtnClick);
@@ -407,7 +407,7 @@
                             i;
 
                         // Make sure that ONLY DOM changes in the photobox number of items will trigger a change
-                        if(that.imageLinks.length == filtered[0].length)
+                        if(that.imageLinks.length === filtered[0].length)
                             return;
 
                         that.imageLinks = filtered[0];
@@ -416,14 +416,14 @@
                         // if photobox is opened
                         if( photobox ){
                             // if gallery which was changed is the currently viewed one:
-                            if( that.selector == photobox.selector ){
+                            if( that.selector === photobox.selector ){
                                 images = that.images;
                                 imageLinks = that.imageLinks;
                                 // check if the currently VIEWED photo has been detached from a photobox set
                                 // if so, remove navigation arrows
                                 // TODO: fix the "images" to be an object and not an array.
                                 for( i = images.length; i--; ){
-                                    if( images[i][0] == activeURL )
+                                    if( images[i][0] === activeURL )
                                         isActiveUrl = true;
                                     // if not exits any more
                                 }
@@ -442,7 +442,7 @@
                         if( that.images.length && activeURL && that.options.thumbs ){
                             activeIndex = that.thumbsList.find('a[href="'+activeURL+'"]').eq(0).parent().index();
 
-                            if( activeIndex == -1 )
+                            if( activeIndex === -1 )
                                 activeIndex = 0;
 
                             // updateIndexes(activeIndex);
@@ -471,7 +471,7 @@
 
                     var that = this;
 
-                    if( activeType == 'video' ){
+                    if( activeType === 'video' ){
                         var zoomLevel = video.data('zoom') || 1;
                         zoomLevel += (deltaY / 10);
                         if( zoomLevel < 0.5 )
@@ -524,7 +524,7 @@
                             rotation = (rotationAngel/90)%4 || 0,
                             imgScale = image.data('zoom') || 1;
 
-                        if( rotation == 1 || rotation == 3 )
+                        if( rotation === 1 || rotation === 3 )
                             position = yDelta.toFixed(2)+'%, ' + -xDelta.toFixed(2) +'%';
                         else
                             position = xDelta.toFixed(2)+'%, ' + yDelta.toFixed(2) +'%';
@@ -549,10 +549,10 @@
             }
 
         // X-axis swipe
-        if( Dx == 1 ){
+        if( Dx === 1 ){
             changeToImage = prevImage;
         }
-        else if( Dx == -1 ){
+        else if( Dx === -1 ){
             styles.transform = 'translateX(-25%)';
             changeToImage = nextImage;
         }
@@ -563,7 +563,7 @@
         }
 
         // Y-axis swipe
-        thumbsToggler.prop('checked', Dy == 1 );
+        thumbsToggler.prop('checked', Dy === 1 );
     }
 
     // manage the (bottom) thumbs strip
@@ -721,10 +721,10 @@
 
     function getPrefixed(prop){
         var i, s = doc.createElement('p').style, v = ['ms','O','Moz','Webkit'];
-        if( s[prop] == '' ) return prop;
+        if( s[prop] === '' ) return prop;
         prop = prop.charAt(0).toUpperCase() + prop.slice(1);
         for( i = v.length; i--; )
-            if( s[v[i] + prop] == '' )
+            if( s[v[i] + prop] === '' )
                 return (v[i] + prop);
     }
 
@@ -737,9 +737,9 @@
     }
 
     function wheelNextPrev(e, dY, dX){
-        if( dX == 1 )
+        if( dX === 1 )
             loophole(nextImage);
-        else if( dX == -1 )
+        else if( dX === -1 )
             loophole(prevImage);
     }
 
@@ -750,7 +750,7 @@
         //if( !image.hasClass('zoomable') )
         //  return false;
 
-        var idx = (this.id == 'pbPrevBtn') ? prevImage : nextImage;
+        var idx = (this.id === 'pbPrevBtn') ? prevImage : nextImage;
 
         loophole(idx);
         return false;
@@ -768,8 +768,8 @@
     // A pre-changeImage function, only for linear changes
     function loophole(idx){
         if( !options.loop ){
-            var afterLast = activeImage == images.length-1 && idx == nextImage,
-                beforeFirst = activeImage == 0 && idx == prevImage;
+            var afterLast = activeImage === images.length-1 && idx === nextImage,
+                beforeFirst = activeImage === 0 && idx === prevImage;
 
             if( afterLast || beforeFirst )
                 return;
@@ -797,14 +797,14 @@
 
             // hide/show next-prev buttons
             if( !options.loop ){
-                //nextBtn[ imageIndex == images.length-1 ? 'addClass' : 'removeClass' ]('pbHide');
-                nextBtn.toggleClass('pbHide', imageIndex == images.length-1);
-                //prevBtn[ imageIndex == 0 ? 'addClass' : 'removeClass' ]('pbHide');
-                prevBtn.toggleClass('pbHide', imageIndex == 0);
+                //nextBtn[ imageIndex === images.length-1 ? 'addClass' : 'removeClass' ]('pbHide');
+                nextBtn.toggleClass('pbHide', imageIndex === images.length-1);
+                //prevBtn[ imageIndex === 0 ? 'addClass' : 'removeClass' ]('pbHide');
+                prevBtn.toggleClass('pbHide', imageIndex === 0);
             }
 
             // if there's a callback for this point:
-            if( typeof options.beforeShow == 'function')
+            if( typeof options.beforeShow === 'function')
                 options.beforeShow(imageLinks[imageIndex]);
 
             overlay.removeClass('error');
@@ -820,10 +820,10 @@
             preload.onerror = null;
             image.add(video).data('zoom', 1);
 
-            activeType = imageLinks[imageIndex].rel == 'video' ? 'video' : 'image';
+            activeType = imageLinks[imageIndex].rel === 'video' ? 'video' : 'image';
 
             // check if current link is a video
-            if( activeType == 'video' ){
+            if( activeType === 'video' ){
                 video.html( newVideo() ).addClass('pbHide');
                 showContent(firstTime);
             }
@@ -908,7 +908,7 @@
         var cached = window.onpopstate;
         return function(event){
             cached && cached.apply(this, arguments);
-            if( event.state == 'photobox' )
+            if( event.state === 'photobox' )
                 history.load();
         }
     })();
@@ -935,7 +935,7 @@
         image.add(video).removeClass('zoomable'); // while transitioning an image, do not apply the 'zoomable' class
 
         // check which element needs to transition-out:
-        if( !firstTime && imageLinks[lastActive].rel == 'video' ){
+        if( !firstTime && imageLinks[lastActive].rel === 'video' ){
             out = video;
             image.addClass('prepare');
         }
@@ -954,7 +954,7 @@
             clearTimeout(showSaftyTimer);
             overlay.removeClass('video');
 
-            if( activeType == 'video' ){
+            if( activeType === 'video' ){
                 image.attr('src', blankImg);
                 out.off(transitionend).css({'transition':'none'});
                 video.addClass('prepare');
@@ -977,12 +977,12 @@
     // a callback whenever a transition of an image or a video is done
     function showDone(){
         image.add(video).off(transitionend).addClass('zoomable');
-        if( activeType == 'video' )
+        if( activeType === 'video' )
             video.removeClass('pbHide');
         else{
             autoplayBtn && options.autoplay && APControl.play();
         }
-        if( photobox && typeof photobox.callback == 'function' ){
+        if( photobox && typeof photobox.callback === 'function' ){
             photobox.callback(imageLinks[activeImage]);
         }
     }
@@ -1027,7 +1027,7 @@
         },1000);
 
         function hide(){
-            if( overlay[0].className == '' ) return; // if already hidden
+            if( overlay[0].className === '' ) return; // if already hidden
             overlay.removeClass('show pbHide error pbLoading');
             image.removeAttr('class').removeAttr('style').off().data('zoom',1);
             // a hack to change the image src to nothing, because you can't do that in CHROME
@@ -1073,7 +1073,7 @@
 
             event = $.event.fix(event);
 
-            if( touches.length == 1 ){
+            if( touches.length === 1 ){
                 startX = touches[0].pageX;
                 startY = touches[0].pageY;
                 this.addEventListener('touchmove', onTouchMove, false);
