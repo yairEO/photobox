@@ -1,0 +1,8 @@
+#pbOverlay{ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6000000', endColorstr='#e6000000'); }
+
+#pbOverlay .prevNext{ filter:alpha(opacity=0); }
+#pbOverlay.on .prevNext:hover{ filter:alpha(opacity=60); }
+#pbOverlay.on .prevNext:active{ filter:alpha(opacity=100); }
+
+#pbPrevBtn b:before{ content:'‹'; }
+#pbNextBtn b:after{ content:'›'; }

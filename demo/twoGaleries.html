@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<!--
+/*
+ * Photobox
+ *
+ * Copyright 2012, Yair Even Or
+ * https://dropthebit.com
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+-->
+<html lang="en">
+<head>
+	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+	<meta charset="utf-8">
+	<title>Photobox - multiple galleries</title>
+	<meta name="description" content="A lightweight CSS3 image gallery that is pretty to look and and easy to use">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="photobox/photobox.css">
+	<!--[if lt IE 9]><link rel="stylesheet" href="photobox/photobox.ie.css"><![endif]-->
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src='photobox/jquery.photobox.js'></script>
+</head>
+<body>
+	<button id='addImage'>add image</button><button id='removeImage'>remove image</button>
+	<br><br>
+	<div id='wrap'>
+		<div id='gallery'>
+			<a href="http://farm9.static.flickr.com/8376/8398098378_9689a2bd0b_b.jpg" title='cool pic!'>open image
+				<!--<img src="http://farm9.static.flickr.com/8376/8398098378_9689a2bd0b_s.jpg" title="xxx">-->
+			</a>
+			<a href="http://farm9.static.flickr.com/8502/8398080344_f5a459ee2f_b.jpg">
+				<div style='display:inline-block;'>
+					<img src="http://farm9.static.flickr.com/8502/8398080344_f5a459ee2f_s.jpg" title="la veglia al vegliardo">
+				</div>
+			</a>
+			<a href="http://farm6.static.flickr.com/5180/14065251974_472e29b03d_b.jpg">
+				<img src="http://farm6.static.flickr.com/5180/14065251974_472e29b03d_t.jpg" title="LOOK">
+			</a>
+		</div>
+		<br>
+		<div id='gallery2'>
+			<div>
+				<a href="http://farm9.static.flickrXXX.com/8501/8398926280_bdb053aa72_b.jpg">
+					<img src="http://farm9.static.flickr.com/8501/8398926280_bdb053aa72_s.jpg" title="explore" data-pb-captionLink='Google website[www.google.com]'>
+				</a>
+				<a href="http://farm9.static.flickr.com/8087/8397035629_5f0a1c78aa_b.jpg">
+					<img src="http://farm9.static.flickr.com/8087/8397035629_5f0a1c78aa_s.jpg" title="January 20, 2013">
+				</a>
+				<a href="http://farm8.static.flickr.com/7415/14065744632_5077c35258_b.jpg">
+					<img src="http://farm8.static.flickr.com/7415/14065744632_5077c35258_t.jpg" title="GTL Rides">
+				</a>
+			</div>
+		</div>
+		<br>
+		<div id='gallery3'>
+			<div>
+				<a href="http://farm9.static.flickr.com/8188/8402569316_28faf869ef_b.jpg">open &raquo;</a>
+				<img src="http://farm9.static.flickr.com/8188/8402569316_28faf869ef_s.jpg" title="clearly">
+			</div>
+			<div>
+				<a href="http://farm9.static.flickr.com/8191/8402144126_2b89ed1131_b.jpg">open &raquo;</a>
+				<img src="http://farm9.static.flickr.com/8191/8402144126_2b89ed1131_s.jpg" title="cool ha?">
+			</div>
+		</div>
+	</div>
+	<script>
+		function callback(a){
+			console.log('loaded gallery 1', a);
+		}
+		function callback2(a){
+			console.log('loaded gallery 2', a);
+		}
+		//$('a').photobox({ thumbs:true });
+		$('#gallery').photobox('a', { thumbs:false, time:0, history:false, beforeShow:callback });
+		$('#gallery2').photobox('div > a', { thumbs:true, history:false }, callback2);
+		$('#gallery3').photobox('a', { thumbs:true, history:false, thumb:'+ img' });
+
+		// testing for gallery observers on DOM changes
+		var imageLink = $('#gallery a:first');
+		$('#addImage').on('click',function(){
+			$('#gallery2 > div').append( imageLink.clone() );
+		});
+
+		$('#removeImage').on('click',function(){
+			$('#gallery2 a:last').remove();
+		});
+	</script>
+</body>
+</html>
