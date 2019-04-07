@@ -190,7 +190,7 @@ So, if you want to change some stuff, I would recommend creating another file, t
 Name          | Info                                                                                                     | Default
 ------------- | -------------------------------------------------------------------------------------------------------- | -----------------------------
 single        | if "true" - gallery will only show a single image, with no way to navigate                               | false
-history       | Enable/disable HTML5 history using hash urls                                                             | true
+history       | Enable/disable HTML5 history using hash urls                                                             | false
 time          | The time in milliseconds when autoplaying a gallery. Set as '0' to hide the autoplay button completely.  | 3000, minimum of 1000 allowed
 autoplay      | should the gallery autoplay on start or not.                                                             | false
 loop          | Loop back to last image before the first one and to the first image after last one.                      | true
