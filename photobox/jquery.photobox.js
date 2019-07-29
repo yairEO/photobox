@@ -1089,7 +1089,7 @@
             }
 
             function onTouchMove(e){
-                e.preventDefault();
+                e.preventDefault(); //This line can cause bugs in Safari for Apple mobile devices, delete it if it's the case
 
                 var Dx = startX - e.touches[0].pageX,
                     Dy = startY - e.touches[0].pageY;
